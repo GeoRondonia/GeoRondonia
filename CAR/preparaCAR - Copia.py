@@ -3,34 +3,19 @@ import os
 import zipfile
 
 # Defina o diretório de exportação, onde os arquivos zip serão criados
-caminho = "G:\Meu Drive\GEO_RO\Jandaira\Projeto Integrado"
+caminho = "C:\Python e QGIS\Python\Python QGIS\Curso CAR"
 caminho = caminho + "\Arquivos para o CAR"
-
-# Defina as camadas que não serão ZIPADA
-filtroCamadas = ["Geo", "CAR", "INcRA"]
 
 # Cria o diretório se não existir
 if not os.path.exists(caminho):
     os.makedirs(caminho)
 
-
-
 # Itera sobre as camadas vetoriais no projeto
 for c in QgsProject.instance().mapLayers().values():
-    
-    skip_layer = False
-    for nome in filtroCamadas:
-        if nome.lower() in c.name().lower():
-            skip_layer = True
-            break
-    
-    if skip_layer:
-        continue
-            
     if c.type() == QgsMapLayer.VectorLayer:  # Verifica se é uma camada vetorial
         if c.featureCount() > 0:  # Verifica se a camada tem feições
-           # if "Geo" in c.name() or "CAR" in c.name() or "INCRA" in c.name():
-            #    continue
+            if "Geo" in c.name() or "CAR" in c.name() or "INCRA" in c.name():
+                continue
             # Define o caminho+nome do Shapefile
             camArq = os.path.join(caminho, c.name())
             
