@@ -6,7 +6,8 @@ import os
 import zipfile
 
 # Defina o diretório de exportação, onde os arquivos zip serão criados
-caminho = "G:\Meu Drive\GEO_RO\Jandaira\Projeto Integrado"
+caminho = r"G:\Meu Drive\GEO_RO\Jandaira\Projeto Integrado"
+
 caminho = caminho + "\Arquivos para o CAR"
 
 # Defina as camadas que não serão ZIPADA
