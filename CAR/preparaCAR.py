@@ -1,4 +1,7 @@
-# preparaCAR.py
+"""
+Este script é responsável por exportar camadas vetoriais do projeto QGIS para arquivos Shapefile e, em seguida, compactá-los em arquivos ZIP. 
+"""
+
 import os
 import zipfile
 
@@ -14,16 +17,21 @@ if not os.path.exists(caminho):
     os.makedirs(caminho)
 
 
-
 # Itera sobre as camadas vetoriais no projeto
 for c in QgsProject.instance().mapLayers().values():
     
+    # Inicializa a variável que indica se a camada deve ser ignorada
     skip_layer = False
+
+    # Itera sobre cada nome na lista de camadas a serem filtradas
     for nome in filtroCamadas:
+        # Verifica se o nome da camada atual contém algum dos nomes da lista de filtro (ignorando maiúsculas/minúsculas)
         if nome.lower() in c.name().lower():
+            # Se encontrar uma correspondência, marca a camada para ser ignorada
             skip_layer = True
-            break
-    
+            break # Sai do loop, pois já não precisamos verificar os outros nomes
+
+    # Se a variável skip_layer for True, pula para a próxima iteração do loop principal
     if skip_layer:
         continue
             
