@@ -1,3 +1,9 @@
+"""
+Script para ajustar uma camada de polígonos com base em uma camada de pontos.
+Para cada ponto do polígono, encontra-se o ponto mais próximo na camada de vértices e gera um novo polígono ajustado.
+Certifique-se de que as camadas 'poligono' e 'pontos' estão carregadas no projeto QGIS antes de executar.
+"""
+
 from qgis.core import QgsProject, QgsVectorLayer, QgsSpatialIndex, QgsFeature, QgsGeometry
 
 # Ler camada de polígono da base do INCRA
