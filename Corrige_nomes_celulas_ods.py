@@ -1,6 +1,6 @@
 # Autor: Maik Rodrigues de Souza
 # Data: 20-12-2024
-# Descrição: É necessário instalar a biblioteca ezodf pelo terminal do QGIS. Para isso, acesse o OSGeo4W no Windows e digite o seguinte comando: pip install ezodf
+# Descrição: Modifica arquivos ODS, atualizando células específicas em planilhas nas celulas donominação e Parcela número. É necessário instalar a biblioteca ezodf pelo terminal do QGIS. Para isso, acesse o OSGeo4W no Windows e digite o seguinte comando: pip install ezodf
 
 
 import ezodf
