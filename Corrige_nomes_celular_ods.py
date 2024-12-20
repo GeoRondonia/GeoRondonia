@@ -11,6 +11,29 @@ for arquivo in os.listdir(diretorio_ods):
         
         # Carregar o arquivo ODS
         planilha = ezodf.opendoc(caminho_arquivo)
+
+        # Iterar sobre todas as planilhas corrigindo nomes de celular
+        for sheet in planilha.sheets:            
+            if "perimetro_" in sheet.name:
+                # Celuna denominação
+                celula_b3 = sheet['B3']
+                celula_b3.set_value("Part "+sheet.name[-1])
+                
+                # Celula Parcela número
+                celula_b4 = sheet['B4'] 
+                celula_b4.set_value("00"+sheet.name[-1])
+                
+            # Corrigi nome de perimetros
+            if "perimetro_" in sheet.name:
+                celula_b4 = sheet['B4'] 
+                celula_b4.set_value("00"+sheet.name[-1])
+
+            # Corrigi nome de perimetros
+            if "perimetro_" in sheet.name:
+                celula_b4 = sheet['B4'] 
+                celula_b4.set_value("00"+sheet.name[-1])
+
+
         sheet = planilha.sheets[0]  # Selecionar a primeira planilha
         
         # Acessar as células B17 e A17
