@@ -1,8 +1,10 @@
+""" É preciso instalar a biblioteca ezodf pelo terminal do QGIS. Acessando o OSGeo4W no windons, digite: pip install ezodf
+"""
 import ezodf
 import os 
 # Diretório onde os arquivos ODS estão localizados
 # Apague o que está entre " " e cole o seu caminho aqui.
-diretorio_ods = r"C:\Users\Maik\Documents\GitHub\GEO_GIT\TESTE_ODS"
+diretorio_ods = r"G:\Meu Drive\GEO_RO\PAs para teste"
 
 # Iterar sobre todos os arquivos no diretório
 for arquivo in os.listdir(diretorio_ods):
@@ -12,28 +14,17 @@ for arquivo in os.listdir(diretorio_ods):
         # Carregar o arquivo ODS
         planilha = ezodf.opendoc(caminho_arquivo)
 
-        # Iterar sobre todas as planilhas corrigindo nomes de celular
-        for sheet in planilha.sheets:            
+        # Imprimir os nomes de todas as planilhas
+        print(f"Nomes das planilhas em {arquivo}:")
+        for sheet in planilha.sheets:
             if "perimetro_" in sheet.name:
                 # Celuna denominação
                 celula_b3 = sheet['B3']
                 celula_b3.set_value("Part "+sheet.name[-1])
-                
                 # Celula Parcela número
                 celula_b4 = sheet['B4'] 
                 celula_b4.set_value("00"+sheet.name[-1])
-                
-            # Corrigi nome de perimetros
-            if "perimetro_" in sheet.name:
-                celula_b4 = sheet['B4'] 
-                celula_b4.set_value("00"+sheet.name[-1])
-
-            # Corrigi nome de perimetros
-            if "perimetro_" in sheet.name:
-                celula_b4 = sheet['B4'] 
-                celula_b4.set_value("00"+sheet.name[-1])
-
-
+            
         sheet = planilha.sheets[0]  # Selecionar a primeira planilha
         
         # Acessar as células B17 e A17
