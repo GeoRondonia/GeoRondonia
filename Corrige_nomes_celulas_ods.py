@@ -1,4 +1,4 @@
-""" É preciso instalar a biblioteca ezodf pelo terminal do QGIS. Acessando o OSGeo4W no windons, digite: pip install ezodf
+""" É necessário instalar a biblioteca ezodf pelo terminal do QGIS. Para isso, acesse o OSGeo4W no Windows e digite o seguinte comando: pip install ezodf
 """
 import ezodf
 import os 
