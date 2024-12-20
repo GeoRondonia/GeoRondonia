@@ -1,5 +1,8 @@
-""" É necessário instalar a biblioteca ezodf pelo terminal do QGIS. Para isso, acesse o OSGeo4W no Windows e digite o seguinte comando: pip install ezodf
-"""
+# Autor: Maik Rodrigues de Souza
+# Data: 20-12-2024
+# Descrição: É necessário instalar a biblioteca ezodf pelo terminal do QGIS. Para isso, acesse o OSGeo4W no Windows e digite o seguinte comando: pip install ezodf
+
+
 import ezodf
 import os 
 # Diretório onde os arquivos ODS estão localizados
