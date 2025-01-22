@@ -87,8 +87,8 @@ class geradordeods(QgsProcessingAlgorithm):
 	def icon(self):
 		return QIcon(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'images/geoincra_pb.png'))
 	
-	txt_en = '''Creates new vertices into polygons to ensure perfect connectivity (topology) between two layers.'''
-	txt_pt = '''Gera novos vértices em polígonos para garantir a perfeita conectividade (topologia) entre duas camadas.'''
+	txt_en = '''Creates a SIGEF ODS spreadsheet, filling it directly through Macros, from the GeoRural database layers worked in QGIS'''
+	txt_pt = '''Cria uma planilha ODS do SIGEF, preenchendo-a diretamente através de Macros, a partir das camadas do banco de dados GeoRural trabalhado no QGIS.'''
 	figure1 = 'images\logo-geo.png'
 	figure2 = 'images\incra-ifro-gov.png'
 	
