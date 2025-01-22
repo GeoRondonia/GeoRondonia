@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Maik Rodrigues'
+__author__ = 'Maik Rodrigues de Souza'
 __date__ = '2024-11-13'
-__copyright__ = '(C) 2024 by Maik Rodrigues'
+__copyright__ = '(C) 2024 by Maik Rodrigues de Souza'
 __revision__ = '$Format:%H$'
 
 import os

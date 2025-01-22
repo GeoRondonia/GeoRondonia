@@ -1,3 +1,9 @@
+"""
+Script para verificar a validade das geometrias em uma camada no QGIS. As camadas inválidas serão selecionadas na tabela de atributos
+Autor: Maik Rodrigues de Souza
+Data: 16/01/2025
+"""
+
 from qgis.core import QgsProject, QgsFeature, QgsGeometry
 import traceback
 

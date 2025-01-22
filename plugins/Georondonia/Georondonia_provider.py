@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Maik Rodrigues'
+__author__ = 'Maik Rodrigues de Souza'
 __date__ = '2024-11-13'
-__copyright__ = '(C) 2024 by Maik Rodrigues'
+__copyright__ = '(C) 2024 by Maik Rodrigues de Souza'
 __revision__ = '$Format:%H$'
 
 from qgis.core import QgsProcessingProvider
-from .algoritmos.Divide_Lote_Buffer import divideLoteBufferAlgorithm
-from .algoritmos.Angulos_Internos import AngulosInternosAlgorithm
-from .algoritmos.Plano_de_Voo import PlanoVooAlgorithm
 from .algoritmos.geradordeods import geradordeods
-from .algoritmos.ajuste_poligono import AjustePoligonos
 from qgis.PyQt.QtGui import QIcon
 import os
 
@@ -22,9 +18,6 @@ class GeorondoniaProvider(QgsProcessingProvider):
 
     def loadAlgorithms(self):
         #self.addAlgorithm(divideLoteBufferAlgorithm())
-        #self.addAlgorithm(AngulosInternosAlgorithm())
-        #self.addAlgorithm(PlanoVooAlgorithm())
-        #self.addAlgorithm(AjustePoligonos())
         self.addAlgorithm(geradordeods())
 
     def id(self):
