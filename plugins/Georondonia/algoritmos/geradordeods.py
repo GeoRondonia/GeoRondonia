@@ -100,7 +100,7 @@ class geradordeods(QgsProcessingAlgorithm):
                       </div>
                       <div align="right">
                       <p align="right">
-                      <b>'''+self.tr('Autor:Tiago Prudencio, Leandro França, Maik Rodrigues de Souza, Valdir Moura e Ranieli dos Anjos de Souza.')+'''</b>
+                      <b>'''+self.tr('Autor: Tiago Prudencio, Leandro França, Maik Rodrigues de Souza, Mychelle Novais Soares, Carolina Potratz Giraldello, Valdir Moura e Ranieli dos Anjos de Souza.')+'''</b>
                       </p>'''+ social_BW + '''</div>
                     </div>'''
 		return self.tr(self.txt_en, self.txt_pt) + footer
