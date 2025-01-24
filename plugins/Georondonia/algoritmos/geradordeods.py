@@ -40,7 +40,7 @@ from qgis.core import (QgsProcessing,
 					   QgsExpression,
 					   QgsExpressionContext,
 					   QgsProcessingParameterFileDestination)
-from .imgs import Imgs
+from ..geocapt.imgs import Imgs
 import logging
 from math import floor 
 from qgis.utils import iface
