@@ -5,7 +5,10 @@ __copyright__ = '(C) 2024 by Maik Rodrigues de Souza'
 __revision__ = '$Format:%H$'
 
 from qgis.core import QgsProcessingProvider
-from .algoritmos.geradordeods import geradordeods
+from .algoritmos.georural_Geradordeods import geradordeods
+from .algoritmos.georural_ValidateTopology import ValidateTopology
+from .algoritmos.georural_OverLapping import Overlapping
+from .algoritmos.georural_layersFromSheet import LayersFromSheet
 from qgis.PyQt.QtGui import QIcon
 import os
 
@@ -17,8 +20,11 @@ class GeorondoniaProvider(QgsProcessingProvider):
         pass
 
     def loadAlgorithms(self):
-        #self.addAlgorithm(divideLoteBufferAlgorithm())
         self.addAlgorithm(geradordeods())
+        self.addAlgorithm(ValidateTopology())
+        self.addAlgorithm(Overlapping())
+        self.addAlgorithm(LayersFromSheet())
+
 
     def id(self):
         return 'GeoRondônia'
