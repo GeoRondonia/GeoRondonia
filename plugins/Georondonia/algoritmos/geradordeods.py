@@ -218,9 +218,11 @@ class geradordeods(QgsProcessingAlgorithm):
 			feedback.pushInfo ('Pasta criada com sucesso para a macro!  {}'.format(path_macro))
 
 
-		path_ods = os.path.join(Path.home(), "AppData\\Roaming\\QGIS\\QGIS3\\profiles\\default\\python\\plugins\\GeoINCRA\\algorithms\\shp\\sigef_planilha_modelo_1.2_rc5.ods")
-		shutil.copy(os.path.join(Path.home(),"AppData\\Roaming\\QGIS\\QGIS3\\profiles\\default\\python\\plugins\\GeoINCRA\\algorithms\\shp\\macro.py"),os.path.join(path_macro,'qgis_macro.py'))
-
+		path_ods = os.path.join(Path.home(), "AppData\\Roaming\\QGIS\\QGIS3\\profiles\\default\\python\\plugins\\Georondonia\\algoritmos\\shp\\sigef_planilha_modelo_1.2_rc5.ods")
+		shutil.copy(os.path.join(Path.home(),"AppData\\Roaming\\QGIS\\QGIS3\\profiles\\default\\python\\plugins\\Georondonia\\algoritmos\\shp\\macro.py"),os.path.join(path_macro,'qgis_macro.py'))
+		
+		#"AppData\\Roaming\\QGIS\\QGIS3\\profiles\\default\\python\\plugins\\Georondonia\\algoritmos\\shp\\sigef_planilha_modelo_1.2_rc5.ods"
+		#"AppData\\Roaming\\QGIS\\QGIS3\\profiles\\default\\python\\plugins\\Georondonia\\algoritmos\\shp\\macro.py"
 
 		# Validações
 
@@ -318,9 +320,7 @@ class geradordeods(QgsProcessingAlgorithm):
 		# Seleciona o próximo lote
 		self.selecionar_proximo()
 		
-		
 		# Mensagem de finalização
-		
 		raise QgsProcessingException("----FIM DO JOB!!----")
 										
 		
