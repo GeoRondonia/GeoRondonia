@@ -9,6 +9,8 @@ from .algoritmos.georural_Geradordeods import geradordeods
 from .algoritmos.georural_ValidateTopology import ValidateTopology
 from .algoritmos.georural_OverLapping import Overlapping
 from .algoritmos.georural_layersFromSheet import LayersFromSheet
+from .algoritmos.georural_AdjoinerLine import AdjoinerLine
+from .algoritmos.georural_getAttributeByLocation import GetAttributeByLocation
 from qgis.PyQt.QtGui import QIcon
 import os
 
@@ -22,8 +24,10 @@ class GeorondoniaProvider(QgsProcessingProvider):
     def loadAlgorithms(self):
         self.addAlgorithm(geradordeods())
         self.addAlgorithm(ValidateTopology())
-        self.addAlgorithm(Overlapping())
-        self.addAlgorithm(LayersFromSheet())
+        self.addAlgorithm(Overlapping()) 
+        self.addAlgorithm(LayersFromSheet()) 
+        self.addAlgorithm(AdjoinerLine()) 
+        self.addAlgorithm(GetAttributeByLocation()) 
 
 
     def id(self):

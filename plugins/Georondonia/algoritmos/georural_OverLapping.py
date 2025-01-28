@@ -73,15 +73,17 @@ class Overlapping(QgsProcessingAlgorithm):
     txt_en = '''Identifies the overlap between features of a polygon type layer.'''
     txt_pt = '''Identifica a sobreposição entre feições de uma camada do tipo polígono.'''
     figure = 'images/tutorial/vect_overlapping.jpg'
+    figure2 = 'images/incra-ifro-gov.png'
 
     def shortHelpString(self):
         social_BW = Imgs().social_BW
-        footer = '''<div align="center">
-                      <img src="'''+ os.path.join(os.path.dirname(os.path.dirname(__file__)), self.figure) +'''">
+        footer = '''<div style="text-align: right;">
+                      <img src="'''+ os.path.join(os.path.dirname(os.path.dirname(__file__)),self.figure) +'''"><br>
+                      <img src="'''+ os.path.join(os.path.dirname(os.path.dirname(__file__)),self.figure2) +'''">
                       </div>
                       <div align="right">
                       <p align="right">
-                      <b>'''+self.tr('Author: Leandro Franca', 'Autor: Leandro França')+'''</b>
+                      <b>'''+self.tr('Autor: Tiago Prudencio, Leandro França, Maik Rodrigues de Souza, Mychelle Novais Soares, Carolina Potratz Giraldello, Valdir Moura e Ranieli dos Anjos de Souza.')+'''</b>
                       </p>'''+ social_BW + '''</div>
                     </div>'''
         return self.tr(self.txt_en, self.txt_pt) + footer

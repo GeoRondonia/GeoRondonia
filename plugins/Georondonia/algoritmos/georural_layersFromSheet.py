@@ -58,7 +58,10 @@ class LayersFromSheet(QgsProcessingAlgorithm):
     LIMITE = 'LIMITE'
     PARCELA = 'PARCELA'
 
-    def tr(self, string):
+    def tr(self, string, string_pt=None):
+        if string_pt:
+            return QCoreApplication.translate('Processing', string_pt)  # Return the Portuguese translation
+        return QCoreApplication.translate('Processing', string)  # Default to English
         return QCoreApplication.translate('Processing', string)
 
     def createInstance(self):
@@ -72,37 +75,30 @@ class LayersFromSheet(QgsProcessingAlgorithm):
         return self.tr('Importar planilha ODS')
 
     def group(self):
-
-        return self.tr(self.groupId())
+        return self.tr('GeoRural', 'GeoRural')
 
     def groupId(self):
-
-        return ''
+        return 'georural'
 
     def icon(self):
         return QIcon(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'images/geoincra_pb.png'))
-    
-    txt_pt = 'Esta ferramenta importa uma <b>Planilha ODS</b> no padrão do SIGEF/INCRA, carregando as camadas vétice (ponto), limite (linha) e parcela (polígono) no modelo GeoRural.'
-    txt_en = 'This tool imports a <b>ODS sheet</b> according to the SIGEF/INCRA standard, loading the vertex (point), limit (line) and parcel (polygon) layers in the GeoRural model.'
+    txt_en = '''This tool imports a <b>ODS sheet</b> according to the SIGEF/INCRA standard, loading the vertex (point), limit (line) and parcel (polygon) layers in the GeoRural model.'''
+    txt_pt = '''Esta ferramenta importa uma <b>Planilha ODS</b> no padrão do SIGEF/INCRA, carregando as camadas vétice (ponto), limite (linha) e parcela (polígono) no modelo GeoRural.'''
+    figure1 = 'images\logo-geo.png'
+    figure2 = 'images\incra-ifro-gov.png'
 
     def shortHelpString(self):
-        txt = 'Esta ferramenta importa uma <b>Planilha ODS</b> no padrão do SIGEF/INCRA, carregando as camadas vétice (ponto), limite (linha) e parcela (polígono) no modelo GeoRural.'
-        footer = '''<div>
-                      <div align="center">
-                      <img style="width: 100%; height: auto;" src="data:image/jpg;base64,'''+ "TESTE" +'''
+        social_BW = Imgs().social_BW
+        footer = '''<div style="text-align: right;">
+                      <img src="'''+ os.path.join(os.path.dirname(os.path.dirname(__file__)),self.figure1) +'''"><br>
+                      <img src="'''+ os.path.join(os.path.dirname(os.path.dirname(__file__)),self.figure2) +'''">
                       </div>
                       <div align="right">
                       <p align="right">
-                      <a href="https://geoone.com.br/pvgeoincra2/"><span style="font-weight: bold;">Conheça o curso de GeoINCRA no QGIS</span></a>
-                      </p>
-                      <p align="right">
-                      <a href="https://portal.geoone.com.br/m/lessons/georreferenciamento-de-imveis-rurais-com-o-plugin-geoincra-1690158094835"><span style="font-weight: bold;">Acesse seu curso na GeoOne</span></a>
-                      </p>
-                      <a target="_blank" rel="noopener noreferrer" href="https://geoone.com.br/"><img title="GeoOne" src="data:image/png;base64,'''+ "GeoOne" +'''"></a>
-                      <p><i>"Mapeamento automatizado, fácil e direto ao ponto é na GeoOne!"</i></p>
-                      </div>
+                      <b>'''+self.tr('Autor: Tiago Prudencio, Leandro França, Maik Rodrigues de Souza, Mychelle Novais Soares, Carolina Potratz Giraldello, Valdir Moura e Ranieli dos Anjos de Souza.')+'''</b>
+                      </p>'''+ social_BW + '''</div>
                     </div>'''
-        return txt + footer
+        return self.tr(self.txt_en, self.txt_pt) + footer
 
     def initAlgorithm(self, config=None):
 

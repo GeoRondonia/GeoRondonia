@@ -71,16 +71,18 @@ class ValidateTopology(QgsProcessingAlgorithm):
 
     txt_en = "This tool performs a series of topological validations to ensure the correct generation of survey plans and deed description based on GeoOne's <b>TopoGeo</b> and <b>GeoRural</b> models."
     txt_pt = "Esta ferramenta executa uma série de validações topológicas para garantir a correta geração de plantas topográficas e memoriais descritivos baseado nos modelos <b>TopoGeo</b> e <b>GeoRural</b> da GeoOne."
-    figure = 'images/tutorial/doc_validation.jpg'
-
+    figure1 = 'images/tutorial/doc_validation.jpg'
+    figure2 = 'images/incra-ifro-gov.png'
+    
     def shortHelpString(self):
         social_BW = Imgs().social_BW
-        footer = '''<div align="center">
-                      <img src="'''+ os.path.join(os.path.dirname(os.path.dirname(__file__)), self.figure) +'''">
+        footer = '''<div style="text-align: right;">
+                      <img src="'''+ os.path.join(os.path.dirname(os.path.dirname(__file__)),self.figure1) +'''"><br>
+                      <img src="'''+ os.path.join(os.path.dirname(os.path.dirname(__file__)),self.figure2) +'''">
                       </div>
                       <div align="right">
                       <p align="right">
-                      <b>'''+self.tr('Author: Leandro Franca', 'Autor: Leandro França')+'''</b>
+                      <b>'''+self.tr('Autor: Tiago Prudencio, Leandro França, Maik Rodrigues de Souza, Mychelle Novais Soares, Carolina Potratz Giraldello, Valdir Moura e Ranieli dos Anjos de Souza.')+'''</b>
                       </p>'''+ social_BW + '''</div>
                     </div>'''
         return self.tr(self.txt_en, self.txt_pt) + footer
