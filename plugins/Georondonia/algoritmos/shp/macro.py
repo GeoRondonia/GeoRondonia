@@ -9,7 +9,7 @@ def create_table(args=None):
 	doc.setValue("B2", "Natureza do serviço")
 	doc.setValue("B5", "Tipo de pessoa")
 	doc.setValue("B6", "Nome")
-	#doc.setValue("B7", "CPF")
+	doc.setValue("B7", "CPF")
 	doc.setValue("B10", "Denominação") # denominação
 	doc.setValue("B11", "Situação")
 	doc.setValue("B12", "Natureza da area") # natureza da área

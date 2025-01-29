@@ -22,12 +22,12 @@ class GeorondoniaProvider(QgsProcessingProvider):
         pass
 
     def loadAlgorithms(self):
-        self.addAlgorithm(geradordeods())
-        self.addAlgorithm(ValidateTopology())
-        self.addAlgorithm(Overlapping()) 
-        self.addAlgorithm(LayersFromSheet()) 
-        self.addAlgorithm(AdjoinerLine()) 
-        self.addAlgorithm(GetAttributeByLocation()) 
+        self.addAlgorithm(geradordeods())  
+        # self.addAlgorithm(ValidateTopology())# Desativado 
+        # self.addAlgorithm(Overlapping()) # Desativado 
+        # self.addAlgorithm(LayersFromSheet()) # Desativado 
+        # self.addAlgorithm(AdjoinerLine()) # Desativado 
+        # self.addAlgorithm(GetAttributeByLocation()) # Desativado 
 
 
     def id(self):

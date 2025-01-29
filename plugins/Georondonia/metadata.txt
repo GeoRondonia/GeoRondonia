@@ -5,12 +5,12 @@
 [general]
 name= Georondonia
 qgisMinimumVersion=3.10
-description=Topography with QGIS and PyQgis
+description=Tools for Georeferencing Rural Properties
 version=1.0
-author=Maik Rodrigues
+author=Tiago Prudencio, Leandro França, Maik Rodrigues de Souza, Mychelle Novais Soares, Carolina Potratz Giraldello, Valdir Moura e Ranieli dos Anjos de Souza.
 email=maik.rs93@hotmail.com
 
-about=Topography with QGIS and PyQgis.
+about=Tools for Georeferencing rural properties in Settlement Projects or Land Projects, based on the updated Technical Manual for Georeferencing Rural Properties, from the National Institute of Colonization and Agrarian Reform (INCRA).
 
 tracker= Repositório Git
 repository=Repositório Git
@@ -26,7 +26,7 @@ hasProcessingProvider=yes
 tags=python, topography, qgis, geo, rural, urban, incra, survey, sheet, brazil
 
 homepage=https://georondonia.ifro.edu.br/
-category=topography
+category= cartography
 icon=images/georo_icone.png
 # experimental flag
 experimental=False
