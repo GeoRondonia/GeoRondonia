@@ -15,7 +15,7 @@
       <li>
       <a href="#ferramentas-do-plugin">Ferramentas do Plugin</a>
       <ul>
-      <li><a href="#consultar-base-do-incra">Consultar base do INCRA</a></li>
+      <li><a href="#Gerador de ODS (GODS)">Gerador de ODS (GODS)</a></li>
       </ul>
       <li>
       <a href="#banco-de-dados-georural">Banco de Dados GeoRural</a>
