@@ -31,7 +31,7 @@
         <li><a href="#classe-parcela">Classe Parcela</a></li>
       </ul>
     <li>
-      <a href="#Conheça mais sobre o GeoRondônia">Conheça mais sobre o GeoRondônia</a>
+      <a href="#conheça-mais-sobre-o-georondônia">Conheça mais sobre o GeoRondônia</a>
     </li>
     <li>
       <a href="#colaboradores">Colaboradores</a>
@@ -1174,7 +1174,7 @@ https://user-images.githubusercontent.com/88212377/161396633-24f01f9c-a15b-46c8-
 ## Créditos
 Este projeto foi desenvolvido com a colaboração de diversos desenvolvedores e inspirado em ferramentas criadas por terceiros. Gostaríamos de expressar nossos sinceros agradecimentos a todos os envolvidos.
 
-## Desenvolvedor Principal:
+## Dev:
 
 Maik Rodrigues
 <div style="text-align: center;"><a
@@ -1183,6 +1183,8 @@ Maik Rodrigues
  title="Maik Rodrigues"
  src="https://user-images.githubusercontent.com/52215653/163875911-3ff4d34b-bf67-4b2b-9d2c-8525c1c011a6.png"></a>
 <br>
+
+## Conheça mais sobre o GeoRondônia
 
 ## Colaboradores:
 Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de funcionalidades específicas ou forneceram feedbacks valiosos:
@@ -1197,9 +1199,9 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
 <!-- https://www.linkedin.com/in/mychelle-novais-46834a3a -->
 <!-- LINKDIN -->
 
-## Ferramentas Base
+## Ferramentas Base:
 Este plugin utiliza ou foi inspirado pelas seguintes ferramentas:
 
-* __GeoIncra__ : Ferramenta desenvolvida por Tiago Prudencio e Leandro França que serviu como base para o Gerador de ODS (GODS) e Banco de Dados GeoRural.
-Link para [GeoIncra](https://github.com/OpenGeoOne/GeoINCRA).
+* [GeoIncra](https://github.com/OpenGeoOne/GeoINCRA) : Ferramenta desenvolvida por Tiago Prudencio e Leandro França que serviu como base para o Gerador de ODS (GODS) e Banco de Dados GeoRural.
+Link para .
 
