@@ -7,7 +7,7 @@
     <br />
   </p>
 </p>
-
+----
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary>Conteúdo</summary>
@@ -1170,10 +1170,10 @@ Observação: Também podem ser utilizadas as camadas “hist_vertice”, “his
 https://user-images.githubusercontent.com/88212377/161396633-24f01f9c-a15b-46c8-84db-c4a6acd49a27.mp4
 
 
-
+----
 ## Créditos
 Este projeto foi desenvolvido com a colaboração de diversos desenvolvedores e inspirado em ferramentas criadas por terceiros. Gostaríamos de expressar nossos sinceros agradecimentos a todos os envolvidos.
-
+----
 ## Dev:
 
 Maik Rodrigues
@@ -1184,8 +1184,20 @@ Maik Rodrigues
  src="https://user-images.githubusercontent.com/52215653/163875911-3ff4d34b-bf67-4b2b-9d2c-8525c1c011a6.png"></a>
 <br>
 
+----
+
 ## Conheça mais sobre o GeoRondônia
 
+
+* **Portal GeoRondônia:**
+
+[![Portal Mobile ‐ Feito com o Clipchamp](https://github.com/user-attachments/assets/a398afe8-3bb2-4c0e-8027-2d8db6e21faa)](https://georondonia.ifro.edu.br/)
+
+
+* **Instagram**
+[![Instageo](https://github.com/user-attachments/assets/b616affa-cb23-49bc-9cae-ddc44ce229a6)](https://instagram.com/projetogeorondonia/)
+
+----
 ## Colaboradores:
 Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de funcionalidades específicas ou forneceram feedbacks valiosos:
 
@@ -1198,7 +1210,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
 <!-- https://www.linkedin.com/in/ranieli-dos-anjos-de-souza-5a291b32 -->
 <!-- https://www.linkedin.com/in/mychelle-novais-46834a3a -->
 <!-- LINKDIN -->
-
+----
 ## Ferramentas Base:
 Este plugin utiliza ou foi inspirado pelas seguintes ferramentas:
 
