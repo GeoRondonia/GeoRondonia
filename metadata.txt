@@ -7,13 +7,13 @@ name= Georondonia
 qgisMinimumVersion=3.10
 description=Tools for Georeferencing Rural Properties
 version=1.0
-author=Tiago Prudencio, Leandro França, Maik Rodrigues de Souza, Mychelle Novais Soares, Carolina Potratz Giraldello, Valdir Moura e Ranieli dos Anjos de Souza.
-email=maik.rs93@hotmail.com
+author=Maik Rodrigues de Souza, Mychelle Novais Soares, Carolina Potratz Giraldello, Valdir Moura e Ranieli dos Anjos de Souza.
+email=lab.georondonia@ifro.edu.br
 
 about=Tools for Georeferencing rural properties in Settlement Projects or Land Projects, based on the updated Technical Manual for Georeferencing Rural Properties, from the National Institute of Colonization and Agrarian Reform (INCRA).
 
-tracker= Repositório Git
-repository=Repositório Git
+tracker= https://github.com/GeoRondonia/GeoRondonia/issues
+repository=https://github.com/GeoRondonia/GeoRondonia
 # End of mandatory metadata
 
 # Recommended items:
@@ -23,9 +23,9 @@ hasProcessingProvider=yes
 # changelog=
 
 # Tags are comma separated with spaces allowed
-tags=python, topography, qgis, geo, rural, urban, incra, survey, sheet, brazil
+tags=georreferenciamento, imoveis, rurais, incra, sigef, georural, ods, planilha, brazil,
 
-homepage=https://georondonia.ifro.edu.br/
+homepage=lab.georondonia@ifro.edu.br
 category= cartography
 icon=images/georo_icone.png
 # experimental flag

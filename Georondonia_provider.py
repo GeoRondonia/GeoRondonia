@@ -6,11 +6,6 @@ __revision__ = '$Format:%H$'
 
 from qgis.core import QgsProcessingProvider
 from .algoritmos.georural_Geradordeods import geradordeods
-from .algoritmos.georural_ValidateTopology import ValidateTopology
-from .algoritmos.georural_OverLapping import Overlapping
-from .algoritmos.georural_layersFromSheet import LayersFromSheet
-from .algoritmos.georural_AdjoinerLine import AdjoinerLine
-from .algoritmos.georural_getAttributeByLocation import GetAttributeByLocation
 from qgis.PyQt.QtGui import QIcon
 import os
 
@@ -23,11 +18,6 @@ class GeorondoniaProvider(QgsProcessingProvider):
 
     def loadAlgorithms(self):
         self.addAlgorithm(geradordeods())  
-        # self.addAlgorithm(ValidateTopology())# Desativado 
-        # self.addAlgorithm(Overlapping()) # Desativado 
-        # self.addAlgorithm(LayersFromSheet()) # Desativado 
-        # self.addAlgorithm(AdjoinerLine()) # Desativado 
-        # self.addAlgorithm(GetAttributeByLocation()) # Desativado 
 
 
     def id(self):

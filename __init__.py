@@ -8,7 +8,7 @@
                               -------------------
         begin                : 2024-11-13
         copyright            : (C) 2024 by Georondonia
-        email                : maik.rs93@hotmail.com
+        email                : lab.georondonia@ifro.edu.br
  ***************************************************************************/
 """
 
