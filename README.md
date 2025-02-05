@@ -34,7 +34,7 @@
       <a href="#créditos">Créditos</a>
       </li>
       <li>
-      <a href="#dev">Desenvolvedores</a>
+      <a href="#desenvolvedores">Desenvolvedores</a>
       </li>
       <li>
       <a href="#colaboradores">Colaboradores</a>
@@ -1183,12 +1183,12 @@ Este projeto foi desenvolvido com a colaboração de diversos desenvolvedores e 
 
 
 ----
-## Dev:
+## Desenvolvedores:
 
 Maik Rodrigues
 <div style="text-align: center;"><a
  href="https://www.linkedin.com/in/maikrodriguess/"><img
- style="border: 0px solid ;width: 20px" alt="GeoRondonia no QGIS"
+ style="border: 0px solid ;width: 40px" alt="GeoRondonia no QGIS"
  title="Maik Rodrigues"
  src="https://user-images.githubusercontent.com/52215653/163875911-3ff4d34b-bf67-4b2b-9d2c-8525c1c011a6.png"></a>
 <br>
@@ -1211,7 +1211,6 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
 Este plugin utiliza ou foi inspirado pelas seguintes ferramentas:
 
 * [GeoIncra](https://github.com/OpenGeoOne/GeoINCRA) : Ferramenta desenvolvida por Tiago Prudencio e Leandro França que serviu como base para o Gerador de ODS (GODS) e Banco de Dados GeoRural.
-Link para .
 
 ----
 
@@ -1231,3 +1230,7 @@ Link para .
     <img src="https://github.com/user-attachments/assets/b616affa-cb23-49bc-9cae-ddc44ce229a6" alt="Teste" width="240" height="426">
 </a>
 
+----
+<a href="https://georondonia.ifro.edu.br/">
+      <img src="https://github.com/user-attachments/assets/2fc22e6f-8ec0-455c-b924-6e769b1d8f3b" alt=incra-ifro width="600" height="100">
+</a>
