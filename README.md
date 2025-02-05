@@ -56,11 +56,8 @@
 Cria uma planilha ODS do SIGEF, preenchendo-a diretamente através de Macros, a partir das camadas do banco de dados GeoRural trabalhado no QGIS. 
 
 <div align="center">
-    
-https://user-images.githubusercontent.com/88212377/161190002-e3f211bd-a337-4f4a-9632-25ff67b07eb1.mp4
-    
+    Video aqui
 </div>
-
 
 ## Banco de Dados GeoRural
 Este modelo de dados pode ser implementado em banco de dados GeoPackage, PostGIS, ou atém mesmo no formato Shapefile, embora este último seja desaconselhado, por estar entrando em desuso.
