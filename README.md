@@ -7,7 +7,7 @@
     <br />
   </p>
 </p>
-----
+
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary>Conteúdo</summary>
@@ -30,16 +30,22 @@
       <ul>
         <li><a href="#classe-parcela">Classe Parcela</a></li>
       </ul>
-    <li>
-      <a href="#conheça-mais-sobre-o-georondônia">Conheça mais sobre o GeoRondônia</a>
-    </li>
-    <li>
+      <li>
+      <a href="#créditos">Créditos</a>
+      </li>
+      <li>
+      <a href="#dev">Desenvolvedores</a>
+      </li>
+      <li>
       <a href="#colaboradores">Colaboradores</a>
-    </li>
-    <li>
-      <a href="#autores">Autores</a>
-    </li>
-  </ol>
+      </li>   
+      <li>
+      <a href="#ferramentas-base">Ferramentas Base</a>
+      </li>
+      <li>
+      <a href="#conheça-mais-sobre-o-georondônia">Conheça mais sobre o GeoRondônia</a>
+      </li>
+      </ol>
 </details>
 
 
@@ -47,7 +53,8 @@
 
 
 ### Gerador de ODS (GODS)
-Cria uma planilha ODS do SIGEF, preenchendo-a diretamente através de Macros, a partir das camadas do banco de dados GeoRural trabalhado no QGIS.
+Cria uma planilha ODS do SIGEF, preenchendo-a diretamente através de Macros, a partir das camadas do banco de dados GeoRural trabalhado no QGIS. 
+
 <div align="center">
     
 https://user-images.githubusercontent.com/88212377/161190002-e3f211bd-a337-4f4a-9632-25ff67b07eb1.mp4
@@ -1173,6 +1180,8 @@ https://user-images.githubusercontent.com/88212377/161396633-24f01f9c-a15b-46c8-
 ----
 ## Créditos
 Este projeto foi desenvolvido com a colaboração de diversos desenvolvedores e inspirado em ferramentas criadas por terceiros. Gostaríamos de expressar nossos sinceros agradecimentos a todos os envolvidos.
+
+
 ----
 ## Dev:
 
@@ -1183,19 +1192,6 @@ Maik Rodrigues
  title="Maik Rodrigues"
  src="https://user-images.githubusercontent.com/52215653/163875911-3ff4d34b-bf67-4b2b-9d2c-8525c1c011a6.png"></a>
 <br>
-
-----
-
-## Conheça mais sobre o GeoRondônia
-
-
-* **Portal GeoRondônia:**
-
-[![Portal Mobile ‐ Feito com o Clipchamp](https://github.com/user-attachments/assets/a398afe8-3bb2-4c0e-8027-2d8db6e21faa)](https://georondonia.ifro.edu.br/)
-
-
-* **Instagram**
-[![Instageo](https://github.com/user-attachments/assets/b616affa-cb23-49bc-9cae-ddc44ce229a6)](https://instagram.com/projetogeorondonia/)
 
 ----
 ## Colaboradores:
@@ -1216,4 +1212,22 @@ Este plugin utiliza ou foi inspirado pelas seguintes ferramentas:
 
 * [GeoIncra](https://github.com/OpenGeoOne/GeoINCRA) : Ferramenta desenvolvida por Tiago Prudencio e Leandro França que serviu como base para o Gerador de ODS (GODS) e Banco de Dados GeoRural.
 Link para .
+
+----
+
+## Conheça mais sobre o GeoRondônia
+
+
+* **Portal GeoRondônia:**
+
+<a href="https://georondonia.ifro.edu.br/">
+    <img src="https://github.com/user-attachments/assets/a398afe8-3bb2-4c0e-8027-2d8db6e21faa" alt="Portal Mobile ‐ Feito com o Clipchamp" width="240" height="426">
+</a>
+
+
+* **Instagram**
+  
+<a href="https://instagram.com/projetogeorondonia/">
+    <img src="https://github.com/user-attachments/assets/b616affa-cb23-49bc-9cae-ddc44ce229a6" alt="Teste" width="240" height="426">
+</a>
 
