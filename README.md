@@ -1192,7 +1192,7 @@ Este projeto foi desenvolvido com a colaboração de diversos desenvolvedores e 
 
 
 ## Ferramentas Base:
-Este plugin utiliza ou foi inspirado pelas seguintes ferramentas:
+Este plugin utilizou como base as seguintes ferramentas:
 
 * [GeoIncra](https://github.com/OpenGeoOne/GeoINCRA) : Ferramenta desenvolvida por Tiago Prudencio e Leandro França que serviu como base para o Gerador de ODS (GODS) e Banco de Dados GeoRural.
 
