@@ -1217,7 +1217,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
     </td>
     <td align="center">
       <a href="https://www.linkedin.com/in/ranieli-dos-anjos-de-souza-5a291b32" title="defina o título do link">
-        <img src="https://i.postimg.cc/PfvDWcmd/ranieli.jpg" width="100px;" alt="Raniele"/><br>
+        <img src="https://github.com/user-attachments/assets/a70b31ab-37af-434d-9b18-4121d6f951dc" width="100px;" alt="Raniele"/><br>
         <sub>
           <b>Ranieli dos Anjos de Souza</b>
         </sub>
@@ -1225,7 +1225,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
     </td>
     <td align="center">
       <a href="https://www.linkedin.com/in/mychelle-novais" title="defina o título do link">
-        <img src="https://github.com/user-attachments/assets/6e76bfad-ed6c-41de-8b42-fd4920bcc124" width="100px;" alt="Foto do Steve Jobs"/><br>
+        <img src="https://github.com/user-attachments/assets/6e76bfad-ed6c-41de-8b42-fd4920bcc124" width="100px;" alt="Mychelle"/><br>
         <sub>
           <b>Mychelle Novais Soares</b>
         </sub>
@@ -1233,7 +1233,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
     </td>
      <td align="center">
       <a href="https://www.linkedin.com/in/carolina-potratz-giraldello" title="defina o título do link">
-        <img src="https://github.com/user-attachments/assets/a4ec3ef7-4d34-46f2-8d11-46c9beb89527" width="100px;" alt="Foto do Steve Jobs"/><br>
+        <img src="https://github.com/user-attachments/assets/fee2be2b-7ac7-4db8-bf86-7cc5d9900664" width="98px;" alt="Carol"/><br>
         <sub>
           <b>Carolina Potratz Giraldello</b>
         </sub>
