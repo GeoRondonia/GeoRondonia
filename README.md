@@ -1184,25 +1184,20 @@ Observação: Também podem ser utilizadas as camadas “hist_vertice”, “his
 
 https://user-images.githubusercontent.com/88212377/161396633-24f01f9c-a15b-46c8-84db-c4a6acd49a27.mp4
 
-
 ----
+
 ## Créditos
+
 Este projeto foi desenvolvido com a colaboração de diversos desenvolvedores e inspirado em ferramentas criadas por terceiros. Gostaríamos de expressar nossos sinceros agradecimentos a todos os envolvidos.
 
 
-----
-## Desenvolvedores:
+## Ferramentas Base:
+Este plugin utiliza ou foi inspirado pelas seguintes ferramentas:
 
-Maik Rodrigues
-<div style="text-align: center;"><a
- href="https://www.linkedin.com/in/maikrodriguess/"><img
- style="border: 0px solid ;width: 40px" alt="GeoRondonia no QGIS"
- title="Maik Rodrigues"
- src="https://user-images.githubusercontent.com/52215653/163875911-3ff4d34b-bf67-4b2b-9d2c-8525c1c011a6.png"></a>
-<br>
+* [GeoIncra](https://github.com/OpenGeoOne/GeoINCRA) : Ferramenta desenvolvida por Tiago Prudencio e Leandro França que serviu como base para o Gerador de ODS (GODS) e Banco de Dados GeoRural.
 
-----
-## 🤝 Colaboradores:
+
+## Colaboradores:
 Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de funcionalidades específicas ou forneceram feedbacks valiosos:
 
 <table>
@@ -1242,35 +1237,21 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
   </tr>
 </table>
 
-<!-- https://www.linkedin.com/in/valdir-moura-181a7b14/) -->
-<!-- https://www.linkedin.com/in/ranieli-dos-anjos-de-souza-5a291b32 -->
-<!-- https://www.linkedin.com/in/mychelle-novais-46834a3a -->
-<!-- LINKDIN -->
-----
-## Ferramentas Base:
-Este plugin utiliza ou foi inspirado pelas seguintes ferramentas:
 
-* [GeoIncra](https://github.com/OpenGeoOne/GeoINCRA) : Ferramenta desenvolvida por Tiago Prudencio e Leandro França que serviu como base para o Gerador de ODS (GODS) e Banco de Dados GeoRural.
+## Desenvolvedores:
 
-----
+<b>Maik Rodrigues</b>
+<div style="text-align: center;"><a
+ href="https://www.linkedin.com/in/maikrodriguess/"><img
+ style="border: 0px solid ;width: 40px" alt="GeoRonônia no QGIS"
+ title="Leandro França"
+ src="https://user-images.githubusercontent.com/25651083/178389727-7cf09fab-1c8f-4184-b80d-3a698de7c1be.png"></a>
+<br>
 
-## Conheça mais sobre o GeoRondônia
+---
 
-
-* **Portal GeoRondônia:**
-
-<a href="https://georondonia.ifro.edu.br/">
-    <img src="https://github.com/user-attachments/assets/a398afe8-3bb2-4c0e-8027-2d8db6e21faa" alt="Portal Mobile ‐ Feito com o Clipchamp" width="240" height="426">
-</a>
-
-
-* **Instagram**
-  
-<a href="https://instagram.com/projetogeorondonia/">
-    <img src="https://github.com/user-attachments/assets/b616affa-cb23-49bc-9cae-ddc44ce229a6" alt="Teste" width="240" height="426">
-</a>
-
-----
-<a href="https://georondonia.ifro.edu.br/">
-      <img src="https://github.com/user-attachments/assets/2fc22e6f-8ec0-455c-b924-6e769b1d8f3b" alt=incra-ifro width="600" height="100">
-</a>
+<p align="center">
+  <a href="https://georondonia.ifro.edu.br/">
+    <img src="https://github.com/user-attachments/assets/2fc22e6f-8ec0-455c-b924-6e769b1d8f3b" alt="incra-ifro" width="600" height="100">
+  </a>
+</p>
