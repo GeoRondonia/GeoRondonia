@@ -37,7 +37,7 @@
       <a href="#desenvolvedores">Desenvolvedores</a>
       </li>
       <li>
-      <a href="#colaboradores">Colaboradores</a>
+      <a href="#-colaboradores">Colaboradores</a>
       </li>   
       <li>
       <a href="#ferramentas-base">Ferramentas Base</a>
@@ -1192,13 +1192,45 @@ Maik Rodrigues
 <br>
 
 ----
-## Colaboradores:
+## 🤝 Colaboradores:
 Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de funcionalidades específicas ou forneceram feedbacks valiosos:
 
-* Valdir Moura 
-* Ranieli dos Anjos de Souza 
-* Mychelle Novais Soares   
-* Carolina Potratz Giraldello 
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://www.linkedin.com/in/valdir-moura-181a7b14/" title="defina o título do link">
+        <img src="https://github.com/user-attachments/assets/52bd88a3-1d0b-4e5f-ac45-43dbff6490f0" width="100px;" alt="Valdir"/><br>
+        <sub>
+          <b>Valdir Moura</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://www.linkedin.com/in/ranieli-dos-anjos-de-souza-5a291b32" title="defina o título do link">
+        <img src="https://i.postimg.cc/PfvDWcmd/ranieli.jpg" width="100px;" alt="Raniele"/><br>
+        <sub>
+          <b>Ranieli dos Anjos de Souza</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://www.linkedin.com/in/mychelle-novais" title="defina o título do link">
+        <img src="https://github.com/user-attachments/assets/6e76bfad-ed6c-41de-8b42-fd4920bcc124" width="100px;" alt="Foto do Steve Jobs"/><br>
+        <sub>
+          <b>Mychelle Novais Soares</b>
+        </sub>
+      </a>
+    </td>
+     <td align="center">
+      <a href="https://www.linkedin.com/in/carolina-potratz-giraldello" title="defina o título do link">
+        <img src="https://github.com/user-attachments/assets/a4ec3ef7-4d34-46f2-8d11-46c9beb89527" width="100px;" alt="Foto do Steve Jobs"/><br>
+        <sub>
+          <b>Carolina Potratz Giraldello</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
 
 <!-- https://www.linkedin.com/in/valdir-moura-181a7b14/) -->
 <!-- https://www.linkedin.com/in/ranieli-dos-anjos-de-souza-5a291b32 -->
