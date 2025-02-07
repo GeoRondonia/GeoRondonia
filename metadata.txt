@@ -25,7 +25,7 @@ hasProcessingProvider=yes
 # Tags are comma separated with spaces allowed
 tags=georreferenciamento, imoveis, rurais, incra, sigef, georural, ods, planilha, brazil,
 
-homepage=
+homepage=https://github.com/GeoRondonia/GeoRondonia/wiki
 category= cartography
 icon=images/georo_icone.png
 # experimental flag
