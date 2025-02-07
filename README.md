@@ -1228,7 +1228,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
     </td>
      <td align="center">
       <a href="https://www.linkedin.com/in/carolina-potratz-giraldello" title="defina o título do link">
-        <img src="https://github.com/user-attachments/assets/fee2be2b-7ac7-4db8-bf86-7cc5d9900664" width="98px;" alt="Carol"/><br>
+        <img src="https://github.com/user-attachments/assets/fee2be2b-7ac7-4db8-bf86-7cc5d9900664" width="86px;" alt="Carol"/><br>
         <sub>
           <b>Carolina Potratz Giraldello</b>
         </sub>
