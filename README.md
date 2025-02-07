@@ -55,8 +55,18 @@
 ### Gerador de ODS (GODS)
 A ferramenta descrita automatiza a criação da planilha ODS do SIGEF para georreferenciamento de imóveis rurais, integrando-se diretamente ao QGIS e ao banco de dados GeoRural. Ela utiliza macros para preencher a planilha ODS com dados extraídos das camadas do GeoRural trabalhadas no QGIS.
 
-Um de seus diferenciais é a capacidade de selecionar automaticamente as informações de parcela, limite e vértices de cada lote durante o processo inicial de geração da planilha ODS. Isso simplifica significativamente o trabalho do usuário, eliminando a necessidade de seleção manual desses elementos geográficos.
-#### Introduçao a ferramenta:
+#### Processo de Seleção e Geração de Lotes (Atualizado)
+#### Primeiro Lote:
+* Selecione a parcela desejada.
+* Escolha o limite apropriado.
+* Defina o vértice necessário.
+* Gere o lote com base nessas seleções.
+#### Lotes Seguintes (automáticos):
+Após a criação do primeiro lote, o sistema assume o controle:
+* Parcela, limites e vértices são identificados automaticamente com base no lote anterior.
+* Não é necessário repetir o processo manualmente.
+
+Este processo simplifica a geração de múltiplos lotes, economizando tempo e reduzindo a possibilidade de erros na seleção manual.
 
 [![Gerador de ODS (GODS)](https://img.youtube.com/vi/NoDfbDumCag/0.jpg)](https://www.youtube.com/watch?v=NoDfbDumCag)
 
