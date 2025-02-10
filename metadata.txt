@@ -29,7 +29,7 @@ homepage=https://github.com/GeoRondonia/GeoRondonia/wiki
 category= cartography
 icon=images/georo_icone.png
 # experimental flag
-experimental=False
+experimental=True
 
 # deprecated flag (applies to the whole plugin, not just a single version)
 deprecated=False
