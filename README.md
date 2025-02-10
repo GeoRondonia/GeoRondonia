@@ -55,8 +55,18 @@
 ### Gerador de ODS (GODS)
 A ferramenta descrita automatiza a criação da planilha ODS do SIGEF para georreferenciamento de imóveis rurais, integrando-se diretamente ao QGIS e ao banco de dados GeoRural. Ela utiliza macros para preencher a planilha ODS com dados extraídos das camadas do GeoRural trabalhadas no QGIS.
 
-Um de seus diferenciais é a capacidade de selecionar automaticamente as informações de parcela, limite e vértices de cada lote durante o processo inicial de geração da planilha ODS. Isso simplifica significativamente o trabalho do usuário, eliminando a necessidade de seleção manual desses elementos geográficos.
-#### Introduçao a ferramenta:
+#### Processo de Seleção e Geração de Lotes (Atualizado)
+#### Primeiro Lote:
+* Selecione a parcela desejada.
+* Escolha o limite apropriado.
+* Defina o vértice necessário.
+* Gere o lote com base nessas seleções.
+#### Lotes Seguintes (automáticos):
+Após a criação do primeiro lote, o sistema assume o controle:
+* Parcela, limites e vértices são identificados automaticamente com base no lote anterior.
+* Não é necessário repetir o processo manualmente.
+
+Este processo simplifica a geração de múltiplos lotes, economizando tempo e reduzindo a possibilidade de erros na seleção manual.
 
 [![Gerador de ODS (GODS)](https://img.youtube.com/vi/NoDfbDumCag/0.jpg)](https://www.youtube.com/watch?v=NoDfbDumCag)
 
@@ -1174,25 +1184,20 @@ Observação: Também podem ser utilizadas as camadas “hist_vertice”, “his
 
 https://user-images.githubusercontent.com/88212377/161396633-24f01f9c-a15b-46c8-84db-c4a6acd49a27.mp4
 
-
 ----
+
 ## Créditos
+
 Este projeto foi desenvolvido com a colaboração de diversos desenvolvedores e inspirado em ferramentas criadas por terceiros. Gostaríamos de expressar nossos sinceros agradecimentos a todos os envolvidos.
 
 
-----
-## Desenvolvedores:
+## Ferramentas Base:
+Este plugin utilizou como base as seguintes ferramentas:
 
-Maik Rodrigues
-<div style="text-align: center;"><a
- href="https://www.linkedin.com/in/maikrodriguess/"><img
- style="border: 0px solid ;width: 40px" alt="GeoRondonia no QGIS"
- title="Maik Rodrigues"
- src="https://user-images.githubusercontent.com/52215653/163875911-3ff4d34b-bf67-4b2b-9d2c-8525c1c011a6.png"></a>
-<br>
+* [GeoIncra](https://github.com/OpenGeoOne/GeoINCRA) : Ferramenta desenvolvida por Tiago Prudencio e Leandro França que serviu como base para o Gerador de ODS (GODS) e Banco de Dados GeoRural.
 
-----
-## 🤝 Colaboradores:
+
+## Colaboradores:
 Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de funcionalidades específicas ou forneceram feedbacks valiosos:
 
 <table>
@@ -1207,7 +1212,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
     </td>
     <td align="center">
       <a href="https://www.linkedin.com/in/ranieli-dos-anjos-de-souza-5a291b32" title="defina o título do link">
-        <img src="https://i.postimg.cc/PfvDWcmd/ranieli.jpg" width="100px;" alt="Raniele"/><br>
+        <img src="https://github.com/user-attachments/assets/a70b31ab-37af-434d-9b18-4121d6f951dc" width="100px;" alt="Raniele"/><br>
         <sub>
           <b>Ranieli dos Anjos de Souza</b>
         </sub>
@@ -1215,7 +1220,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
     </td>
     <td align="center">
       <a href="https://www.linkedin.com/in/mychelle-novais" title="defina o título do link">
-        <img src="https://github.com/user-attachments/assets/6e76bfad-ed6c-41de-8b42-fd4920bcc124" width="100px;" alt="Foto do Steve Jobs"/><br>
+        <img src="https://github.com/user-attachments/assets/6e76bfad-ed6c-41de-8b42-fd4920bcc124" width="100px;" alt="Mychelle"/><br>
         <sub>
           <b>Mychelle Novais Soares</b>
         </sub>
@@ -1223,7 +1228,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
     </td>
      <td align="center">
       <a href="https://www.linkedin.com/in/carolina-potratz-giraldello" title="defina o título do link">
-        <img src="https://github.com/user-attachments/assets/a4ec3ef7-4d34-46f2-8d11-46c9beb89527" width="100px;" alt="Foto do Steve Jobs"/><br>
+        <img src="https://github.com/user-attachments/assets/fee2be2b-7ac7-4db8-bf86-7cc5d9900664" width="86px;" alt="Carol"/><br>
         <sub>
           <b>Carolina Potratz Giraldello</b>
         </sub>
@@ -1232,35 +1237,21 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
   </tr>
 </table>
 
-<!-- https://www.linkedin.com/in/valdir-moura-181a7b14/) -->
-<!-- https://www.linkedin.com/in/ranieli-dos-anjos-de-souza-5a291b32 -->
-<!-- https://www.linkedin.com/in/mychelle-novais-46834a3a -->
-<!-- LINKDIN -->
-----
-## Ferramentas Base:
-Este plugin utiliza ou foi inspirado pelas seguintes ferramentas:
 
-* [GeoIncra](https://github.com/OpenGeoOne/GeoINCRA) : Ferramenta desenvolvida por Tiago Prudencio e Leandro França que serviu como base para o Gerador de ODS (GODS) e Banco de Dados GeoRural.
+## Desenvolvedores:
 
-----
+<b>Maik Rodrigues</b>
+<div style="text-align: center;"><a
+ href="https://www.linkedin.com/in/maikrodriguess/"><img
+ style="border: 0px solid ;width: 40px" alt="GeoRonônia no QGIS"
+ title="Leandro França"
+ src="https://user-images.githubusercontent.com/25651083/178389727-7cf09fab-1c8f-4184-b80d-3a698de7c1be.png"></a>
+<br>
 
-## Conheça mais sobre o GeoRondônia
+---
 
-
-* **Portal GeoRondônia:**
-
-<a href="https://georondonia.ifro.edu.br/">
-    <img src="https://github.com/user-attachments/assets/a398afe8-3bb2-4c0e-8027-2d8db6e21faa" alt="Portal Mobile ‐ Feito com o Clipchamp" width="240" height="426">
-</a>
-
-
-* **Instagram**
-  
-<a href="https://instagram.com/projetogeorondonia/">
-    <img src="https://github.com/user-attachments/assets/b616affa-cb23-49bc-9cae-ddc44ce229a6" alt="Teste" width="240" height="426">
-</a>
-
-----
-<a href="https://georondonia.ifro.edu.br/">
-      <img src="https://github.com/user-attachments/assets/2fc22e6f-8ec0-455c-b924-6e769b1d8f3b" alt=incra-ifro width="600" height="100">
-</a>
+<p align="center">
+  <a href="https://georondonia.ifro.edu.br/">
+    <img src="https://github.com/user-attachments/assets/2fc22e6f-8ec0-455c-b924-6e769b1d8f3b" alt="incra-ifro" width="600" height="100">
+  </a>
+</p>
