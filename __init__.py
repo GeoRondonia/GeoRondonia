@@ -17,5 +17,5 @@ __date__ = '2024-11-13'
 __copyright__ = '(C) 2024 by Maik Rodrigues'
 
 def classFactory(iface):
-    from .Georondonia import GeorondoniaPlugin
+    from .GeoRondonia import GeorondoniaPlugin
     return GeorondoniaPlugin()
