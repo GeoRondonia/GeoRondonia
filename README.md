@@ -1200,11 +1200,12 @@ Este plugin utilizou como base as seguintes ferramentas:
 ## Colaboradores:
 Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de funcionalidades específicas ou forneceram feedbacks valiosos:
 
+
 <table>
   <tr>
     <td align="center">
       <a href="https://www.linkedin.com/in/valdir-moura-181a7b14/" title="defina o título do link">
-        <img src="https://github.com/user-attachments/assets/52bd88a3-1d0b-4e5f-ac45-43dbff6490f0" width="100px;" alt="Valdir"/><br>
+        <img src="https://github.com/user-attachments/assets/4459a4e2-9938-4a6a-961e-e13573779b7d" width="100px;" alt="Valdir"/><br>
         <sub>
           <b>Valdir Moura</b>
         </sub>
