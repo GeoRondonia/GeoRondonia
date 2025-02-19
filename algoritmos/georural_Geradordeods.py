@@ -51,7 +51,7 @@ class geradordeods(QgsProcessingAlgorithm):
 		return geradordeods()
 
 	def name(self):
-		return 'GeoRural2ODS'
+		return 'GeoGeradordeods'
 
 	def displayName(self):
 		return self.tr('Gerador de ODS (GODS)')

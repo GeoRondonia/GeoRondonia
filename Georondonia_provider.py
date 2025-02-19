@@ -17,9 +17,7 @@ class GeorondoniaProvider(QgsProcessingProvider):
         pass
 
     def loadAlgorithms(self):
-        self.addAlgorithm(geradordeods())  
-
-
+        self.addAlgorithm(geradordeods())
     def id(self):
         return 'GeoRondônia'
 

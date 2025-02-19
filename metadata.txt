@@ -23,7 +23,7 @@ hasProcessingProvider=yes
 # changelog=
 
 # Tags are comma separated with spaces allowed
-tags=georreferenciamento, imoveis, rurais, incra, sigef, georural, ods, planilha, brazil,
+tags=georreferenciamento, imoveis, rurais, incra, sigef, georural, ods, planilha, brazil
 
 homepage=https://github.com/GeoRondonia/GeoRondonia/wiki
 category= cartography
