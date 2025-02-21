@@ -73,6 +73,7 @@ Após a criação do primeiro lote, o sistema assume o controle:
 
 Este processo simplifica a geração de múltiplos lotes, economizando tempo e reduzindo a possibilidade de erros na seleção manual.
 
+**Introdução a ferramenta:**
 
 [![Gerador de ODS (GODS)](https://img.youtube.com/vi/NoDfbDumCag/0.jpg)](https://www.youtube.com/watch?v=NoDfbDumCag)
 
