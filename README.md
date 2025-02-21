@@ -19,6 +19,11 @@
       <a href="#gerador-de-ods-gods">Gerador de ODS (GODS)</a>
       </li>
       </ul>
+      <ul>
+      <li>
+      <a href="#validação-de-geometrias">Validação de Geometrias</a>
+      </li>
+      </ul>
       <li>
       <a href="#banco-de-dados-georural">Banco de Dados GeoRural</a>
       <ul>
@@ -34,13 +39,13 @@
       <a href="#créditos">Créditos</a>
       </li>
       <li>
-      <a href="#ferramentas-base">Ferramentas Base</a>
-      </li>
-      <li>
-      <a href="#colaboradores">Colaboradores</a>
-      </li>
-      <li>
       <a href="#desenvolvedores">Desenvolvedores</a>
+      </li>
+      <li>
+      <a href="#-colaboradores">Colaboradores</a>
+      </li>   
+      <li>
+      <a href="#ferramentas-base">Ferramentas Base</a>
       </li>
       <li>
       <a href="#conheça-mais-sobre-o-georondônia">Conheça mais sobre o GeoRondônia</a>
@@ -49,10 +54,10 @@
 </details>
 
 
-## Ferramentas do Plugin
+## 🛠️ Ferramentas do Plugin
 
 
-### Gerador de ODS (GODS)
+### ⚙️ Gerador de ODS (GODS)
 A ferramenta descrita automatiza a criação da planilha ODS do SIGEF para georreferenciamento de imóveis rurais, integrando-se diretamente ao QGIS e ao banco de dados GeoRural. Ela utiliza macros para preencher a planilha ODS com dados extraídos das camadas do GeoRural trabalhadas no QGIS.
 
 #### Processo de Seleção e Geração de Lotes (Atualizado)
@@ -64,11 +69,18 @@ A ferramenta descrita automatiza a criação da planilha ODS do SIGEF para georr
 #### Lotes Seguintes (automáticos):
 Após a criação do primeiro lote, o sistema assume o controle:
 * Parcela, limites e vértices são identificados automaticamente com base no lote anterior.
-* Não é necessário repetir o processo manualmente.
+* Não é necessário repetir o processo manualmente de seleção.
 
 Este processo simplifica a geração de múltiplos lotes, economizando tempo e reduzindo a possibilidade de erros na seleção manual.
 
+
 [![Gerador de ODS (GODS)](https://img.youtube.com/vi/NoDfbDumCag/0.jpg)](https://www.youtube.com/watch?v=NoDfbDumCag)
+
+### ⚙️ Validação de Geometrias
+A ferramenta de validação de geometrias é uma ferramenta útil para garantir que todas as geometrias sejam validas. Verifica a validade das geometrias em uma camada vetorial. Feições com geometrias inválidas serão selecionadas na tabela de atributos.
+
+<img src="https://github.com/user-attachments/assets/f72a9b75-6ab3-47b6-910b-6168a88c0f73" alt="CheckInvalidGeometry" width="450" height="auto">
+
 
 ## Banco de Dados GeoRural
 Este modelo de dados pode ser implementado em banco de dados GeoPackage, PostGIS, ou atém mesmo no formato Shapefile, embora este último seja desaconselhado, por estar entrando em desuso.
@@ -1186,7 +1198,7 @@ https://user-images.githubusercontent.com/88212377/161396633-24f01f9c-a15b-46c8-
 
 ----
 
-## Créditos:
+## Créditos
 
 Este projeto foi desenvolvido com a colaboração de diversos desenvolvedores e inspirado em ferramentas criadas por terceiros. Gostaríamos de expressar nossos sinceros agradecimentos a todos os envolvidos.
 
@@ -1200,12 +1212,11 @@ Este plugin utilizou como base as seguintes ferramentas:
 ## Colaboradores:
 Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de funcionalidades específicas ou forneceram feedbacks valiosos:
 
-
 <table>
   <tr>
     <td align="center">
       <a href="https://www.linkedin.com/in/valdir-moura-181a7b14/" title="defina o título do link">
-        <img src="https://github.com/user-attachments/assets/4459a4e2-9938-4a6a-961e-e13573779b7d" width="100px;" alt="Valdir"/><br>
+        <img src="https://github.com/user-attachments/assets/52bd88a3-1d0b-4e5f-ac45-43dbff6490f0" width="100px;" alt="Valdir"/><br>
         <sub>
           <b>Valdir Moura</b>
         </sub>
@@ -1249,25 +1260,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
  src="https://user-images.githubusercontent.com/25651083/178389727-7cf09fab-1c8f-4184-b80d-3a698de7c1be.png"></a>
 <br>
 
-## Conheça mais sobre o GeoRondônia:
-
-<div style="display: flex; justify-content: center; align-items: center;">
-  <a href="http://georondonia.ifro.edu.br/">
-    <img style="width: 40px; margin: 0 10px;" alt="GeoRonônia no QGIS" title="GeoRondônia-Portal" src="https://github.com/user-attachments/assets/71d1e0dc-870a-492f-95a1-21ecd906efcc">
-  </a>
-  
-  <a href="https://www.youtube.com/@GeorondoniaOficial">
-    <img style="width: 40px; margin: 0 10px;" alt="GeoRonônia no QGIS" title="GeoRondônia-Youtube" src="https://github.com/user-attachments/assets/52d3c727-f93d-47c3-8ec4-b1564ae92a1c">
-  </a>
-  
-  <a href="https://www.instagram.com/projetogeorondonia/">
-    <img style="width: 40px; margin: 0 10px;" alt="GeoRonônia no QGIS" title="GeoRondônia-Instagram" src="https://github.com/user-attachments/assets/f7100cdd-fa9f-4e9e-a396-6d50f558b3f8">
-  </a>
-</div>
-
-
 ---
-
 
 <p align="center">
   <a href="https://georondonia.ifro.edu.br/">

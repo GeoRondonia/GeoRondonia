@@ -6,6 +6,7 @@ __revision__ = '$Format:%H$'
 
 from qgis.core import QgsProcessingProvider
 from .algoritmos.georural_Geradordeods import geradordeods
+from .algoritmos.tool_CheckInvalidGeometry import CheckInvalidGeometry
 from qgis.PyQt.QtGui import QIcon
 import os
 
@@ -18,6 +19,9 @@ class GeorondoniaProvider(QgsProcessingProvider):
 
     def loadAlgorithms(self):
         self.addAlgorithm(geradordeods())
+        self.addAlgorithm(CheckInvalidGeometry())
+        
+
     def id(self):
         return 'GeoRondônia'
 

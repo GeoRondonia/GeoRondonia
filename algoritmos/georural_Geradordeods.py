@@ -45,7 +45,7 @@ class geradordeods(QgsProcessingAlgorithm):
 		if string_pt:
 			return QCoreApplication.translate('Processing', string_pt)  # Return the Portuguese translation
 		return QCoreApplication.translate('Processing', string)  # Default to English
-		return QCoreApplication.translate('Processing', string)
+		
 
 	def createInstance(self):
 		return geradordeods()
@@ -67,14 +67,18 @@ class geradordeods(QgsProcessingAlgorithm):
 	
 	txt_en = '''Creates a SIGEF ODS spreadsheet, filling it directly through Macros, from the GeoRural database layers worked in QGIS'''
 	txt_pt = '''Cria uma planilha ODS do SIGEF, preenchendo-a diretamente através de Macros, a partir das camadas do banco de dados GeoRural trabalhado no QGIS.'''
-	figure1 = 'images\logo-geo.png'
-	figure2 = 'images\incra-ifro-gov.png'
+	
+	figure1 =  'images\illustration\ods-gods.png'
+	figure2 = 'images\modelo-logos-parcerias-geo.png'
+	
 	
 	def shortHelpString(self):
 		social_BW = Imgs().social_BW
+		
 		footer = '''<div style="text-align: right;">
+					  
                       <img src="'''+ os.path.join(os.path.dirname(os.path.dirname(__file__)),self.figure1) +'''"><br>
-                      <img src="'''+ os.path.join(os.path.dirname(os.path.dirname(__file__)),self.figure2) +'''">
+					  <img src="'''+ os.path.join(os.path.dirname(os.path.dirname(__file__)),self.figure2) +'''">
                       </div>
                       <div align="right">
                       <p align="right">
