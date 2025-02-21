@@ -80,7 +80,7 @@ Este processo simplifica a geração de múltiplos lotes, economizando tempo e r
 ### ⚙️ Validação de Geometrias
 A ferramenta de validação de geometrias é uma ferramenta útil para garantir que todas as geometrias sejam validas. Verifica a validade das geometrias em uma camada vetorial. Feições com geometrias inválidas serão selecionadas na tabela de atributos.
 
-<img src="https://github.com/user-attachments/assets/f72a9b75-6ab3-47b6-910b-6168a88c0f73" alt="CheckInvalidGeometry" width="420" height="auto">
+<img src="https://github.com/user-attachments/assets/7e2a2f5a-0570-40cc-9993-9163ba1a7e83" alt="CheckInvalidGeometry" width="420" height="auto">
 
 
 ## Banco de Dados GeoRural
