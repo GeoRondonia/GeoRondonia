@@ -24,18 +24,6 @@
       <a href="#validação-de-geometrias">Validação de Geometrias</a>
       </li>
       </ul>
-      <li>
-      <a href="#banco-de-dados-georural">Banco de Dados GeoRural</a>
-      <ul>
-        <li><a href="#classe-vértice">Classe Vértice</a></li>
-      </ul>
-      <ul>
-        <li><a href="#classe-limite">Classe Limite</a></li>
-      </ul>
-      <ul>
-        <li><a href="#classe-parcela">Classe Parcela</a></li>
-      </ul>
-      <li>
       <a href="#créditos">Créditos</a>
       </li>
       <li>
@@ -76,13 +64,7 @@ Este processo simplifica a geração de múltiplos lotes, economizando tempo e r
 
 [![Gerador de ODS (GODS)](https://img.youtube.com/vi/NoDfbDumCag/0.jpg)](https://www.youtube.com/watch?v=NoDfbDumCag)
 
-### ⚙️ Validação de Geometrias
-A ferramenta de validação de geometrias é uma ferramenta útil para garantir que todas as geometrias sejam validas. Verifica a validade das geometrias em uma camada vetorial. Feições com geometrias inválidas serão selecionadas na tabela de atributos.
-
-<img src="https://github.com/user-attachments/assets/f72a9b75-6ab3-47b6-910b-6168a88c0f73" alt="CheckInvalidGeometry" width="450" height="auto">
-
-
-## Banco de Dados GeoRural
+### Banco de Dados GeoRural
 Este modelo de dados pode ser implementado em banco de dados GeoPackage, PostGIS, ou atém mesmo no formato Shapefile, embora este último seja desaconselhado, por estar entrando em desuso.
 O GeoRural é um modelo extremamente simples, de fácil entendimento e utilização. Ele consiste nas camadas: “vertice”, “limite” e “parcela”, contando também com camadas auxiliares para armazenar o histórico dos georreferenciamentos executados anteriormente, facilitando consultas e geração de relatórios.
 
@@ -1195,6 +1177,14 @@ Observação: Também podem ser utilizadas as camadas “hist_vertice”, “his
 <br>
 
 https://user-images.githubusercontent.com/88212377/161396633-24f01f9c-a15b-46c8-84db-c4a6acd49a27.mp4
+
+
+### ⚙️ Validação de Geometrias
+A ferramenta de validação de geometrias é uma ferramenta útil para garantir que todas as geometrias sejam validas. Verifica a validade das geometrias em uma camada vetorial. Feições com geometrias inválidas serão selecionadas na tabela de atributos.
+
+<img src="https://github.com/user-attachments/assets/f72a9b75-6ab3-47b6-910b-6168a88c0f73" alt="CheckInvalidGeometry" width="450" height="auto">
+
+
 
 ----
 
