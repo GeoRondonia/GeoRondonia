@@ -56,7 +56,7 @@ A ferramenta descrita automatiza a criação da planilha ODS do SIGEF para georr
 * Gere o lote com base nessas seleções.
 #### Lotes Seguintes (automáticos):
 Após a criação do primeiro lote, o sistema assume o controle:
-* Parcela, limites e vértices são identificados automaticamente com base no lote anterior.
+* Parcela, limites e vértices são identificados e selecionados automaticamente em sequência de numeração dos lotes.
 * Não é necessário repetir o processo manualmente de seleção.
 
 Este processo simplifica a geração de múltiplos lotes, economizando tempo e reduzindo a possibilidade de erros na seleção manual.
