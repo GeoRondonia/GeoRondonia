@@ -1200,7 +1200,7 @@ Após a análise, o plugin gera um relatório na tela de log, listando:
 * A quantidade total de geometrias inválidas
 * O ID de cada feição com problema
   
-<img src="https://i.postimg.cc/NGbk95xW/Check-Invalid-Geometry2.jpg" alt="CheckInvalidGeometry" width="850" height="auto">
+<img src="https://i.postimg.cc/wvMKnFh9/Check-Invalid-Geometry2.jpg" alt="CheckInvalidGeometry" width="850" height="auto">
 
 Imagem 2: Exemplo de relatório na tela de log
 
