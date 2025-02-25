@@ -61,15 +61,16 @@ Após a criação do primeiro lote, o sistema assume o controle:
 
 Este processo simplifica a geração de múltiplos lotes, economizando tempo e reduzindo a possibilidade de erros na seleção manual.
 
+#### Exemplo de Uso:
 
 [![Gerador de ODS (GODS)](https://img.youtube.com/vi/NoDfbDumCag/0.jpg)](https://www.youtube.com/watch?v=NoDfbDumCag)
 
-### Banco de Dados GeoRural
+## Banco de Dados GeoRural:
 Este modelo de dados pode ser implementado em banco de dados GeoPackage, PostGIS, ou atém mesmo no formato Shapefile, embora este último seja desaconselhado, por estar entrando em desuso.
 O GeoRural é um modelo extremamente simples, de fácil entendimento e utilização. Ele consiste nas camadas: “vertice”, “limite” e “parcela”, contando também com camadas auxiliares para armazenar o histórico dos georreferenciamentos executados anteriormente, facilitando consultas e geração de relatórios.
 
 
-### Classe Vértice
+### Classe Vértice:
 É todo ponto onde a linha limítrofe do imóvel muda de direção ou onde existe interseção desta linha com qualquer outra linha limítrofe de imóveis contíguos ou servidões de passagem (INCRA, 2010).
 <div align="center">
 <p class="MsoNormal" style="text-align: center;"
@@ -1180,11 +1181,50 @@ https://user-images.githubusercontent.com/88212377/161396633-24f01f9c-a15b-46c8-
 
 
 ### ⚙️ Validação de Geometrias
-A ferramenta de validação de geometrias é uma ferramenta útil para garantir que todas as geometrias sejam validas. Verifica a validade das geometrias em uma camada vetorial. Feições com geometrias inválidas serão selecionadas na tabela de atributos.
 
-<img src="https://github.com/user-attachments/assets/f72a9b75-6ab3-47b6-910b-6168a88c0f73" alt="CheckInvalidGeometry" width="450" height="auto">
+#### Descrição
+Este plugin para QGIS oferece uma ferramenta eficiente para validar geometrias em camadas vetoriais. Ele é essencial para garantir a integridade dos dados geoespaciais em seus projetos.
 
+#### Funcionalidades Principais
+1. Verificação de Geometrias Inválidas
+O plugin analisa todas as feições em uma camada vetorial selecionada, identificando e selecionando aquelas com geometrias inválidas na tabela de atributos.
 
+<img src="https://i.postimg.cc/y6t61TZx/Check-Invalid-Geometry1.jpg" alt="CheckInvalidGeometry" width="850" height="auto">
+
+Imagem 1: Projeto aberto: Seleção de geometrias invalidas
+
+#### 2. Relatório Detalhado
+Após a análise, o plugin gera um relatório na tela de log, listando:
+
+* Todas as feições inválidas encontradas
+* A quantidade total de geometrias inválidas
+* O ID de cada feição com problema
+  
+<img src="https://i.postimg.cc/NGbk95xW/Check-Invalid-Geometry2.jpg" alt="CheckInvalidGeometry" width="850" height="auto">
+
+Imagem 2: Exemplo de relatório na tela de log
+
+#### 3. Detecção de Geometrias "Fantasmas" 👻
+Um diferencial único deste plugin é a capacidade de identificar geometrias "fantasmas". Estas são entradas na tabela de atributos que não possuem uma geometria associada, um problema comum mas frequentemente negligenciado em dados geoespaciais.
+
+<img src="https://i.postimg.cc/h4pyTCr4/Check-Invalid-Geometry3.jpg" alt="CheckInvalidGeometry" width="850" height="auto">
+
+Imagem 3: Exemplo de geometrias "fantasmas" detectadas na tabela de atributo
+
+**Tratamento de Geometrias "Fantasmas**
+Se o projeto contiver geometrias "fantasmas" (registros na tabela de atributos sem geometria associada), recomenda-se sua remoção para prevenir problemas futuros. Estas entradas podem ser eliminadas diretamente da tabela de atributos, seguindo estas etapas:
+
+* Abra a tabela de atributos da camada em questão.
+
+* Ative o modo de edição.
+
+* Selecione as geometrias "fantasmas" identificadas pelo plugin.
+
+* Use a função "Deletar feições selecionadas" para removê-las.
+
+* Salve as edições e desative o modo de edição.
+
+Esta limpeza ajuda a manter a integridade dos dados e evita erros em análises espaciais posteriores.
 
 ----
 
@@ -1254,6 +1294,6 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
 
 <p align="center">
   <a href="https://georondonia.ifro.edu.br/">
-    <img src="https://github.com/user-attachments/assets/2fc22e6f-8ec0-455c-b924-6e769b1d8f3b" alt="incra-ifro" width="600" height="100">
+    <img src="https://i.postimg.cc/QMcSCDSC/modelo-logos-parcerias-geo.png" alt="incra-ifro" width="350" height="66">
   </a>
 </p>
