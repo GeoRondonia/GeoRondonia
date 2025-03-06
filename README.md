@@ -1187,6 +1187,7 @@ Este plugin para QGIS oferece uma ferramenta eficiente para validar geometrias e
 
 #### Funcionalidades Principais
 1. Verificação de Geometrias Inválidas
+   
 O plugin analisa todas as feições em uma camada vetorial selecionada, identificando e selecionando aquelas com geometrias inválidas na tabela de atributos.
 
 <img src="https://i.postimg.cc/y6t61TZx/Check-Invalid-Geometry1.jpg" alt="CheckInvalidGeometry" width="850" height="auto">
@@ -1205,6 +1206,7 @@ Após a análise, o plugin gera um relatório na tela de log, listando:
 Imagem 2: Exemplo de relatório na tela de log
 
 #### 3. Detecção de Geometrias "Fantasmas" 👻
+
 Um diferencial único deste plugin é a capacidade de identificar geometrias "fantasmas". Estas são entradas na tabela de atributos que não possuem uma geometria associada, um problema comum mas frequentemente negligenciado em dados geoespaciais.
 
 <img src="https://i.postimg.cc/h4pyTCr4/Check-Invalid-Geometry3.jpg" alt="CheckInvalidGeometry" width="850" height="auto">
@@ -1212,6 +1214,7 @@ Um diferencial único deste plugin é a capacidade de identificar geometrias "fa
 Imagem 3: Exemplo de geometrias "fantasmas" detectadas na tabela de atributo
 
 **Tratamento de Geometrias "Fantasmas**
+
 Se o projeto contiver geometrias "fantasmas" (registros na tabela de atributos sem geometria associada), recomenda-se sua remoção para prevenir problemas futuros. Estas entradas podem ser eliminadas diretamente da tabela de atributos, seguindo estas etapas:
 
 * Abra a tabela de atributos da camada em questão.
