@@ -1234,9 +1234,10 @@ Este projeto foi desenvolvido com a colaboração de diversos desenvolvedores e 
 
 
 ## Ferramentas Base:
-Este plugin utilizou como base as seguintes ferramentas:
+Este plugin utiliza ou foi inspirado pelas seguintes ferramentas:
 
-* [GeoIncra](https://github.com/OpenGeoOne/GeoINCRA) : Ferramenta desenvolvida por Tiago Prudencio e Leandro França que serviu como base para o Gerador de ODS (GODS) e Banco de Dados GeoRural.
+* [GeoINCRA](https://github.com/OpenGeoOne/GeoINCRA)
+* [GeoCAR](https://github.com/OpenGeoOne/GeoCAR)
 
 
 ## Colaboradores:
@@ -1245,15 +1246,15 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
 <table>
   <tr>
     <td align="center">
-      <a href="https://www.linkedin.com/in/valdir-moura-181a7b14/" title="defina o título do link">
-        <img src="https://github.com/user-attachments/assets/52bd88a3-1d0b-4e5f-ac45-43dbff6490f0" width="100px;" alt="Valdir"/><br>
+      <a href="https://www.linkedin.com/in/valdir-moura-181a7b14/" title="Valdir">
+        <img src="https://github.com/user-attachments/assets/4459a4e2-9938-4a6a-961e-e13573779b7d" width="100px;" alt="Valdir"/><br>
         <sub>
           <b>Valdir Moura</b>
         </sub>
       </a>
     </td>
     <td align="center">
-      <a href="https://www.linkedin.com/in/ranieli-dos-anjos-de-souza-5a291b32" title="defina o título do link">
+      <a href="https://www.linkedin.com/in/ranieli-dos-anjos-de-souza-5a291b32" title="Raniele">
         <img src="https://github.com/user-attachments/assets/a70b31ab-37af-434d-9b18-4121d6f951dc" width="100px;" alt="Raniele"/><br>
         <sub>
           <b>Ranieli dos Anjos de Souza</b>
@@ -1261,7 +1262,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
       </a>
     </td>
     <td align="center">
-      <a href="https://www.linkedin.com/in/mychelle-novais" title="defina o título do link">
+      <a href="https://www.linkedin.com/in/mychelle-novais" title="Mychelle">
         <img src="https://github.com/user-attachments/assets/6e76bfad-ed6c-41de-8b42-fd4920bcc124" width="100px;" alt="Mychelle"/><br>
         <sub>
           <b>Mychelle Novais Soares</b>
@@ -1269,7 +1270,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
       </a>
     </td>
      <td align="center">
-      <a href="https://www.linkedin.com/in/carolina-potratz-giraldello" title="defina o título do link">
+      <a href="https://www.linkedin.com/in/carolina-potratz-giraldello" title="Carol">
         <img src="https://github.com/user-attachments/assets/fee2be2b-7ac7-4db8-bf86-7cc5d9900664" width="86px;" alt="Carol"/><br>
         <sub>
           <b>Carolina Potratz Giraldello</b>
@@ -1278,6 +1279,19 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
     </td>
   </tr>
 </table>
+
+<table>
+ <tr>
+    <td align="center">
+      <a href="https://www.linkedin.com/company/geoone/" title="GeoOne">
+        <img src="https://media.licdn.com/dms/image/v2/C4D0BAQHQ3-cDOjaoxA/company-logo_200_200/company-logo_200_200/0/1640377252016/geoone_logo?e=1749081600&v=beta&t=XfrQTlfBVePzEEtQiOKxAovkwAl6p0EZWJX6O3KbnfQ" width="100px;" alt="Valdir"/><br>
+        <sub>
+          <b>GeoOne</b>
+        </sub>
+      </a>
+    </td>    
+</table>
+
 
 
 ## Desenvolvedores:
@@ -1294,6 +1308,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
 
 <p align="center">
   <a href="https://georondonia.ifro.edu.br/">
-    <img src="https://i.postimg.cc/QMcSCDSC/modelo-logos-parcerias-geo.png" alt="incra-ifro" width="350" height="66">
+    <img src="https://github.com/user-attachments/assets/2fc22e6f-8ec0-455c-b924-6e769b1d8f3b" alt="incra-ifro" width="350" height="66">
   </a>
 </p>
+
