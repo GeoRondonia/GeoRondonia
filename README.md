@@ -1260,7 +1260,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
       <a href="https://www.linkedin.com/in/ranieli-dos-anjos-de-souza-5a291b32" title="Raniele">
         <img src="https://github.com/user-attachments/assets/a70b31ab-37af-434d-9b18-4121d6f951dc" width="100px;" alt="Raniele"/><br>
         <sub>
-          <b>Ranieli dos Anjos de Souza</b>
+          <b>Ranieli dos Anjos</b>
         </sub>
       </a>
     </td>
@@ -1268,7 +1268,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
       <a href="https://www.linkedin.com/in/mychelle-novais" title="Mychelle">
         <img src="https://github.com/user-attachments/assets/6e76bfad-ed6c-41de-8b42-fd4920bcc124" width="100px;" alt="Mychelle"/><br>
         <sub>
-          <b>Mychelle Novais Soares</b>
+          <b>Mychelle Novais</b>
         </sub>
       </a>
     </td>
@@ -1276,7 +1276,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
       <a href="https://www.linkedin.com/in/carolina-potratz-giraldello" title="Carol">
         <img src="https://github.com/user-attachments/assets/fee2be2b-7ac7-4db8-bf86-7cc5d9900664" width="86px;" alt="Carol"/><br>
         <sub>
-          <b>Carolina Potratz Giraldello</b>
+          <b>Carolina Potratz</b>
         </sub>
       </a>
     </td>
@@ -1284,10 +1284,53 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
 </table>
 
 <table>
+<td align="center">
+      <a href="https://www.linkedin.com/in/choroburaklein/" title="Ivan Chorobura">
+        <img src="https://github.com/user-attachments/assets/7f7ba5ae-84de-43f7-8a49-3fa129b51f37" width="110px;" alt="Ivan Chorobura"/><br>
+        <sub>
+          <b>Ivan Chorobura</b>
+        </sub>
+      </a>
+    </td>
+     <td align="center">
+      <a href="https://www.linkedin.com/in/%C3%ADsisnascimento/" title="Isis">
+        <img src="https://github.com/user-attachments/assets/95399a33-99c1-4c88-a1e7-698f00ee52ca" width="110px;" alt="Isis"/><br>
+        <sub>
+          <b>Isis Nascimento</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://www.linkedin.com/in/jo%C3%A3o-vitor-ebeling-de-oliveira-259b132b1/" title="João">
+        <img src="https://github.com/user-attachments/assets/a1df4705-72c9-4fb9-a095-e58399e78e22" width="110px;" alt="João"/><br>
+        <sub>
+          <b>João Vitor Ebeling</b>
+        </sub>
+      </a>
+    </td>
+  <td align="center">
+      <a href="https://www.linkedin.com/in/rafaela-braga-silva-2427671b9" title="Rafaela">
+        <img src="https://github.com/user-attachments/assets/ea9fa53c-b117-4707-b3dd-09f8b3977abe" width="110px;" alt="Rafaela"/><br>
+        <sub>
+          <b>Rafaela Braga</b>
+        </sub>
+      </a>
+    </td>
+   <td align="center">
+      <a href="https://www.linkedin.com/in/alisson-pereira-amorim-734a7125a" title="Alisson">
+        <img src="https://github.com/user-attachments/assets/f1dd9af6-10df-493c-b956-37c6e8ce81ca" width="110px;" alt="Alisson"/><br>
+        <sub>
+          <b>Alisson Amorim</b>
+        </sub>
+      </a>
+    </td>
+</table>
+
+<table>
  <tr>
     <td align="center">
       <a href="https://www.linkedin.com/company/geoone/" title="GeoOne">
-        <img src="https://media.licdn.com/dms/image/v2/C4D0BAQHQ3-cDOjaoxA/company-logo_200_200/company-logo_200_200/0/1640377252016/geoone_logo?e=1749081600&v=beta&t=XfrQTlfBVePzEEtQiOKxAovkwAl6p0EZWJX6O3KbnfQ" width="100px;" alt="Valdir"/><br>
+        <img src="https://media.licdn.com/dms/image/v2/C4D0BAQHQ3-cDOjaoxA/company-logo_200_200/company-logo_200_200/0/1640377252016/geoone_logo?e=1749081600&v=beta&t=XfrQTlfBVePzEEtQiOKxAovkwAl6p0EZWJX6O3KbnfQ" width="110px;" alt="GeoOne"/><br>
         <sub>
           <b>GeoOne</b>
         </sub>
