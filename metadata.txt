@@ -6,11 +6,11 @@
 name= GeoRondônia
 qgisMinimumVersion=3.10
 description=Tools for Georeferencing Rural Properties
-version=1.2.0
-author=Maik Rodrigues de Souza, Mychelle Novais Soares, Carolina Potratz Giraldello, Valdir Moura e Ranieli dos Anjos de Souza.
+version=0.4
+author= Maik Rodrigues, Valdir Moura e Ranieli dos Anjos.
 email=lab.georondonia@ifro.edu.br
 
-about=Tools for Georeferencing rural properties in Settlement Projects or Land Projects, based on the updated Technical Manual for Georeferencing Rural Properties, from the National Institute of Colonization and Agrarian Reform (INCRA).
+about=Tools for the georeferencing of rural properties in Settlement Projects or Land Projects, based on the updated Technical Manual for Georeferencing of Rural Properties from the National Institute of Colonization and Agrarian Reform (INCRA), and for the Rural Environmental Registry (CAR).
 
 tracker= https://github.com/GeoRondonia/GeoRondonia/issues
 repository=https://github.com/GeoRondonia/GeoRondonia
@@ -21,6 +21,8 @@ repository=https://github.com/GeoRondonia/GeoRondonia
 hasProcessingProvider=yes
 # Uncomment the following line and add your changelog:
 # changelog=
+        0.4 - Enhanced KML Export with Feature Selection and Geometry Support 
+        0.3 - added tool prepare kml for car
         0.2 - added geometry validation tool
         0.1 - initial version
 # Tags are comma separated with spaces allowed
@@ -30,7 +32,7 @@ homepage=https://github.com/GeoRondonia/GeoRondonia/wiki
 category= cartography
 icon=images/georo_icone.png
 # experimental flag
-experimental=True
+experimental=False
 
 # deprecated flag (applies to the whole plugin, not just a single version)
 deprecated=False

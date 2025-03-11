@@ -1,3 +1,21 @@
+
+"""
+tool_CheckInvalidGeometry
+***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************
+"""
+
+__author__ = 'Maik Rodrigues'
+__date__ = '2025-02-21'
+__copyright__ = '(C) 2024 by Maik Rodrigues'
+__revision__ = '$Format:%H$'
+
 # -*- coding: utf-8 -*-
 from qgis.PyQt.QtCore import QCoreApplication
 from qgis.PyQt.QtGui import QIcon
@@ -37,8 +55,10 @@ class CheckInvalidGeometry(QgsProcessingAlgorithm):
         return ''
     def icon(self):
         return QIcon(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'images/geometry.png'))
-    txt_en = '''Checks the validity of geometries in a vector layer. Features with invalid geometries will be selected in the attribute table'''
-    txt_pt = '''Verifica a validade das geometrias em uma camada vetorial. Feições com geometrias inválidas serão selecionadas na tabela de atributos.'''
+    txt_en = '''This plugin checks the validity of geometries in a vector layer, identifying features with invalid geometries and records without geometry (so-called "ghosts" 👻). 
+                It automatically highlights problematic features in the         attribute table and generates a detailed report, facilitating the correction or removal of errors and ensuring data integrity'''
+    txt_pt = '''Este plugin verifica a validade das geometrias em uma camada vetorial, identificando feições com geometrias inválidas e registros sem geometria (os chamados "fantasmas" 👻). 
+                Ele destaca automaticamente as feições problemáticas na tabela de atributos e gera um relatório detalhado, facilitando a correção ou remoção dos erros e garantindo a integridade dos dados'''
     figure1 = 'images\illustration\CheckInvalidGeometry300x150.png'
     figure2 = 'images\modelo-logos-parcerias-geo.png'
 	
@@ -50,17 +70,10 @@ class CheckInvalidGeometry(QgsProcessingAlgorithm):
                       </div>
                       <div align="right">
                       <p align="right">
-                      <b>'''+self.tr('Autor: Maik Rodrigues de Souza, Mychelle Novais Soares, Carolina Potratz Giraldello, Valdir Moura e Ranieli dos Anjos de Souza.')+'''</b>
+                      <b>'''+self.tr('Author: Maik Rodrigues, Valdir Moura, Ranieli dos Anjos, Mychelle Novais and Carolina Potratz', 'Autor: Maik Rodrigues, Valdir Moura, Ranieli dos Anjos, Mychelle Novais e Carolina Potratz')+'''</b>
                       </p>'''+ social_BW + '''</div>
                     </div>'''
         return self.tr(self.txt_en, self.txt_pt) + footer
-    # def shortHelpString(self):
-    #     return self.tr("""
-    #     Verifica a validade das geometrias em uma camada vetorial.
-    #     Feições com geometrias inválidas serão selecionadas na tabela de atributos.
-    #     Autor: Maik Rodrigues de Souza
-    #     Versão: 2.0
-    #     """)
 
     def initAlgorithm(self, config=None):
         # Encontra automaticamente a camada 'parcela' se existir no projeto
@@ -101,7 +114,7 @@ class CheckInvalidGeometry(QgsProcessingAlgorithm):
                 geom = feature.geometry()
                 if not geom.isGeosValid():
                     invalid_ids.append(feature.id())
-                    feedback.pushInfo(f"Feição ID {feature.id()} - Geometria inválida")
+                    feedback.reportError(f"Feição ID {feature.id()} - Geometria inválida")
             except Exception as e:
                 invalid_ids.append(feature.id())
                 feedback.reportError(f"Erro na feição ID {feature.id()}: {str(e)}")
@@ -111,9 +124,9 @@ class CheckInvalidGeometry(QgsProcessingAlgorithm):
 
         if invalid_ids:
             try:
-                input_layer.selectByIds(invalid_ids)
-                feedback.pushInfo(f"\nTotal de feições inválidas selecionadas: {len(invalid_ids)}")
-                self.finish_job()
+                input_layer.selectByIds(invalid_ids) # Seleciona as feições com geometria inválida 
+                feedback.reportError(f"\nTotal de feições inválidas selecionadas na tabela de atributos: {len(invalid_ids)}") # Quantidade de feições com geometria inválida         
+                feedback.reportError(f"\n__________________\n\n>----FIM DO JOB!!----<\n__________________\n\n") 
             except Exception as e:
                 feedback.reportError(f"Erro ao selecionar feições: {str(e)}")
                 feedback.pushInfo("IDs das feições inválidas: " + ", ".join(map(str, invalid_ids)))
@@ -125,5 +138,4 @@ class CheckInvalidGeometry(QgsProcessingAlgorithm):
 
         return {}
 
-    def finish_job(self):
-        raise QgsProcessingException("\n>----- FIM DO JOB -----<")
+    
