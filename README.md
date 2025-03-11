@@ -24,18 +24,6 @@
       <a href="#validação-de-geometrias">Validação de Geometrias</a>
       </li>
       </ul>
-      <li>
-      <a href="#banco-de-dados-georural">Banco de Dados GeoRural</a>
-      <ul>
-        <li><a href="#classe-vértice">Classe Vértice</a></li>
-      </ul>
-      <ul>
-        <li><a href="#classe-limite">Classe Limite</a></li>
-      </ul>
-      <ul>
-        <li><a href="#classe-parcela">Classe Parcela</a></li>
-      </ul>
-      <li>
       <a href="#créditos">Créditos</a>
       </li>
       <li>
@@ -68,26 +56,21 @@ A ferramenta descrita automatiza a criação da planilha ODS do SIGEF para georr
 * Gere o lote com base nessas seleções.
 #### Lotes Seguintes (automáticos):
 Após a criação do primeiro lote, o sistema assume o controle:
-* Parcela, limites e vértices são identificados automaticamente com base no lote anterior.
+* Parcela, limites e vértices são identificados e selecionados automaticamente em sequência de numeração dos lotes.
 * Não é necessário repetir o processo manualmente de seleção.
 
 Este processo simplifica a geração de múltiplos lotes, economizando tempo e reduzindo a possibilidade de erros na seleção manual.
 
+#### Exemplo de Uso:
 
 [![Gerador de ODS (GODS)](https://img.youtube.com/vi/NoDfbDumCag/0.jpg)](https://www.youtube.com/watch?v=NoDfbDumCag)
 
-### ⚙️ Validação de Geometrias
-A ferramenta de validação de geometrias é uma ferramenta útil para garantir que todas as geometrias sejam validas. Verifica a validade das geometrias em uma camada vetorial. Feições com geometrias inválidas serão selecionadas na tabela de atributos.
-
-<img src="https://github.com/user-attachments/assets/f72a9b75-6ab3-47b6-910b-6168a88c0f73" alt="CheckInvalidGeometry" width="450" height="auto">
-
-
-## Banco de Dados GeoRural
+## Banco de Dados GeoRural:
 Este modelo de dados pode ser implementado em banco de dados GeoPackage, PostGIS, ou atém mesmo no formato Shapefile, embora este último seja desaconselhado, por estar entrando em desuso.
 O GeoRural é um modelo extremamente simples, de fácil entendimento e utilização. Ele consiste nas camadas: “vertice”, “limite” e “parcela”, contando também com camadas auxiliares para armazenar o histórico dos georreferenciamentos executados anteriormente, facilitando consultas e geração de relatórios.
 
 
-### Classe Vértice
+### Classe Vértice:
 É todo ponto onde a linha limítrofe do imóvel muda de direção ou onde existe interseção desta linha com qualquer outra linha limítrofe de imóveis contíguos ou servidões de passagem (INCRA, 2010).
 <div align="center">
 <p class="MsoNormal" style="text-align: center;"
@@ -1196,6 +1179,56 @@ Observação: Também podem ser utilizadas as camadas “hist_vertice”, “his
 
 https://user-images.githubusercontent.com/88212377/161396633-24f01f9c-a15b-46c8-84db-c4a6acd49a27.mp4
 
+
+### ⚙️ Validação de Geometrias
+
+#### Descrição
+Este plugin para QGIS oferece uma ferramenta eficiente para validar geometrias em camadas vetoriais. Ele é essencial para garantir a integridade dos dados geoespaciais em seus projetos.
+
+#### Funcionalidades Principais
+1. Verificação de Geometrias Inválidas
+   
+O plugin analisa todas as feições em uma camada vetorial selecionada, identificando e selecionando aquelas com geometrias inválidas na tabela de atributos.
+
+<img src="https://i.postimg.cc/y6t61TZx/Check-Invalid-Geometry1.jpg" alt="CheckInvalidGeometry" width="850" height="auto">
+
+Imagem 1: Projeto aberto: Seleção de geometrias invalidas
+
+#### 2. Relatório Detalhado
+Após a análise, o plugin gera um relatório na tela de log, listando:
+
+* Todas as feições inválidas encontradas
+* A quantidade total de geometrias inválidas
+* O ID de cada feição com problema
+  
+<img src="https://i.postimg.cc/wvMKnFh9/Check-Invalid-Geometry2.jpg" alt="CheckInvalidGeometry" width="850" height="auto">
+
+Imagem 2: Exemplo de relatório na tela de log
+
+#### 3. Detecção de Geometrias "Fantasmas" 👻
+
+Um diferencial único deste plugin é a capacidade de identificar geometrias "fantasmas". Estas são entradas na tabela de atributos que não possuem uma geometria associada, um problema comum mas frequentemente negligenciado em dados geoespaciais.
+
+<img src="https://i.postimg.cc/h4pyTCr4/Check-Invalid-Geometry3.jpg" alt="CheckInvalidGeometry" width="850" height="auto">
+
+Imagem 3: Exemplo de geometrias "fantasmas" detectadas na tabela de atributo
+
+**Tratamento de Geometrias "Fantasmas**
+
+Se o projeto contiver geometrias "fantasmas" (registros na tabela de atributos sem geometria associada), recomenda-se sua remoção para prevenir problemas futuros. Estas entradas podem ser eliminadas diretamente da tabela de atributos, seguindo estas etapas:
+
+* Abra a tabela de atributos da camada em questão.
+
+* Ative o modo de edição.
+
+* Selecione as geometrias "fantasmas" identificadas pelo plugin.
+
+* Use a função "Deletar feições selecionadas" para removê-las.
+
+* Salve as edições e desative o modo de edição.
+
+Esta limpeza ajuda a manter a integridade dos dados e evita erros em análises espaciais posteriores.
+
 ----
 
 ## Créditos
@@ -1204,9 +1237,10 @@ Este projeto foi desenvolvido com a colaboração de diversos desenvolvedores e 
 
 
 ## Ferramentas Base:
-Este plugin utilizou como base as seguintes ferramentas:
+Este plugin utiliza ou foi inspirado pelas seguintes ferramentas:
 
-* [GeoIncra](https://github.com/OpenGeoOne/GeoINCRA) : Ferramenta desenvolvida por Tiago Prudencio e Leandro França que serviu como base para o Gerador de ODS (GODS) e Banco de Dados GeoRural.
+* [GeoINCRA](https://github.com/OpenGeoOne/GeoINCRA)
+* [GeoCAR](https://github.com/OpenGeoOne/GeoCAR)
 
 
 ## Colaboradores:
@@ -1215,15 +1249,15 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
 <table>
   <tr>
     <td align="center">
-      <a href="https://www.linkedin.com/in/valdir-moura-181a7b14/" title="defina o título do link">
-        <img src="https://github.com/user-attachments/assets/52bd88a3-1d0b-4e5f-ac45-43dbff6490f0" width="100px;" alt="Valdir"/><br>
+      <a href="https://www.linkedin.com/in/valdir-moura-181a7b14/" title="Valdir">
+        <img src="https://github.com/user-attachments/assets/4459a4e2-9938-4a6a-961e-e13573779b7d" width="100px;" alt="Valdir"/><br>
         <sub>
           <b>Valdir Moura</b>
         </sub>
       </a>
     </td>
     <td align="center">
-      <a href="https://www.linkedin.com/in/ranieli-dos-anjos-de-souza-5a291b32" title="defina o título do link">
+      <a href="https://www.linkedin.com/in/ranieli-dos-anjos-de-souza-5a291b32" title="Raniele">
         <img src="https://github.com/user-attachments/assets/a70b31ab-37af-434d-9b18-4121d6f951dc" width="100px;" alt="Raniele"/><br>
         <sub>
           <b>Ranieli dos Anjos de Souza</b>
@@ -1231,7 +1265,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
       </a>
     </td>
     <td align="center">
-      <a href="https://www.linkedin.com/in/mychelle-novais" title="defina o título do link">
+      <a href="https://www.linkedin.com/in/mychelle-novais" title="Mychelle">
         <img src="https://github.com/user-attachments/assets/6e76bfad-ed6c-41de-8b42-fd4920bcc124" width="100px;" alt="Mychelle"/><br>
         <sub>
           <b>Mychelle Novais Soares</b>
@@ -1239,7 +1273,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
       </a>
     </td>
      <td align="center">
-      <a href="https://www.linkedin.com/in/carolina-potratz-giraldello" title="defina o título do link">
+      <a href="https://www.linkedin.com/in/carolina-potratz-giraldello" title="Carol">
         <img src="https://github.com/user-attachments/assets/fee2be2b-7ac7-4db8-bf86-7cc5d9900664" width="86px;" alt="Carol"/><br>
         <sub>
           <b>Carolina Potratz Giraldello</b>
@@ -1249,6 +1283,19 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
   </tr>
 </table>
 
+<table>
+ <tr>
+    <td align="center">
+      <a href="https://www.linkedin.com/company/geoone/" title="GeoOne">
+        <img src="https://media.licdn.com/dms/image/v2/C4D0BAQHQ3-cDOjaoxA/company-logo_200_200/company-logo_200_200/0/1640377252016/geoone_logo?e=1749081600&v=beta&t=XfrQTlfBVePzEEtQiOKxAovkwAl6p0EZWJX6O3KbnfQ" width="100px;" alt="Valdir"/><br>
+        <sub>
+          <b>GeoOne</b>
+        </sub>
+      </a>
+    </td>    
+</table>
+
+
 
 ## Desenvolvedores:
 
@@ -1256,7 +1303,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
 <div style="text-align: center;"><a
  href="https://www.linkedin.com/in/maikrodriguess/"><img
  style="border: 0px solid ;width: 40px" alt="GeoRonônia no QGIS"
- title="Leandro França"
+ title="Maik Rodrigues"
  src="https://user-images.githubusercontent.com/25651083/178389727-7cf09fab-1c8f-4184-b80d-3a698de7c1be.png"></a>
 <br>
 
@@ -1264,6 +1311,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
 
 <p align="center">
   <a href="https://georondonia.ifro.edu.br/">
-    <img src="https://github.com/user-attachments/assets/2fc22e6f-8ec0-455c-b924-6e769b1d8f3b" alt="incra-ifro" width="600" height="100">
+    <img src="https://github.com/user-attachments/assets/2fc22e6f-8ec0-455c-b924-6e769b1d8f3b" alt="incra-ifro" width="350" height="66">
   </a>
 </p>
+
