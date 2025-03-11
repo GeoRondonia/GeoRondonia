@@ -1303,7 +1303,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
 <div style="text-align: center;"><a
  href="https://www.linkedin.com/in/maikrodriguess/"><img
  style="border: 0px solid ;width: 40px" alt="GeoRonônia no QGIS"
- title="Leandro França"
+ title="Maik Rodrigues"
  src="https://user-images.githubusercontent.com/25651083/178389727-7cf09fab-1c8f-4184-b80d-3a698de7c1be.png"></a>
 <br>
 
