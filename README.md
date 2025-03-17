@@ -13,18 +13,18 @@
   <summary>Conteúdo</summary>
   <ol>
       <li>
-      <a href="#ferramentas-do-plugin">Ferramentas do Plugin</a>
+      <a href="#%EF%B8%8F-ferramentas-do-plugin">Ferramentas do Plugin</a>
       <ul>
       <li>
-      <a href="#gerador-de-ods-gods">Gerador de ODS (GODS)</a>
+      <a href="#%EF%B8%8F-gerador-de-ods-gods">Gerador de ODS (GODS)</a>
       </li>
       </ul>
       <ul>
       <li>
-      <a href="#validação-de-geometrias">Validação de Geometrias</a>
+      <a href="#%EF%B8%8F-validação-de-geometrias">Validação de Geometrias</a>
       </li>
       <li>
-      <a href="#prepara-kml-para-o-car">Prepara KML para o CAR</a>
+      <a href="#%EF%B8%8F-prepara-kml-para-o-car">Prepara KML para o CAR</a>
       </li>
       </ul>
       <a href="#créditos">Créditos</a>
