@@ -33,7 +33,7 @@
       <a href="#desenvolvedores">Desenvolvedores</a>
       </li>
       <li>
-      <a href="#-colaboradores">Colaboradores</a>
+      <a href="#colaboradores">Colaboradores</a>
       </li>   
       <li>
       <a href="#ferramentas-base">Ferramentas Base</a>
@@ -1386,11 +1386,26 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
  src="https://user-images.githubusercontent.com/25651083/178389727-7cf09fab-1c8f-4184-b80d-3a698de7c1be.png"></a>
 <br>
 
----
 
+## Conheça mais sobre o GeoRondônia:
+
+<div style="display: flex; justify-content: center; align-items: center;">
+  <a href="http://georondonia.ifro.edu.br/">
+    <img style="width: 40px; margin: 0 10px;" alt="GeoRonônia no QGIS" title="GeoRondônia-Portal" src="https://github.com/user-attachments/assets/5006adec-8fb8-4faa-8c54-4c738a8b04dc">
+  </a>
+  <a href="https://www.youtube.com/@GeorondoniaOficial">
+    <img style="width: 40px; margin: 0 10px;" alt="GeoRonônia no QGIS" title="GeoRondônia-Youtube" src="https://github.com/user-attachments/assets/52d3c727-f93d-47c3-8ec4-b1564ae92a1c">
+  </a>
+  <a href="https://www.instagram.com/projetogeorondonia/">
+    <img style="width: 40px; margin: 0 10px;" alt="GeoRonônia no QGIS" title="GeoRondônia-Instagram" src="https://github.com/user-attachments/assets/f7100cdd-fa9f-4e9e-a396-6d50f558b3f8">
+  </a>
+</div>
+
+---
 <p align="center">
   <a href="https://georondonia.ifro.edu.br/">
     <img src="https://github.com/user-attachments/assets/2fc22e6f-8ec0-455c-b924-6e769b1d8f3b" alt="incra-ifro" width="350" height="66">
   </a>
 </p>
+
 
