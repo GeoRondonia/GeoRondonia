@@ -23,6 +23,9 @@
       <li>
       <a href="#validação-de-geometrias">Validação de Geometrias</a>
       </li>
+      <li>
+      <a href="#prepara-kml-para-o-car">Prepara KML para o CAR</a>
+      </li>
       </ul>
       <a href="#créditos">Créditos</a>
       </li>
@@ -1228,6 +1231,39 @@ Se o projeto contiver geometrias "fantasmas" (registros na tabela de atributos s
 * Salve as edições e desative o modo de edição.
 
 Esta limpeza ajuda a manter a integridade dos dados e evita erros em análises espaciais posteriores.
+
+### ⚙️ Prepara KML para o CAR 
+Este plugin permite exportar feições selecionadas de camadas vetoriais do QGIS para arquivos KML, filtrando apenas as feições dentro do perímetro de uma camada de máscara. Suporta geometrias de **ponto , linha e polígono** , garantindo a compatibilidade com o padrão WGS84 (EPSG:4326).
+
+#### Funcionalidades Principais
+* **Seleção por Perímetro :** Exporta apenas feições dentro da camada de entrada (máscara).
+* **Suporte a Geometrias :** Mantém a integridade de pontos, linhas e polígonos durante a exportação.
+* **Exportação Automática :** Gera arquivos KML prontos para uso em mapas online e ferramentas GIS.
+
+#### Como Usar
+
+1 - **Selecione a Camada de Entrada :** Escolha uma camada poligonal como máscara.
+
+<img src="https://github.com/user-attachments/assets/7c83f183-71ac-4fa2-8c64-e2ffa1d77e1e" width="850" height="auto">
+
+Imagem 1: Exemplo de camada entrada (Mascara)
+
+2 - **Marque as Camadas de Sobreposição :** No "Painel de Camadas" do QGIS, marque o checkbox ✅ apenas nas camadas que você deseja incluir na exportação para KML. Deixe a camada de entrada selecionada e defina o perímetro que deseja exportar. Escolha uma camada poligonal para servir como máscara. Certifique-se de que ela esteja corretamente configurada para delimitar as feições que você deseja exportar
+
+<img src="https://github.com/user-attachments/assets/04da3b0c-5530-41eb-92b9-8a1b7762288d" width="850" height="auto">
+
+Imagem 2: Seleção de camadas e perimetro
+
+
+3 - **Defina a Pasta de Destino :** Escolha onde salvar os arquivos KML ou mantenha o caminho padrão. Clique em "Executar" para iniciar a exportação das camadas.
+
+
+<img src="https://github.com/user-attachments/assets/7ae15965-b898-44fe-a4f9-b69cb169fd35" width="850" height="auto">
+
+Imagem 3: Local de destino da pasta e execução
+
+#### Conclusão
+Com essa ferramenta, você pode facilmente exportar suas feições do QGIS para KML, tornando mais simples a visualização e o compartilhamento de dados geoespaciais em diferentes plataformas.
 
 ----
 
