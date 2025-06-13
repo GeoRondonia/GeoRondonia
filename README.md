@@ -1,9 +1,11 @@
 <!-- PROJECT LOGO -->
 <p align="center">
+  <a href="georondonia.ifro.edu.br">
     <img src="images/logo-geo_original.png" alt="Logo" width="90" height="75">
+  </a>
   <h3 align="center">GeoRondônia</h3>
   <p align="center">
-    <b><i>Ferramentas para Georreferenciamento de imóveis rurais em Projetos de Assentamentos ou Projetos Fundiários, baseado no Manual Técnico para Georreferenciamento de Imóveis Rurais atualizado, do Instituto Nacional de Colonização e Reforma Agrária (INCRA)..</i><b>
+    <b><i>Ferramentas para Georreferenciamento de imóveis rurais em Projetos de Assentamentos ou Projetos Fundiários, desenvolvido em parceria com o projeto georondonia, baseado no Manual Técnico para Georreferenciamento de Imóveis Rurais atualizado, do Instituto Nacional de Colonização e Reforma Agrária (INCRA)</i><b>
     <br />
   </p>
 </p>
