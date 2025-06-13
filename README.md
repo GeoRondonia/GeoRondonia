@@ -1,6 +1,6 @@
 <!-- PROJECT LOGO -->
 <p align="center">
-  <a href="georondonia.ifro.edu.br">
+  <a href="https://georondonia.ifro.edu.br">
     <img src="images/logo-geo_original.png" alt="Logo" width="90" height="75">
   </a>
   <h3 align="center">GeoRondônia</h3>
@@ -1386,8 +1386,19 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
  style="border: 0px solid ;width: 40px" alt="GeoRonônia no QGIS"
  title="Maik Rodrigues"
  src="https://user-images.githubusercontent.com/25651083/178389727-7cf09fab-1c8f-4184-b80d-3a698de7c1be.png"></a>
+  
 <br>
 
+
+
+
+<b>Bárbara Laura</b>
+<div style="text-align: center;"><a
+ href="https://www.linkedin.com/in/barbara-laura-tavares"><img
+ style="border: 0px solid ;width: 40px" alt="GeoRonônia no QGIS"
+ title="Bárbara Laura"
+ src="https://user-images.githubusercontent.com/25651083/178389727-7cf09fab-1c8f-4184-b80d-3a698de7c1be.png"></a>
+<br>
 
 ## Conheça mais sobre o GeoRondônia:
 
