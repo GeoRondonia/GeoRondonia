@@ -1368,7 +1368,7 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
  <tr>
     <td align="center">
       <a href="https://www.linkedin.com/company/geoone/" title="GeoOne">
-        <img src="https://media.licdn.com/dms/image/v2/C4D0BAQHQ3-cDOjaoxA/company-logo_200_200/company-logo_200_200/0/1640377252016/geoone_logo?e=1749081600&v=beta&t=XfrQTlfBVePzEEtQiOKxAovkwAl6p0EZWJX6O3KbnfQ" width="110px;" alt="GeoOne"/><br>
+        <img src="https://i.postimg.cc/hvj3b9Dr/geoone-logo.jpg" width="110px;" alt="GeoOne"/><br>
         <sub>
           <b>GeoOne</b>
         </sub>
@@ -1388,8 +1388,6 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
  src="https://user-images.githubusercontent.com/25651083/178389727-7cf09fab-1c8f-4184-b80d-3a698de7c1be.png"></a>
   
 <br>
-
-
 
 
 <b>Bárbara Laura</b>
