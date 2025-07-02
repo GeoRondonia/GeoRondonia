@@ -71,6 +71,8 @@ Este processo simplifica a geração de múltiplos lotes, economizando tempo e r
 [![Gerador de ODS (GODS)](https://img.youtube.com/vi/NoDfbDumCag/0.jpg)](https://www.youtube.com/watch?v=NoDfbDumCag)
 
 ## Banco de Dados GeoRural:
+[Download GeoRural](https://1drv.ms/u/c/A7EF93EC10638327/EcmTo8Ru2iFNq4303gvtYA4BrLhWgW2eBP61Bx04uwEg1w?e=qtl8ap)
+
 Este modelo de dados pode ser implementado em banco de dados GeoPackage, PostGIS, ou atém mesmo no formato Shapefile, embora este último seja desaconselhado, por estar entrando em desuso.
 O GeoRural é um modelo extremamente simples, de fácil entendimento e utilização. Ele consiste nas camadas: “vertice”, “limite” e “parcela”, contando também com camadas auxiliares para armazenar o histórico dos georreferenciamentos executados anteriormente, facilitando consultas e geração de relatórios.
 
