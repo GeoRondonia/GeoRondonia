@@ -25,6 +25,7 @@ from qgis.core import (
     QgsProcessingParameterVectorLayer,
     QgsProcessingParameterFolderDestination,
     QgsCoordinateReferenceSystem,
+    QgsProcessingParameterField,
     QgsWkbTypes,
     QgsProcessing,
     QgsVectorFileWriter,
@@ -38,6 +39,9 @@ import os
 class prepareCAR(QgsProcessingAlgorithm):
     INPUT_LAYER = 'INPUT_LAYER'
     OUTPUT_FOLDER = 'OUTPUT_FOLDER'
+    NAMING_FIELD = 'NAMING_FIELD'
+    
+
 
     def tr(self, string, string_pt=None):
         if string_pt:
@@ -51,7 +55,7 @@ class prepareCAR(QgsProcessingAlgorithm):
         return 'preparaCAR'
 
     def displayName(self):
-        return self.tr('Prepara KML para o CAR')
+        return self.tr('Prepara KML para o CAR (Cadastro Ambiental Rural)')
     
     def group(self):
         return self.tr(self.groupId())
@@ -63,11 +67,21 @@ class prepareCAR(QgsProcessingAlgorithm):
         return QIcon(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'images/geocar.png'))
     txt_en = '''Export vector layers that are selected from the QGIS project to KML files in a destination folder.'''
     txt_pt = '''Esta ferramenta exporta feições selecionadas de camadas vetoriais do projeto QGIS para arquivos KML. Suporta diferentes tipos de geometria (ponto, linha, polígono) e garante que apenas as feições dentro do perímetro da máscara sejam incluídas no arquivo KML.
-    <h3>Exemplo de Uso:</h3>
-    1. Selecione a camada de entrada (máscara) e Selecione uma feição no prejeto.
-    2. Escolha as camadas de sobreposição no "Painel de Camadas" no QGIS e marque um ✅ na camada.
-    3. Defina a pasta de destino.
-    4. Execute a ferramenta.
+    <h3>Como Usar Esta Ferramenta:</h3>
+    1. Prepare seu arquivo
+Abra o QGIS e carregue o arquivo que contém os limites da sua propriedade (pode ser .shp, .kml ou gpkg).
+
+2. Selecione a área desejada
+Na primeira opção da ferramenta, escolha o arquivo carregado e clique em uma das áreas/polígonos que você quer processar.
+
+3. Marque as camadas para incluir
+No painel de camadas do QGIS, marque com ☑️ todas as camadas que você quer incluir nos arquivos KML finais (estradas, hidrografia, etc.).
+
+4. Escolha onde salvar
+Clique em "..." ao lado de "Pasta de Destino" e selecione a pasta onde os arquivos KML serão salvos.
+
+5. Execute o processamento
+Clique no botão "Executar" e aguarde. Os arquivos KML serão gerados automaticamente na pasta escolhida
     '''
 
     figure1 = 'images\illustration\PrepareCAR.png'
@@ -91,7 +105,7 @@ class prepareCAR(QgsProcessingAlgorithm):
         self.addParameter(
             QgsProcessingParameterVectorLayer(
                 self.INPUT_LAYER,
-                self.tr('Camada de Entrada (Máscara)'),
+                self.tr('Camada de Entrada - Escolha o arquivo com os limites da propriedade'),
                 [QgsProcessing.TypeVectorPolygon]
             )
         )
@@ -102,6 +116,14 @@ class prepareCAR(QgsProcessingAlgorithm):
                 defaultValue=r"C:\Projetos CAR KML"
             )
         )
+        self.addParameter(
+            QgsProcessingParameterField(
+                self.NAMING_FIELD,
+                self.tr('Coluna para nomear os arquivos extraidos'),
+                parentLayerParameterName=self.INPUT_LAYER,
+                type=QgsProcessingParameterField.Any
+            )
+        )
 
     def processAlgorithm(self, parameters, context, feedback):
         input_layer = self.parameterAsVectorLayer(parameters, self.INPUT_LAYER, context)
@@ -110,6 +132,12 @@ class prepareCAR(QgsProcessingAlgorithm):
         # Validação de geometria
         if QgsWkbTypes.flatType(input_layer.wkbType()) not in [QgsWkbTypes.Polygon, QgsWkbTypes.MultiPolygon]:
             raise QgsProcessingException(self.tr('A camada de entrada deve ser do tipo polígono ou multipolígono'))
+
+        naming_field = self.parameterAsString(
+            parameters,
+            self.NAMING_FIELD,
+            context
+        )
 
         os.makedirs(output_folder, exist_ok=True)
         feedback.pushInfo(self.tr(f'Processando camadas de sobreposição...'))
@@ -123,6 +151,15 @@ class prepareCAR(QgsProcessingAlgorithm):
             and project.layerTreeRoot().findLayer(l).isVisible()
         ]
 
+        output_path = self.parameterAsString(
+            parameters,
+            self.OUTPUT_FOLDER,
+            context
+        )
+
+        if not output_path:
+            raise QgsProcessingException(self.invalidSourceError(parameters, self.OUTPUT))
+        
         if not overlay_layers:
             raise QgsProcessingException(self.tr('Nenhuma camada de sobreposição selecionada'))
 
@@ -134,10 +171,6 @@ class prepareCAR(QgsProcessingAlgorithm):
         if not selected_features:
             raise QgsProcessingException(self.tr('Selecione pelo menos uma feição na camada de entrada'))
 
-        # Verificar se o campo 'layer' existe
-        if 'layer' not in selected_features[0].fields().names():
-            raise QgsProcessingException(self.tr('O campo "layer" não existe na camada de entrada'))
-        
         # Cria uma camada temporária com as feições selecionadas
         temp_input_layer = QgsVectorLayer("MultiPolygon?crs={}".format(input_layer.crs().authid()), "temp_input", "memory")
         temp_input_layer.dataProvider().addAttributes(input_layer.fields())
@@ -145,7 +178,11 @@ class prepareCAR(QgsProcessingAlgorithm):
         temp_input_layer.dataProvider().addFeatures(selected_features)
         
         # Obtém o valor do campo 'layer' da feição selecionada
-        layer_value = str(selected_features[0]['layer']).replace(" ", "_")
+        try:
+            layer_value = str(selected_features[0][naming_field]).replace(" ", "_")
+        except KeyError:
+            raise QgsProcessingException(self.tr(f'A coluna "{naming_field}" não foi encontrada na camada de entrada.'))
+
 
         
         for i, overlay in enumerate(overlay_layers):
@@ -219,12 +256,17 @@ class prepareCAR(QgsProcessingAlgorithm):
             feedback.setProgress(int(i * total))
 
         if resultados:
-            feedback.pushInfo(self.tr(f'\n\n Arquivos salvos em: {output_folder}'))
+            
             feedback.reportError(f"\n__________________\n\n>----FIM DO JOB!!----<\n__________________\n\n")
         else:
             feedback.reportError(self.tr('Nenhum resultado gerado'))
 
-        return {'RESULTADOS': resultados}
+        return {'RESULTADOS': resultados, 'OUTPUT_FOLDER': output_folder}
+        
+    
+    
+    
+
     def print_layer_value():
         from qgis.utils import iface
         
@@ -242,4 +284,3 @@ class prepareCAR(QgsProcessingAlgorithm):
                 print(f"{layer_value}")
         else:
             print("Nenhuma feição selecionada.")
-

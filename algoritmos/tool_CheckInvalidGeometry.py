@@ -11,7 +11,7 @@ tool_CheckInvalidGeometry
  ***************************************************************************
 """
 
-__author__ = 'Maik Rodrigues'
+__author__ = 'Maik Rodrigues e Bárbara Laura'
 __date__ = '2025-02-21'
 __copyright__ = '(C) 2024 by Maik Rodrigues'
 __revision__ = '$Format:%H$'
@@ -70,7 +70,7 @@ class CheckInvalidGeometry(QgsProcessingAlgorithm):
                       </div>
                       <div align="right">
                       <p align="right">
-                      <b>'''+self.tr('Author: Maik Rodrigues, Valdir Moura, Ranieli dos Anjos, Mychelle Novais and Carolina Potratz', 'Autor: Maik Rodrigues, Valdir Moura, Ranieli dos Anjos, Mychelle Novais e Carolina Potratz')+'''</b>
+                      <b>'''+self.tr('Author: Maik Rodrigues, Bárbara Laura, Valdir Moura, Ranieli dos Anjos, Mychelle Novais and Carolina Potratz', 'Autor: Maik Rodrigues, Bárbara Laura, Valdir Moura, Ranieli dos Anjos, Mychelle Novais e Carolina Potratz')+'''</b>
                       </p>'''+ social_BW + '''</div>
                     </div>'''
         return self.tr(self.txt_en, self.txt_pt) + footer

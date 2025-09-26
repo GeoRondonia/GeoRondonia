@@ -30,7 +30,7 @@ import os
 import sys
 import inspect
 from qgis.core import QgsApplication
-from .geoRondonia_provider import GeorondoniaProvider
+from .Georondonia_provider import GeorondoniaProvider
 
 cmd_folder = os.path.split(inspect.getfile(inspect.currentframe()))[0]
 
