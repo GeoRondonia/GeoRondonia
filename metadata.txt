@@ -6,7 +6,7 @@
 name= GeoRondônia
 qgisMinimumVersion=3.10
 description=Tools for Georeferencing Rural Properties
-version=0.4
+version=0.5
 author= Maik Rodrigues, Valdir Moura e Ranieli dos Anjos.
 email=lab.georondonia@ifro.edu.br
 
@@ -21,6 +21,15 @@ repository=https://github.com/GeoRondonia/GeoRondonia
 hasProcessingProvider=yes
 # Uncomment the following line and add your changelog:
 # changelog=
+	0.5 - Complete refactoring of georural_GeneratorOds.py with enhanced validation routines
+	    - Advanced polygon vertex handling and standardization 
+	    - Improved topological validation efficiency 
+	    - Enhanced error messages and detailed reporting system 
+	    - Automatic input layer detection and filling
+	    - Fixed critical QVariant type conversion bug in batch selection
+	    - UI improvements Prepara KML para o CAR
+	    - Hyperlink support for output file paths
+	    - Multiple cell corrections (A17, B4) and municipal adjustments
         0.4 - Enhanced KML Export with Feature Selection and Geometry Support 
         0.3 - added tool prepare kml for car
         0.2 - added geometry validation tool
