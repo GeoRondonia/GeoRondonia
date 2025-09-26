@@ -26,7 +26,7 @@
       <a href="#%EF%B8%8F-validação-de-geometrias">Validação de Geometrias</a>
       </li>
       <li>
-      <a href="#%EF%B8%8F-prepara-kml-para-o-car">Prepara KML para o CAR</a>
+      <a href="prepara-kml-para-o-car">Prepara KML para o CAR</a>
       </li>
       </ul>
       <a href="#créditos">Créditos</a>
@@ -1236,7 +1236,7 @@ Se o projeto contiver geometrias "fantasmas" (registros na tabela de atributos s
 
 Esta limpeza ajuda a manter a integridade dos dados e evita erros em análises espaciais posteriores.
 
-### ⚙️ Prepara KML para o CAR 
+### ⚙️ Prepara KML para o CAR (Cadastro Ambiental Rural)
 Este plugin permite exportar as feições selecionadas para o formato KML, visando a sua utilização no **Cadastro Ambiental Rural (CAR)**. Ele filtra os dados com base em uma camada de máscara (perímetro) e suporta geometrias de **ponto, linha e polígono**, garantindo a compatibilidade com o padrão WGS84 (EPSG:4326).
 
 #### Funcionalidades Principais
@@ -1245,6 +1245,8 @@ Este plugin permite exportar as feições selecionadas para o formato KML, visan
 * **Exportação Automática :** Gera arquivos KML prontos para uso em mapas online e ferramentas GIS.
 
 #### Como Usar
+
+
 
 1 - **Marque as Camadas de Sobreposição :** 
 
@@ -1260,7 +1262,8 @@ Este plugin permite exportar as feições selecionadas para o formato KML, visan
 2. Selecione a coluna onde estão os nomes dos lotes. Esses nomes iram sair nos arquivos extraidos facilitando a identificação das camadas. 
 3. Escolha a pasta de destino ou deixe na padrão mesmo.
 4. "Executar" para iniciar a exportação das camadas.
-<img src="https://github.com/user-attachments/assets/cb9bfd4e-abd5-4e52-bc19-cda3bcd02cb8" width="850" height="auto">
+
+<img src="https://github.com/user-attachments/assets/9618bc4a-347a-4f09-b7c2-72ab34809f5e" width="850" height="auto" >
 
 #### Conclusão
 Com essa ferramenta, você pode facilmente exportar suas feições do QGIS para KML, tornando mais simples a visualização e o compartilhamento de dados geoespaciais em diferentes plataformas.
@@ -1416,5 +1419,3 @@ Os seguintes colaboradores contribuíram diretamente para o desenvolvimento de f
     <img src="https://github.com/user-attachments/assets/2fc22e6f-8ec0-455c-b924-6e769b1d8f3b" alt="incra-ifro" width="350" height="66">
   </a>
 </p>
-
-
