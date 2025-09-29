@@ -21,15 +21,15 @@ repository=https://github.com/GeoRondonia/GeoRondonia
 hasProcessingProvider=yes
 # Uncomment the following line and add your changelog:
 # changelog=
-	0.5 - Complete refactoring of georural_GeneratorOds.py with enhanced validation routines
-	    - Advanced polygon vertex handling and standardization 
-	    - Improved topological validation efficiency 
-	    - Enhanced error messages and detailed reporting system 
-	    - Automatic input layer detection and filling
-	    - Fixed critical QVariant type conversion bug in batch selection
-	    - UI improvements Prepara KML para o CAR
-	    - Hyperlink support for output file paths
-	    - Multiple cell corrections (A17, B4) and municipal adjustments
+		0.5 - Refatoração completa com rotinas de validação aprimoradas (GODS)
+		- Manipulação e padronização avançada de vértices de polígonos (GODS)
+		- Eficiência de validação topológica aprimorada (GODS)
+		- Mensagens de erro aprimoradas e sistema de relatórios detalhados (GODS)
+		- Detecção e preenchimento automático de camadas de entrada (GODS)
+		- Corrigido bug crítico de conversão de tipo QVariant na seleção de lote (GODS)
+		- Melhorias na interface do usuário (Preparando KML para o CAR)
+		- Suporte a hiperlinks para caminhos de arquivo de saída (GODS e Preparando KML para o CAR)
+		- Correções de múltiplas células (A17, B4) e ajustes municipais (GODS)
         0.4 - Enhanced KML Export with Feature Selection and Geometry Support 
         0.3 - added tool prepare kml for car
         0.2 - added geometry validation tool
