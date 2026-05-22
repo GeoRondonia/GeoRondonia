@@ -30,6 +30,7 @@ hasProcessingProvider=yes
 		- GODS: Fixed IndentationError in generated macro (incorrect replacement marker)
 		- GODS: Fixed access violation in QGIS when executing the algorithm
 		- GODS: Fixed special character corruption in coordinates during macro substitution
+		- GODS: validar preenchimento do campo lote em vértices e limites
         0.5 - Refatoração completa com rotinas de validação aprimoradas (GODS)
 		- Manipulação e padronização avançada de vértices de polígonos (GODS)
 		- Eficiência de validação topológica aprimorada (GODS)
