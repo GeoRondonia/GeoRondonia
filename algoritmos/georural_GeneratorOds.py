@@ -258,13 +258,22 @@ class GeneratorOds(QgsProcessingAlgorithm):
         ids_problematicos = []
         msgs = []
         for feat1 in vertice.getFeatures():
-            z = float(feat1.geometry().constGet().z())
-            if str(z) == 'nan' or z == 0:
+            z_value = feat1.attribute('Z')
+            if z_value is None or z_value == '' or z_value == 'NULL':
                 ids_problematicos.append(feat1.id())
                 msgs.append('  • Feição id {}: Cota Z não preenchida ou igual a zero!'.format(feat1.id()))
-            elif z > 3000 or z < -10:
-                ids_problematicos.append(feat1.id())
-                msgs.append('  • Feição id {}: Cota Z ({}) fora dos limites permitidos (-10 a 3000 m)!'.format(feat1.id(), z))
+            else:
+                try:
+                    z = float(z_value)
+                    if z == 0:
+                        ids_problematicos.append(feat1.id())
+                        msgs.append('  • Feição id {}: Cota Z não preenchida ou igual a zero!'.format(feat1.id()))
+                    elif z > 3000 or z < -10:
+                        ids_problematicos.append(feat1.id())
+                        msgs.append('  • Feição id {}: Cota Z ({}) fora dos limites permitidos (-10 a 3000 m)!'.format(feat1.id(), z))
+                except (ValueError, TypeError):
+                    ids_problematicos.append(feat1.id())
+                    msgs.append('  • Feição id {}: Cota Z inválida!'.format(feat1.id()))
 
         if ids_problematicos:
             # Seleciona as feições problemáticas na camada vértice do projeto
@@ -275,6 +284,43 @@ class GeneratorOds(QgsProcessingAlgorithm):
                 'Problemas encontrados na Cota Z em {} feição(ões) da camada Vértice '
                 '(feições selecionadas na tabela de atributos):\n{}'.format(
                     len(ids_problematicos), '\n'.join(msgs)
+                )
+            )
+
+    def vld_lote(self, vertice, limite):
+        ids_vertice = []
+        ids_limite = []
+        msgs = []
+
+        # Verifica vértices com lote vazio/NULL
+        for feat in vertice.getFeatures():
+            lote_val = feat.attribute('lote')
+            if lote_val is None or lote_val == '' or str(lote_val).strip() == 'NULL':
+                ids_vertice.append(feat.id())
+                msgs.append('  • Vértice id {}: Campo "lote" não preenchido!'.format(feat.id()))
+
+        # Verifica limites com lote vazio/NULL
+        for feat in limite.getFeatures():
+            lote_val = feat.attribute('lote')
+            if lote_val is None or lote_val == '' or str(lote_val).strip() == 'NULL':
+                ids_limite.append(feat.id())
+                msgs.append('  • Limite id {}: Campo "lote" não preenchido!'.format(feat.id()))
+
+        if ids_vertice or ids_limite:
+            # Seleciona as feições problemáticas
+            if ids_vertice:
+                layers_v = QgsProject.instance().mapLayersByName('vertice')
+                if layers_v:
+                    layers_v[0].selectByIds(ids_vertice)
+            if ids_limite:
+                layers_l = QgsProject.instance().mapLayersByName('limite')
+                if layers_l:
+                    layers_l[0].selectByIds(ids_limite)
+
+            raise QgsProcessingException(
+                'Problemas encontrados no preenchimento do campo "lote" em {} feição(ões) '
+                '(feições selecionadas na tabela de atributos):\n{}'.format(
+                    len(ids_vertice) + len(ids_limite), '\n'.join(msgs)
                 )
             )
 
@@ -371,6 +417,7 @@ class GeneratorOds(QgsProcessingAlgorithm):
         self.vld_1(vertice)
         self.vld_2(limite, vertice)
         self.vld_3(parcela, vertice)
+        self.vld_lote(vertice, limite)
         if ver_z:
             # Verificar altitude Z não preenchida
             self.vld_z(vertice)
