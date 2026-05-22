@@ -32,18 +32,21 @@ from qgis.core import (QgsProcessing,
                        QgsExpression,
                        QgsProcessingParameterFileDestination,
                        QgsMapLayer,
-                       QgsVectorLayer
+                       QgsVectorLayer,
+                       QgsProcessingParameterBoolean
                        )
 # Assuming geocapt.imgs is available in the environment
 # from ..geocapt.imgs import Imgs # This might need adjustment based on package structure
 import logging
-from math import floor
+from math import floor, modf
 from qgis.utils import iface
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QMessageBox
 from qgis.core import QgsMessageLog, Qgis
 import subprocess
 import os
+import re
+import platform
 from pathlib import Path
 import shutil
 
@@ -66,6 +69,7 @@ class GeneratorOds(QgsProcessingAlgorithm):
     OUTPUT = 'OUTPUT'
     DEC_COORD = 'DEC_COORD'
     DEC_PREC = 'DEC_PREC'
+    VER_Z = 'VER_Z'
 
     def tr(self, string, string_pt=None):
         if string_pt:
@@ -169,6 +173,14 @@ class GeneratorOds(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.VER_Z,
+                self.tr('Verificar preenchimento de cota Z'),
+                defaultValue = True
+            )
+        )
+
+        self.addParameter(
             QgsProcessingParameterFileDestination(
                 self.OUTPUT,
                 self.tr('Planilha ODS'),
@@ -234,6 +246,38 @@ class GeneratorOds(QgsProcessingAlgorithm):
             except Exception:
                 return None
 
+    def vld_0(self, vertice, limite, parcela):
+        if parcela is None or parcela.featureCount() != 1:
+            raise QgsProcessingException('A camada Parcela deve conter exatamente uma feição selecionada!')
+        if vertice is None or vertice.featureCount() == 0:
+            raise QgsProcessingException('A camada Vértice não pode estar vazia!')
+        if limite is None or limite.featureCount() == 0:
+            raise QgsProcessingException('A camada Limite não pode estar vazia!')
+
+    def vld_z(self, vertice):
+        ids_problematicos = []
+        msgs = []
+        for feat1 in vertice.getFeatures():
+            z = float(feat1.geometry().constGet().z())
+            if str(z) == 'nan' or z == 0:
+                ids_problematicos.append(feat1.id())
+                msgs.append('  • Feição id {}: Cota Z não preenchida ou igual a zero!'.format(feat1.id()))
+            elif z > 3000 or z < -10:
+                ids_problematicos.append(feat1.id())
+                msgs.append('  • Feição id {}: Cota Z ({}) fora dos limites permitidos (-10 a 3000 m)!'.format(feat1.id(), z))
+
+        if ids_problematicos:
+            # Seleciona as feições problemáticas na camada vértice do projeto
+            layers = QgsProject.instance().mapLayersByName('vertice')
+            if layers:
+                layers[0].selectByIds(ids_problematicos)
+            raise QgsProcessingException(
+                'Problemas encontrados na Cota Z em {} feição(ões) da camada Vértice '
+                '(feições selecionadas na tabela de atributos):\n{}'.format(
+                    len(ids_problematicos), '\n'.join(msgs)
+                )
+            )
+
     def processAlgorithm(self, parameters, context, feedback):
 
         vertice = self.parameterAsSource(
@@ -279,38 +323,58 @@ class GeneratorOds(QgsProcessingAlgorithm):
             self.DEC_PREC,
             context
         )
+
+        ver_z = self.parameterAsBool(
+            parameters,
+            self.VER_Z,
+            context
+        )
+
         #path and create macro
-        liboffice_path = "C:/Program Files/LibreOffice/program/"
-        liboffice_exe = 'soffice.exe'
-        path_libfile = os.path.join(liboffice_path, liboffice_exe)
+        # Detectando o sistema operacional
+        system_os = platform.system()
 
-        path_macro = os.path.join(Path.home(), "AppData/Roaming/LibreOffice/4/user/Scripts/python")
-        if not os.path.isdir(path_macro): # verifica se diretorio ja existe
-            os.makedirs(path_macro) # cria pasta caso nao exista
-            feedback.pushInfo ('Pasta criada com sucesso para a macro!  {}'.format(path_macro))
+        # Definição de caminhos para LibreOffice
+        if system_os == "Windows":
+            libreoffice_path = Path("C:/Program Files/LibreOffice/program/soffice.exe")
+        elif system_os == "Linux":
+            libreoffice_path = Path("/usr/bin/soffice")
+        elif system_os == "Darwin":  # macOS
+            libreoffice_path = Path("/Applications/LibreOffice.app/Contents/MacOS/soffice")
+        else:
+            raise QgsProcessingException("Sistema operacional não suportado")
+        path_libfile = str(libreoffice_path)
 
+        # Definição de caminho para macros e ODS no LibreOffice
+        if system_os == "Windows":
+            path_macro = Path.home() / "AppData/Roaming/LibreOffice/4/user/Scripts/python"
+            src_macro = Path.home() / "AppData/Roaming/QGIS/QGIS3/profiles/default/python/plugins/Georondonia/algoritmos/shp/macro.py"
+            path_ods = Path.home() / "AppData/Roaming/QGIS/QGIS3/profiles/default/python/plugins/Georondonia/algoritmos/shp/sigef_planilha_modelo_1.2_rc5.ods"
+        elif system_os == "Darwin":  # macOS
+            path_macro = Path.home() / "Library/Application Support/LibreOffice/4/user/Scripts/python"
+            src_macro = Path.home() / "Library/Application Support/QGIS/QGIS3/profiles/default/python/plugins/Georondonia/algoritmos/shp/macro.py"
+            path_ods = Path.home() / "Library/Application Support/QGIS/QGIS3/profiles/default/python/plugins/Georondonia/algoritmos/shp/sigef_planilha_modelo_1.2_rc5.ods"
+        else:  # Linux e outros
+            path_macro = Path.home() / ".config/libreoffice/4/user/Scripts/python"
+            src_macro = Path.home() / ".config/QGIS/QGIS3/profiles/default/python/plugins/Georondonia/algoritmos/shp/macro.py"
+            path_ods = Path.home() / ".config/QGIS/QGIS3/profiles/default/python/plugins/Georondonia/algoritmos/shp/sigef_planilha_modelo_1.2_rc5.ods"
 
-        path_ods = os.path.join(Path.home(), "AppData/Roaming/QGIS/QGIS3/profiles/default/python/plugins/Georondonia/algoritmos/shp/sigef_planilha_modelo_1.2_rc5.ods")
-        shutil.copy(os.path.join(Path.home(),"AppData/Roaming/QGIS/QGIS3/profiles/default/python/plugins/Georondonia/algoritmos/shp/macro.py"),os.path.join(path_macro,'qgis_macro.py'))
+        # Criando diretório, se não existir
+        path_macro.mkdir(parents=True, exist_ok=True)
+
+        # Copiando macro do QGIS para LibreOffice
+        dst_macro = path_macro / 'qgis_macro.py'
+        shutil.copy(src_macro, dst_macro)
 
         # Validações
-
-        # Checar preenchimento dos atributos da camada vértice
+        self.vld_0(vertice, limite, parcela)
         self.vld_1(vertice)
-
-
-        # Camada parcela deve ter apenas uma feição selecionada
-        if parcela.featureCount() != 1:
-            raise QgsProcessingException ('Camada parcela deve ter apenas uma feição selecionada!')
-        else:
-            feature = [feature for feature in parcela.getFeatures()][0]
-
-
-        # Verificar se cada vértice da camada limite (linha) tem o correspondente da camada vétice (ponto)
-        self.vld_2(limite,vertice)
-
-        # Verificar se cada vértice da camada parcela (polígono) tem o correspondente da camada vétice (ponto)
-        self.vld_3(parcela,vertice)
+        self.vld_2(limite, vertice)
+        self.vld_3(parcela, vertice)
+        if ver_z:
+            # Verificar altitude Z não preenchida
+            self.vld_z(vertice)
+        feature = next(parcela.getFeatures())
         
         # Construir macro - AQUI ESTÃO AS PRINCIPAIS MUDANÇAS
         nat_ser = {1:'Particular', 2:'Contrato com Administração Pública'}
@@ -358,64 +422,30 @@ class GeneratorOds(QgsProcessingAlgorithm):
             
             
         geom = feature.geometry()
-        if geom.isMultipart():
-            polygons = geom.asMultiPolygon()
-        else:
-            polygons = [geom.asPolygon()]
+        polygons = geom.asMultiPolygon() if geom.isMultipart() else [geom.asPolygon()]
 
-        # A lógica de criar sheets é condicional aqui, mas o loop abaixo sempre espera 'polygons'.
-        # Se 'len(polygons) != 1', a função createSheets é chamada.
-        # Caso contrário (se len(polygons) == 1), createSheets não é chamada e a variável 'data'
-        # manterá seu estado anterior, sem as modificações de #copy_sheet e #activate_sheet.
-        # Isso pode gerar um erro se a macro esperar essas tags em todos os casos.
-        # Para fins de demonstração, manterei a estrutura original.
-        if len(polygons) != 1:
-            data = self.createSheets(data,polygons)
+        # Mapeia anéis externos e internos (ilhas) por polígono - portado do ODS_LEANDRO
+        mapping = {0: []}
+        for i, features in enumerate(polygons):
+            mapping[0].append(self.reorder_polygon_points(features[0]))
+            reorder = [self.reorder_polygon_points(feat) for feat in features[1:]]
+            if reorder:
+                mapping[i + 1] = reorder
 
+        data = self.createSheets(mapping, data)
 
-        # createSpreadsheet
-        denom_raw = self.get_safe_string_attribute(feature, 'denominacao')
-        if isinstance(denom_raw, str) and ';' in denom_raw:
-            denom_clean = denom_raw.split(';')[0].replace('"', '\\"').replace('\n', ' ')
-        else:
-            denom_clean = str(denom_raw).replace('"', '\\"').replace('\n', ' ')
-        
-        for n, pol in enumerate(polygons):
-            pnt_str = ''
-            sheet_idx = n + 1
-            # Ativa a planilha perimetro_X e já define B3 e B4 conforme comentário desejado
-            pnt_str += '\tdoc.activate("perimetro_{}")\n'.format(sheet_idx)
-            pnt_str += '\tdoc.setValue("B3", "Parte {}")\n'.format(sheet_idx)
-            pnt_str += '\tdoc.setValue("B4", "{:03d}")\n'.format(sheet_idx)
-            
-            pnt_body = ''
-            # Aplica a reordenação dos pontos do polígono para padronizar o início
-            reordered_polygon_points = self.reorder_polygon_points(pol[0])
-            for k1, pnt in enumerate(reordered_polygon_points[:-1]):
-                codigo,longitude,sigma_x,latitude,sigma_y,altitude, sigma_z,metodo_pos = self.vertice (pnt,vertice,dec_coord,dec_prec)
-                pnt_seg = reordered_polygon_points[k1 + 1]
-                try:
-                    tipo,confrontan,cns,matricula = self.limite(pnt,pnt_seg,limite)
-                except QgsProcessingException as e: # Captura a exceção específica levantada por self.limite
-                    raise QgsProcessingException(f'Erro de topologia ao verificar limites para a feição parcela: {str(e)}')
-                except Exception as e: # Captura outras exceções inesperadas
-                    raise QgsProcessingException(f'Verifique possível erro de topologia na camada limite para o ponto ({pnt.y()}, {pnt.x()})! Detalhes: {e}')
-                k = k1+12
-                pnt_body +='\tdoc.setValue("A{}", "{}")\n'.format(k,codigo)
-                pnt_body +='\tdoc.setValue("B{}", "{}")\n'.format(k,longitude)
-                pnt_body +='\tdoc.setValue("C{}", "{}")\n'.format(k,sigma_x)
-                pnt_body +='\tdoc.setValue("D{}", "{}")\n'.format(k,latitude)
-                pnt_body +='\tdoc.setValue("E{}", "{}")\n'.format(k,sigma_y)
-                pnt_body +='\tdoc.setValue("F{}", "{}")\n'.format(k,altitude)
-                pnt_body +='\tdoc.setValue("G{}", "{}")\n'.format(k,sigma_z)
-                pnt_body +='\tdoc.setValue("H{}", "{}")\n'.format(k,metodo_pos)
-                pnt_body +='\tdoc.setValue("I{}", "{}")\n'.format(k,tipo)
-                pnt_body +='\tdoc.setValue("J{}", "{}")\n'.format(k,cns)
-                pnt_body +='\tdoc.setValue("K{}", "{}")\n'.format(k,matricula)
-                pnt_body +='\tdoc.setValue("L{}", "{}")\n'.format(k,confrontan)
-    
-            pnt_str += pnt_body
-            data = data.replace('#table_{}'.format(sheet_idx), pnt_str)
+        # Escreve os dados de cada sheet com numeração linear (#table_1, #table_2, ...)
+        sheet_num = 0
+        for feat in mapping[0]:
+            sheet_num += 1
+            pnt_str = self.generate_table_substitution(feat, vertice, limite, dec_coord, dec_prec)
+            data = data.replace('#table_{}'.format(sheet_num), pnt_str)
+
+        for parcela_idx, features in list(mapping.items())[1:]:
+            for feat in features:
+                sheet_num += 1
+                pnt_str = self.generate_table_substitution(feat, vertice, limite, dec_coord, dec_prec)
+                data = data.replace('#table_{}'.format(sheet_num), pnt_str)
 
         data = data.replace('output_path', output_path)
 
@@ -429,7 +459,9 @@ class GeneratorOds(QgsProcessingAlgorithm):
                          f"{path_ods} "
                         'vnd.sun.star.script:qgis_macro.py$create_table?language=Python&location=user'
                         )
-            # Seleciona o próximo lote
+            # Seleção automática do próximo lote (vértices, limites e parcela)
+            # Executado APÓS o subprocess para não interferir com parameterAsSource
+            self.selecionar_por_parcela(feedback)
             self.selecionar_proximo()
 
         except Exception as e: # Captura a exceção para fornecer mais detalhes
@@ -499,17 +531,58 @@ class GeneratorOds(QgsProcessingAlgorithm):
                     if pnt not in pontos_vertice:
                         raise QgsProcessingException(f'Erro na feição parcela {id_feat1}: Ponto de coordenadas ({pnt.y()}, {pnt.x()}) da camada parcela não possui correspondente na camada vértice!')
 
-    def createSheets(self,data,pols):
-        add_sheets = ''
-        act_sheets = ''
-        for i in range(len(pols)):
-            if i!=0:
-                add_sheets +='\tdoc.copySheet("perimetro_{}","perimetro_{}","sobre")\n'.format(i,i+1)
-                act_sheets +='\tdoc.activate("perimetro_{}")\n'.format(i+1)
-                act_sheets +='#table_{}\n'.format(i+1)
-        data = data.replace('#copy_sheet',add_sheets)
-        data = data.replace('#activate_sheet',act_sheets)
+    def createSheets(self, mapping, data):
+        """
+        Cria sheets adicionais para múltiplos polígonos (multipart) e anéis internos (ilhas).
+        Usa os marcadores #copy_sheet e #activate_sheet do template macro.py do GeoRondonia.
+        O primeiro sheet (perimetro_1 / #table_1) já existe no template, os demais são criados aqui.
+        """
+        add_str = ''
+        act_str = ''
+        sheet_num = 1  # perimetro_1 já existe
+
+        # Outer rings adicionais (multipolygon com mais de 1 polígono)
+        for i in range(1, len(mapping[0])):
+            sheet_num += 1
+            add_str += '\tdoc.copySheet("perimetro_1", "perimetro_{}", "sobre")\n'.format(sheet_num)
+            act_str += '\tdoc.activate("perimetro_{}")\n'.format(sheet_num)
+            act_str += '\tdoc.setValue("B4", "{:03d}")\n'.format(sheet_num)
+            act_str += '#table_{}\n'.format(sheet_num)
+
+        # Anéis internos (ilhas) de cada polígono
+        for parcela_idx, features in list(mapping.items())[1:]:
+            for feat in features:
+                sheet_num += 1
+                add_str += '\tdoc.copySheet("perimetro_1", "perimetro_{}", "sobre")\n'.format(sheet_num)
+                act_str += '\tdoc.activate("perimetro_{}")\n'.format(sheet_num)
+                act_str += '\tdoc.setValue("B4", "{:03d}")\n'.format(parcela_idx)
+                act_str += '\tdoc.setValue("B5", "Interno")\n'
+                act_str += '#table_{}\n'.format(sheet_num)
+
+        data = data.replace('#copy_sheet', add_str)
+        data = data.replace('#activate_sheet', act_str)
         return data
+
+    def generate_table_substitution(self, feat, vertice, limite, dec_coord, dec_prec):
+        """Gera o bloco de doc.setValue para cada ponto do polígono."""
+        pnt_str = []
+        for k1, pnt in enumerate(feat[:-1]):
+            codigo, longitude, sigma_x, latitude, sigma_y, altitude, sigma_z, metodo_pos = self.vertice(pnt, vertice, dec_coord, dec_prec)
+            pnt_seg = feat[k1 + 1]
+            try:
+                tipo, confrontan, cns, matricula = self.limite(pnt, pnt_seg, limite)
+            except QgsProcessingException as e:
+                raise QgsProcessingException(f'Erro de topologia ao verificar limites: {str(e)}')
+            except Exception as e:
+                raise QgsProcessingException(f'Verifique possível erro de topologia na camada limite para o ponto ({pnt.y()}, {pnt.x()})! Detalhes: {e}')
+            row = k1 + 12
+            values = [codigo, longitude, sigma_x, latitude, sigma_y, altitude, sigma_z, metodo_pos, tipo, cns, matricula, confrontan]
+            pnt_str.append(self.format_doc_values(row, values))
+        return "\n".join(pnt_str)
+
+    def format_doc_values(self, k, values):
+        fields = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"]
+        return "\n".join(f'\tdoc.setValue("{fields[i]}{k}", "{value}")' for i, value in enumerate(values))
 
 
     def vertice (self,pnt,vertice,dec_coord,dec_prec):
@@ -579,7 +652,70 @@ class GeneratorOds(QgsProcessingAlgorithm):
     # Configuração básica de logging (apenas uma vez, geralmente fora da função)
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-    # Seleciona a próxima feição do    lote
+    def selecionar_por_parcela(self, feedback=None):
+        """
+        Com base na feição de parcela selecionada no projeto, seleciona automaticamente
+        os vértices e limites correspondentes pelo campo 'lote'.
+        Isso permite que o usuário selecione apenas a parcela e rode o algoritmo
+        com 'Apenas feições selecionadas' ativo nas 3 camadas.
+        """
+        layers_parcela = QgsProject.instance().mapLayersByName('parcela')
+        layers_vertice = QgsProject.instance().mapLayersByName('vertice')
+        layers_limite  = QgsProject.instance().mapLayersByName('limite')
+
+        if not layers_parcela or not layers_vertice or not layers_limite:
+            if feedback:
+                feedback.pushInfo('Auto-seleção ignorada: uma ou mais camadas (parcela/vertice/limite) não foram encontradas no projeto.')
+            return
+
+        parcela_layer = layers_parcela[0]
+        vertice_layer = layers_vertice[0]
+        limite_layer  = layers_limite[0]
+
+        selected = parcela_layer.selectedFeatures()
+        if not selected:
+            if feedback:
+                feedback.pushInfo('Auto-seleção ignorada: nenhuma feição selecionada na camada parcela.')
+            return
+
+        lote_val = selected[0]['lote']
+        if lote_val is None or str(lote_val).strip() in ('', 'NULL'):
+            if feedback:
+                feedback.pushInfo('Auto-seleção ignorada: campo "lote" da parcela selecionada está vazio ou nulo.')
+            return
+
+        lote_str = str(lote_val).strip()
+        expression = QgsExpression('"lote" = \'{}\''.format(lote_str))
+
+        # Usa blockSignals para suprimir sinais Qt (selectionChanged etc.) durante os selectByIds.
+        # Isso evita que o QTimer de refresh do canvas seja agendado enquanto os dados ainda
+        # estão sendo preparados para parameterAsSource, prevenindo o access violation.
+        vertice_layer.blockSignals(True)
+        limite_layer.blockSignals(True)
+        try:
+            # Seleciona vértices
+            ids_vertice = [f.id() for f in vertice_layer.getFeatures(QgsFeatureRequest(expression))]
+            vertice_layer.selectByIds(ids_vertice)
+            msg_v = f'{len(ids_vertice)} vértices selecionados automaticamente para o lote "{lote_str}".'
+            QgsMessageLog.logMessage(msg_v, 'GeneratorOds', Qgis.Info)
+            if feedback:
+                feedback.pushInfo(msg_v)
+
+            # Seleciona limites
+            ids_limite = [f.id() for f in limite_layer.getFeatures(QgsFeatureRequest(expression))]
+            limite_layer.selectByIds(ids_limite)
+            msg_l = f'{len(ids_limite)} limites selecionados automaticamente para o lote "{lote_str}".'
+            QgsMessageLog.logMessage(msg_l, 'GeneratorOds', Qgis.Info)
+            if feedback:
+                feedback.pushInfo(msg_l)
+        finally:
+            # Restaura sinais e atualiza o canvas uma única vez ao final
+            vertice_layer.blockSignals(False)
+            limite_layer.blockSignals(False)
+            vertice_layer.triggerRepaint()
+            limite_layer.triggerRepaint()
+
+    # Seleciona a próxima feição do lote
     def selecionar_proximo(self):
 
         # Abrir camada vértice
