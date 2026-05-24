@@ -70,6 +70,7 @@ class GeneratorOds(QgsProcessingAlgorithm):
     DEC_COORD = 'DEC_COORD'
     DEC_PREC = 'DEC_PREC'
     VER_Z = 'VER_Z'
+    SEL_PROXIMO = 'SEL_PROXIMO'
 
     def tr(self, string, string_pt=None):
         if string_pt:
@@ -176,6 +177,14 @@ class GeneratorOds(QgsProcessingAlgorithm):
             QgsProcessingParameterBoolean(
                 self.VER_Z,
                 self.tr('Verificar preenchimento de cota Z'),
+                defaultValue = True
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.SEL_PROXIMO,
+                self.tr('Selecionar próxima parcela'),
                 defaultValue = True
             )
         )
@@ -376,6 +385,12 @@ class GeneratorOds(QgsProcessingAlgorithm):
             context
         )
 
+        sel_proximo = self.parameterAsBool(
+            parameters,
+            self.SEL_PROXIMO,
+            context
+        )
+
         #path and create macro
         # Detectando o sistema operacional
         system_os = platform.system()
@@ -509,7 +524,8 @@ class GeneratorOds(QgsProcessingAlgorithm):
             # Seleção automática do próximo lote (vértices, limites e parcela)
             # Executado APÓS o subprocess para não interferir com parameterAsSource
             self.selecionar_por_parcela(feedback)
-            self.selecionar_proximo()
+            if sel_proximo:
+                self.selecionar_proximo()
 
         except Exception as e: # Captura a exceção para fornecer mais detalhes
             raise QgsProcessingException(f"Erro ao executar a macro do LibreOffice. Verifique se a versão do seu LibreOffice ou o seu SO estão atualizados e se o caminho '{path_libfile}' está correto! Detalhes: {e}")
