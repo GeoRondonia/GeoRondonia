@@ -594,6 +594,7 @@ class GeneratorOds(QgsProcessingAlgorithm):
             add_str += '\tdoc.copySheet("perimetro_1", "perimetro_{}", "sobre")\n'.format(sheet_num)
             act_str += '\tdoc.activate("perimetro_{}")\n'.format(sheet_num)
             act_str += '\tdoc.setValue("B3", "Parte {}")\n'.format(sheet_num)
+            act_str += '\tdoc.setValue("B4", "{:03d}")\n'.format(sheet_num)
             act_str += '#table_{}\n'.format(sheet_num)
 
         # Anéis internos (ilhas) de cada polígono
@@ -603,6 +604,7 @@ class GeneratorOds(QgsProcessingAlgorithm):
                 add_str += '\tdoc.copySheet("perimetro_1", "perimetro_{}", "sobre")\n'.format(sheet_num)
                 act_str += '\tdoc.activate("perimetro_{}")\n'.format(sheet_num)
                 act_str += '\tdoc.setValue("B3", "Parte {} - Interno")\n'.format(sheet_num)
+                act_str += '\tdoc.setValue("B4", "{:03d}")\n'.format(sheet_num)
                 act_str += '#table_{}\n'.format(sheet_num)
 
         data = data.replace('#copy_sheet', add_str)
