@@ -312,14 +312,14 @@ class GeneratorOds(QgsProcessingAlgorithm):
         ids_limite = []
         msgs = []
 
-        # Verifica vértices com lote vazio/NULL
+        # Verifica vértices com lote vazio/NULL (sempre validação global)
         for feat in vertice.getFeatures():
             lote_val = feat.attribute('lote')
             if lote_val is None or lote_val == '' or str(lote_val).strip() == 'NULL':
                 ids_vertice.append(feat.id())
                 msgs.append('  • Vértice id {}: Campo "lote" não preenchido!'.format(feat.id()))
 
-        # Verifica limites com lote vazio/NULL
+        # Verifica limites com lote vazio/NULL (sempre validação global)
         for feat in limite.getFeatures():
             lote_val = feat.attribute('lote')
             if lote_val is None or lote_val == '' or str(lote_val).strip() == 'NULL':
