@@ -31,15 +31,21 @@ hasProcessingProvider=yes
 		- GODS: Fixed access violation in QGIS when executing the algorithm
 		- GODS: Fixed special character corruption in coordinates during macro substitution
 		- GODS: validar preenchimento do campo lote em vértices e limites
-        0.5 - Refatoração completa com rotinas de validação aprimoradas (GODS)
-		- Manipulação e padronização avançada de vértices de polígonos (GODS)
-		- Eficiência de validação topológica aprimorada (GODS)
-		- Mensagens de erro aprimoradas e sistema de relatórios detalhados (GODS)
-		- Detecção e preenchimento automático de camadas de entrada (GODS)
-		- Corrigido bug crítico de conversão de tipo QVariant na seleção de lote (GODS)
-		- Melhorias na interface do usuário (Preparando KML para o CAR)
-		- Suporte a hiperlinks para caminhos de arquivo de saída (GODS e Preparando KML para o CAR)
-		- Correções de múltiplas células (A17, B4) e ajustes municipais (GODS)
+		- GODS: New parameter "Selecionar próxima parcela" (SEL_PROXIMO) - makes next parcel auto-selection optional
+		- GODS: New parameter "Validar projeto completo" (VAL_COMPLETA) - enables scoped validation of only the selected parcel
+		- GODS: Scoped validation using lote field filtering - vld_1, vld_2, and vld_z now support validating single parcels instead of entire project
+		- GODS: Restored B4 cell with numeric formatting (00X) for each perimeter sheet while maintaining B3 "Parte X" labels
+
+        0.5 - Complete refactoring with enhanced validation routines (GODS)
+		- Advanced polygon vertex manipulation and standardization (GODS)
+		- Enhanced topological validation efficiency (GODS)
+		- Enhanced error messages and detailed reporting system (GODS)
+		- Automatic detection and population of input layers (GODS)
+		- Fixed critical QVariant type conversion bug in lot selection (GODS)
+		- User interface improvements (Preparing KML for CAR)
+		- Hyperlink support for output file paths (GODS and Preparing KML for CAR)
+		- Multiple cell fixes (A17, B4) and municipal adjustments (GODS)
+
         0.4 - Enhanced KML Export with Feature Selection and Geometry Support 
         0.3 - added tool prepare kml for car
         0.2 - added geometry validation tool
