@@ -193,7 +193,7 @@ class GeneratorOds(QgsProcessingAlgorithm):
         self.addParameter(
             QgsProcessingParameterBoolean(
                 self.VAL_COMPLETA,
-                self.tr('Validar projeto completo'),
+                self.tr('Validar projeto completo (Se desmarcado, valida apenas a parcela atual selecionada)'),
                 defaultValue = False
             )
         )
