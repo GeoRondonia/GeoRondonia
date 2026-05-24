@@ -712,12 +712,17 @@ class GeneratorOds(QgsProcessingAlgorithm):
                 sigma_x = ('{:.'+ dec_prec + 'f}').format(feat['sigma_x']).replace('.',',')
                 latitude = dd2dms(vert.y(), dec_coord) + 'S' if vert.y() < 0 else dd2dms(vert.y(), dec_coord) + 'N'
                 sigma_y = ('{:.'+ dec_prec + 'f}').format(feat['sigma_y']).replace('.',',')
-                z = float(feat.geometry().constGet().z())
-                if str(z) != 'nan':
-                    altitude = ('{:.'+ dec_prec + 'f}').format(z).replace('.',',')
-                else:
+                z_value = feat['Z']
+                if z_value is None or z_value == '' or str(z_value).strip() == 'NULL':
                     altitude = '0,00'
                     QgsMessageLog.logMessage(f'Advertência: Ponto de código {codigo} (ID: {feat.id()}) está com altitude igual a 0 (zero). Verifique!', 'GeneratorOds', Qgis.Warning)
+                else:
+                    try:
+                        z = float(z_value)
+                        altitude = ('{:.'+ dec_prec + 'f}').format(z).replace('.',',')
+                    except (ValueError, TypeError):
+                        altitude = '0,00'
+                        QgsMessageLog.logMessage(f'Advertência: Ponto de código {codigo} (ID: {feat.id()}) tem altitude inválida. Verifique!', 'GeneratorOds', Qgis.Warning)
                 sigma_z = ('{:.'+ dec_prec + 'f}').format(feat['sigma_z']).replace('.',',')
                 metodo_pos = feat['metodo_pos']
                 return codigo,longitude,sigma_x,latitude,sigma_y,altitude, sigma_z,metodo_pos
