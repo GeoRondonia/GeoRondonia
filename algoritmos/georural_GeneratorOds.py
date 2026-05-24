@@ -71,6 +71,7 @@ class GeneratorOds(QgsProcessingAlgorithm):
     DEC_PREC = 'DEC_PREC'
     VER_Z = 'VER_Z'
     SEL_PROXIMO = 'SEL_PROXIMO'
+    VAL_COMPLETA = 'VAL_COMPLETA'
 
     def tr(self, string, string_pt=None):
         if string_pt:
@@ -190,6 +191,14 @@ class GeneratorOds(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.VAL_COMPLETA,
+                self.tr('Validar projeto completo'),
+                defaultValue = False
+            )
+        )
+
+        self.addParameter(
             QgsProcessingParameterFileDestination(
                 self.OUTPUT,
                 self.tr('Planilha ODS'),
@@ -263,10 +272,12 @@ class GeneratorOds(QgsProcessingAlgorithm):
         if limite is None or limite.featureCount() == 0:
             raise QgsProcessingException('A camada Limite não pode estar vazia!')
 
-    def vld_z(self, vertice):
+    def vld_z(self, vertice, lote_filter=None):
         ids_problematicos = []
         msgs = []
-        for feat1 in vertice.getFeatures():
+        expr = QgsExpression('"lote" = \'{}\''.format(lote_filter)) if lote_filter else None
+        features = vertice.getFeatures(QgsFeatureRequest(expr)) if expr else vertice.getFeatures()
+        for feat1 in features:
             z_value = feat1.attribute('Z')
             if z_value is None or z_value == '' or z_value == 'NULL':
                 ids_problematicos.append(feat1.id())
@@ -391,6 +402,12 @@ class GeneratorOds(QgsProcessingAlgorithm):
             context
         )
 
+        val_completa = self.parameterAsBool(
+            parameters,
+            self.VAL_COMPLETA,
+            context
+        )
+
         #path and create macro
         # Detectando o sistema operacional
         system_os = platform.system()
@@ -427,16 +444,19 @@ class GeneratorOds(QgsProcessingAlgorithm):
         dst_macro = path_macro / 'qgis_macro.py'
         shutil.copy(src_macro, dst_macro)
 
+        # Extrair lote da parcela selecionada para validações filtradas
+        feature = next(parcela.getFeatures())
+        lote_filter = None if val_completa else str(feature['lote']).strip() if feature['lote'] else None
+
         # Validações
         self.vld_0(vertice, limite, parcela)
-        self.vld_1(vertice)
-        self.vld_2(limite, vertice)
+        self.vld_1(vertice, lote_filter)
+        self.vld_2(limite, vertice, lote_filter)
         self.vld_3(parcela, vertice)
         self.vld_lote(vertice, limite)
         if ver_z:
             # Verificar altitude Z não preenchida
-            self.vld_z(vertice)
-        feature = next(parcela.getFeatures())
+            self.vld_z(vertice, lote_filter)
         
         # Construir macro - AQUI ESTÃO AS PRINCIPAIS MUDANÇAS
         nat_ser = {1:'Particular', 2:'Contrato com Administração Pública'}
@@ -539,8 +559,10 @@ class GeneratorOds(QgsProcessingAlgorithm):
 
         
 
-    def vld_1(self, vertice):
-        for feat in vertice.getFeatures():
+    def vld_1(self, vertice, lote_filter=None):
+        expr = QgsExpression('"lote" = \'{}\''.format(lote_filter)) if lote_filter else None
+        features = vertice.getFeatures(QgsFeatureRequest(expr)) if expr else vertice.getFeatures()
+        for feat in features:
             id_feat = feat.id()
             sigma_x = feat['sigma_x']
             sigma_y = feat['sigma_y']
@@ -564,10 +586,15 @@ class GeneratorOds(QgsProcessingAlgorithm):
             if vert_code in ('', 'NULL'):
                 raise QgsProcessingException(f'Erro no vértice {id_feat}: o atributo "código do vértice" está vazio ou nulo!')
 
-    def vld_2(self, limite, vertice):
+    def vld_2(self, limite, vertice, lote_filter=None):
         # Otimização: criar um set de pontos de vértice para busca mais rápida, uma única vez
-        pontos_vertice = {f.geometry().asPoint() for f in vertice.getFeatures()}
-        for feat1 in limite.getFeatures():
+        expr_v = QgsExpression('"lote" = \'{}\''.format(lote_filter)) if lote_filter else None
+        features_v = vertice.getFeatures(QgsFeatureRequest(expr_v)) if expr_v else vertice.getFeatures()
+        pontos_vertice = {f.geometry().asPoint() for f in features_v}
+
+        expr_l = QgsExpression('"lote" = \'{}\''.format(lote_filter)) if lote_filter else None
+        features_limite = limite.getFeatures(QgsFeatureRequest(expr_l)) if expr_l else limite.getFeatures()
+        for feat1 in features_limite:
             id_feat1 = feat1.id()
             if feat1['tipo'] not in ('LA1', 'LA2', 'LA3', 'LA4', 'LA5', 'LA6', 'LA7', 'LN1', 'LN2', 'LN3', 'LN4', 'LN5', 'LN6'):
                 raise QgsProcessingException(f'Erro na feição limite {id_feat1}: o atributo "tipo" ({feat1["tipo"]}) é inválido! Verifique a lista de tipos permitidos.')
