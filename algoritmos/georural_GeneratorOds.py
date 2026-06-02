@@ -22,30 +22,24 @@ from ..geocapt.imgs import Imgs
 from qgis.core import (QgsProcessing,
                        QgsProject,
                        QgsProcessingException,
-                       QgsGeometry,
                        QgsProcessingParameterNumber,
-                       QgsExpressionContextUtils,
-                       QgsExpressionContext,
                        QgsProcessingParameterFeatureSource,
                        QgsFeatureRequest,
                        QgsProcessingAlgorithm,
-                       QgsExpression,
                        QgsProcessingParameterFileDestination,
-                       QgsMapLayer,
                        QgsVectorLayer,
-                       QgsProcessingParameterBoolean
+                       QgsProcessingParameterBoolean,
+                       QgsMessageLog,
+                       Qgis,
+                       QgsGeometry
                        )
 # Assuming geocapt.imgs is available in the environment
 # from ..geocapt.imgs import Imgs # This might need adjustment based on package structure
 import logging
-from math import floor, modf
-from qgis.utils import iface
+from math import floor
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QMessageBox
-from qgis.core import QgsMessageLog, Qgis
 import subprocess
 import os
-import re
 import platform
 from pathlib import Path
 import shutil
@@ -272,11 +266,36 @@ class GeneratorOds(QgsProcessingAlgorithm):
         if limite is None or limite.featureCount() == 0:
             raise QgsProcessingException('A camada Limite não pode estar vazia!')
 
-    def vld_z(self, vertice, lote_filter=None):
+    def vld_z(self, vertice, parcela_geom=None):
         ids_problematicos = []
+        ids_null = []
         msgs = []
-        expr = QgsExpression('"lote" = \'{}\''.format(lote_filter)) if lote_filter else None
-        features = vertice.getFeatures(QgsFeatureRequest(expr)) if expr else vertice.getFeatures()
+        if parcela_geom:
+            request = QgsFeatureRequest().setFilterRect(parcela_geom.boundingBox())
+            features = [f for f in vertice.getFeatures(request) if f.geometry() and not f.geometry().isEmpty() and f.geometry().touches(parcela_geom)]
+        else:
+            features = [f for f in vertice.getFeatures() if f.geometry() and not f.geometry().isEmpty()]
+
+        # Detectar vértices com geometria nula
+        if parcela_geom:
+            request = QgsFeatureRequest().setFilterRect(parcela_geom.boundingBox())
+            all_features = [f for f in vertice.getFeatures(request) if f.geometry().touches(parcela_geom)]
+        else:
+            all_features = list(vertice.getFeatures())
+
+        for f in all_features:
+            if not f.geometry() or f.geometry().isEmpty():
+                ids_null.append(f.id())
+
+        if ids_null:
+            layers = QgsProject.instance().mapLayersByName('vertice')
+            if layers:
+                layers[0].selectByIds(ids_null)
+            raise QgsProcessingException(
+                f'Erro: Encontradas {len(ids_null)} feição(ões) com geometria nula na camada vértice '
+                f'(feições selecionadas na tabela de atributos). IDs: {ids_null}'
+            )
+
         for feat1 in features:
             z_value = feat1.attribute('Z')
             if z_value is None or z_value == '' or z_value == 'NULL':
@@ -296,7 +315,6 @@ class GeneratorOds(QgsProcessingAlgorithm):
                     msgs.append('  • Feição id {}: Cota Z inválida!'.format(feat1.id()))
 
         if ids_problematicos:
-            # Seleciona as feições problemáticas na camada vértice do projeto
             layers = QgsProject.instance().mapLayersByName('vertice')
             if layers:
                 layers[0].selectByIds(ids_problematicos)
@@ -307,42 +325,161 @@ class GeneratorOds(QgsProcessingAlgorithm):
                 )
             )
 
-    def vld_lote(self, vertice, limite):
-        ids_vertice = []
-        ids_limite = []
-        msgs = []
+    def vld_1(self, vertice, parcela_geom=None):
+        ids_null = []
+        if parcela_geom:
+            request = QgsFeatureRequest().setFilterRect(parcela_geom.boundingBox())
+            all_features = list(vertice.getFeatures(request))
+            features = [f for f in all_features if f.geometry() and not f.geometry().isEmpty() and f.geometry().touches(parcela_geom)]
+        else:
+            all_features = list(vertice.getFeatures())
+            features = [f for f in all_features if f.geometry() and not f.geometry().isEmpty()]
 
-        # Verifica vértices com lote vazio/NULL (sempre validação global)
-        for feat in vertice.getFeatures():
-            lote_val = feat.attribute('lote')
-            if lote_val is None or lote_val == '' or str(lote_val).strip() == 'NULL':
-                ids_vertice.append(feat.id())
-                msgs.append('  • Vértice id {}: Campo "lote" não preenchido!'.format(feat.id()))
+        # Detectar vértices com geometria nula
+        for f in all_features:
+            if not f.geometry() or f.geometry().isEmpty():
+                ids_null.append(f.id())
 
-        # Verifica limites com lote vazio/NULL (sempre validação global)
-        for feat in limite.getFeatures():
-            lote_val = feat.attribute('lote')
-            if lote_val is None or lote_val == '' or str(lote_val).strip() == 'NULL':
-                ids_limite.append(feat.id())
-                msgs.append('  • Limite id {}: Campo "lote" não preenchido!'.format(feat.id()))
-
-        if ids_vertice or ids_limite:
-            # Seleciona as feições problemáticas
-            if ids_vertice:
-                layers_v = QgsProject.instance().mapLayersByName('vertice')
-                if layers_v:
-                    layers_v[0].selectByIds(ids_vertice)
-            if ids_limite:
-                layers_l = QgsProject.instance().mapLayersByName('limite')
-                if layers_l:
-                    layers_l[0].selectByIds(ids_limite)
-
+        if ids_null:
+            layers = QgsProject.instance().mapLayersByName('vertice')
+            if layers:
+                layers[0].selectByIds(ids_null)
             raise QgsProcessingException(
-                'Problemas encontrados no preenchimento do campo "lote" em {} feição(ões) '
-                '(feições selecionadas na tabela de atributos):\n{}'.format(
-                    len(ids_vertice) + len(ids_limite), '\n'.join(msgs)
-                )
+                f'Erro: Encontradas {len(ids_null)} feição(ões) com geometria nula na camada vértice '
+                f'(feições selecionadas na tabela de atributos). IDs: {ids_null}'
             )
+
+        for feat in features:
+            id_feat = feat.id()
+            sigma_x = feat['sigma_x']
+            sigma_y = feat['sigma_y']
+            sigma_z = feat['sigma_z']
+            metodo_pos = feat['metodo_pos']
+            tipo_verti = feat['tipo_verti']
+            vert_code = str(feat['vertice']).strip()
+
+            if sigma_x is None or not (0 <= sigma_x <= 10):
+                raise QgsProcessingException(f'Erro no vértice {id_feat}: o valor de "sigma_x" ({sigma_x}) está fora do intervalo (0 a 10) ou é nulo!')
+            if sigma_y is None or not (0 <= sigma_y <= 10):
+                raise QgsProcessingException(f'Erro no vértice {id_feat}: o valor de "sigma_y" ({sigma_y}) está fora do intervalo (0 a 10) ou é nulo!')
+            if sigma_z is None or not (0 <= sigma_z <= 10):
+                raise QgsProcessingException(f'Erro no vértice {id_feat}: o valor de "sigma_z" ({sigma_z}) está fora do intervalo (0 a 10) ou é nulo!')
+            if metodo_pos not in ('PG1', 'PG2', 'PG3', 'PG4', 'PG5', 'PG6', 'PG7', 'PG8', 'PG9', 'PT1', 'PT2', 'PT3', 'PT4', 'PT5', 'PT6', 'PT7', 'PT8', 'PT9', 'PA1', 'PA2', 'PA3', 'PS1', 'PS2', 'PS3', 'PS4', 'PB1', 'PB2'):
+                raise QgsProcessingException(f'Erro no vértice {id_feat}: o "metodo_pos" ({metodo_pos}) é inválido! Verifique a lista de métodos permitidos.')
+            if tipo_verti not in ('M', 'P', 'V'):
+                raise QgsProcessingException(f'Erro no vértice {id_feat}: o "tipo_verti" ({tipo_verti}) é inválido! Deve ser "M", "P" ou "V".')
+            if len(vert_code) < 7:
+                raise QgsProcessingException(f'Erro no vértice {id_feat}: o "código do vértice" ("{vert_code}") deve ter ao menos 7 caracteres!')
+            if vert_code in ('', 'NULL'):
+                raise QgsProcessingException(f'Erro no vértice {id_feat}: o atributo "código do vértice" está vazio ou nulo!')
+
+    def vld_2(self, limite, vertice, parcela_geom=None):
+        ids_null_limite = []
+        if parcela_geom:
+            req_v = QgsFeatureRequest().setFilterRect(parcela_geom.boundingBox())
+            features_v = [f for f in vertice.getFeatures(req_v) if f.geometry() and not f.geometry().isEmpty() and f.geometry().touches(parcela_geom)]
+            req_l = QgsFeatureRequest().setFilterRect(parcela_geom.boundingBox())
+            all_limite = list(limite.getFeatures(req_l))
+            features_limite = [f for f in all_limite if f.geometry() and not f.geometry().isEmpty() and f.geometry().touches(parcela_geom)]
+        else:
+            features_v = [f for f in vertice.getFeatures() if f.geometry() and not f.geometry().isEmpty()]
+            all_limite = list(limite.getFeatures())
+            features_limite = [f for f in all_limite if f.geometry() and not f.geometry().isEmpty()]
+
+        # Detectar limites com geometria nula
+        if parcela_geom:
+            for f in all_limite:
+                if not f.geometry() or f.geometry().isEmpty():
+                    ids_null_limite.append(f.id())
+        else:
+            for f in all_limite:
+                if not f.geometry() or f.geometry().isEmpty():
+                    ids_null_limite.append(f.id())
+
+        if ids_null_limite:
+            layers = QgsProject.instance().mapLayersByName('limite')
+            if layers:
+                layers[0].selectByIds(ids_null_limite)
+            raise QgsProcessingException(
+                f'Erro: Encontradas {len(ids_null_limite)} feição(ões) com geometria nula na camada limite '
+                f'(feições selecionadas na tabela de atributos). IDs: {ids_null_limite}'
+            )
+
+        pontos_vertice = {f.geometry().asPoint() for f in features_v}
+        for feat1 in features_limite:
+            id_feat1 = feat1.id()
+            if feat1['tipo'] not in ('LA1', 'LA2', 'LA3', 'LA4', 'LA5', 'LA6', 'LA7', 'LN1', 'LN2', 'LN3', 'LN4', 'LN5', 'LN6'):
+                raise QgsProcessingException(f'Erro na feição limite {id_feat1}: o atributo "tipo" ({feat1["tipo"]}) é inválido! Verifique a lista de tipos permitidos.')
+            confrontan = feat1['confrontan']
+            if not confrontan or len(str(confrontan).strip()) < 3:
+                raise QgsProcessingException(f'Erro na feição limite {id_feat1}: o atributo "confrontan" ("{confrontan}") deve ter ao menos 3 caracteres ou está vazio/nulo!')
+            linha = feat1.geometry().asPolyline()
+            for pnt in linha:
+                # Ao validar uma parcela específica, valida apenas pontos que tocam a parcela
+                if parcela_geom:
+                    pnt_geom = QgsGeometry.fromPointXY(pnt)
+                    if pnt_geom.touches(parcela_geom) and pnt not in pontos_vertice:
+                        raise QgsProcessingException(f'Erro na feição limite {id_feat1}: Ponto de coordenadas ({pnt.y()}, {pnt.x()}) da camada limite não possui correspondente na camada vértice!')
+                else:
+                    # Ao validar tudo, valida todos os pontos
+                    if pnt not in pontos_vertice:
+                        raise QgsProcessingException(f'Erro na feição limite {id_feat1}: Ponto de coordenadas ({pnt.y()}, {pnt.x()}) da camada limite não possui correspondente na camada vértice!')
+
+    def vld_3(self, parcela, vertice, parcela_geom=None):
+        ids_null = []
+        pontos_vertice = {}
+
+        # Se validando uma parcela específica, considerar apenas vértices que tocam a parcela
+        if parcela_geom:
+            request = QgsFeatureRequest().setFilterRect(parcela_geom.boundingBox())
+            features_v = [f for f in vertice.getFeatures(request) if f.geometry() and not f.geometry().isEmpty() and f.geometry().touches(parcela_geom)]
+        else:
+            features_v = [f for f in vertice.getFeatures() if f.geometry() and not f.geometry().isEmpty()]
+
+        # Detectar vértices com geometria nula
+        if parcela_geom:
+            request = QgsFeatureRequest().setFilterRect(parcela_geom.boundingBox())
+            all_features = [f for f in vertice.getFeatures(request) if f.geometry().touches(parcela_geom)]
+        else:
+            all_features = list(vertice.getFeatures())
+
+        for f in all_features:
+            if not f.geometry() or f.geometry().isEmpty():
+                ids_null.append(f.id())
+
+        if ids_null:
+            layers = QgsProject.instance().mapLayersByName('vertice')
+            if layers:
+                layers[0].selectByIds(ids_null)
+            raise QgsProcessingException(
+                f'Erro: Encontradas {len(ids_null)} feição(ões) com geometria nula na camada vértice '
+                f'(feições selecionadas na tabela de atributos). IDs: {ids_null}'
+            )
+
+        for f in features_v:
+            geom = f.geometry()
+            pontos_vertice[geom.asPoint()] = f.id()
+
+        for feat1 in parcela.getFeatures():
+            id_feat1 = feat1.id()
+            geom1 = feat1.geometry()
+            if geom1.isMultipart():
+                pols = geom1.asMultiPolygon()
+            else:
+                pols = [geom1.asPolygon()]
+            for pol in pols:
+                for pnt in pol[0]:
+                    # Ao validar uma parcela específica, valida apenas pontos que tocam a parcela
+                    if parcela_geom:
+                        pnt_geom = QgsGeometry.fromPointXY(pnt)
+                        if pnt_geom.touches(parcela_geom) and pnt not in pontos_vertice:
+                            raise QgsProcessingException(f'Erro na feição parcela {id_feat1}: Ponto de coordenadas ({pnt.y()}, {pnt.x()}) da camada parcela não possui correspondente na camada vértice!')
+                    else:
+                        # Ao validar tudo, valida todos os pontos
+                        if pnt not in pontos_vertice:
+                            raise QgsProcessingException(f'Erro na feição parcela {id_feat1}: Ponto de coordenadas ({pnt.y()}, {pnt.x()}) da camada parcela não possui correspondente na camada vértice!')
+
+
 
     def processAlgorithm(self, parameters, context, feedback):
 
@@ -444,19 +581,17 @@ class GeneratorOds(QgsProcessingAlgorithm):
         dst_macro = path_macro / 'qgis_macro.py'
         shutil.copy(src_macro, dst_macro)
 
-        # Extrair lote da parcela selecionada para validações filtradas
+        # Extrair geometria da parcela selecionada para validações filtradas por localização
         feature = next(parcela.getFeatures())
-        lote_filter = None if val_completa else str(feature['lote']).strip() if feature['lote'] else None
+        parcela_geom = None if val_completa else feature.geometry()
 
         # Validações
         self.vld_0(vertice, limite, parcela)
-        self.vld_1(vertice, lote_filter)
-        self.vld_2(limite, vertice, lote_filter)
-        self.vld_3(parcela, vertice)
-        self.vld_lote(vertice, limite)
+        self.vld_1(vertice, parcela_geom)
+        self.vld_2(limite, vertice, parcela_geom)
+        self.vld_3(parcela, vertice, parcela_geom)
         if ver_z:
-            # Verificar altitude Z não preenchida
-            self.vld_z(vertice, lote_filter)
+            self.vld_z(vertice, parcela_geom)
         
         # Construir macro - AQUI ESTÃO AS PRINCIPAIS MUDANÇAS
         nat_ser = {1:'Particular', 2:'Contrato com Administração Pública'}
@@ -559,67 +694,6 @@ class GeneratorOds(QgsProcessingAlgorithm):
 
         
 
-    def vld_1(self, vertice, lote_filter=None):
-        expr = QgsExpression('"lote" = \'{}\''.format(lote_filter)) if lote_filter else None
-        features = vertice.getFeatures(QgsFeatureRequest(expr)) if expr else vertice.getFeatures()
-        for feat in features:
-            id_feat = feat.id()
-            sigma_x = feat['sigma_x']
-            sigma_y = feat['sigma_y']
-            sigma_z = feat['sigma_z']
-            metodo_pos = feat['metodo_pos']
-            tipo_verti = feat['tipo_verti']
-            vert_code = str(feat['vertice']).strip()
-
-            if sigma_x is None or not (0 <= sigma_x <= 10):
-                raise QgsProcessingException(f'Erro no vértice {id_feat}: o valor de "sigma_x" ({sigma_x}) está fora do intervalo (0 a 10) ou é nulo!')
-            if sigma_y is None or not (0 <= sigma_y <= 10):
-                raise QgsProcessingException(f'Erro no vértice {id_feat}: o valor de "sigma_y" ({sigma_y}) está fora do intervalo (0 a 10) ou é nulo!')
-            if sigma_z is None or not (0 <= sigma_z <= 10):
-                raise QgsProcessingException(f'Erro no vértice {id_feat}: o valor de "sigma_z" ({sigma_z}) está fora do intervalo (0 a 10) ou é nulo!')
-            if metodo_pos not in ('PG1', 'PG2', 'PG3', 'PG4', 'PG5', 'PG6', 'PG7', 'PG8', 'PG9', 'PT1', 'PT2', 'PT3', 'PT4', 'PT5', 'PT6', 'PT7', 'PT8', 'PT9', 'PA1', 'PA2', 'PA3', 'PS1', 'PS2', 'PS3', 'PS4', 'PB1', 'PB2'):
-                raise QgsProcessingException(f'Erro no vértice {id_feat}: o "metodo_pos" ({metodo_pos}) é inválido! Verifique a lista de métodos permitidos.')
-            if tipo_verti not in ('M', 'P', 'V'):
-                raise QgsProcessingException(f'Erro no vértice {id_feat}: o "tipo_verti" ({tipo_verti}) é inválido! Deve ser "M", "P" ou "V".')
-            if len(vert_code) < 7:
-                raise QgsProcessingException(f'Erro no vértice {id_feat}: o "código do vértice" ("{vert_code}") deve ter ao menos 7 caracteres!')
-            if vert_code in ('', 'NULL'):
-                raise QgsProcessingException(f'Erro no vértice {id_feat}: o atributo "código do vértice" está vazio ou nulo!')
-
-    def vld_2(self, limite, vertice, lote_filter=None):
-        # Otimização: criar um set de pontos de vértice para busca mais rápida, uma única vez
-        expr_v = QgsExpression('"lote" = \'{}\''.format(lote_filter)) if lote_filter else None
-        features_v = vertice.getFeatures(QgsFeatureRequest(expr_v)) if expr_v else vertice.getFeatures()
-        pontos_vertice = {f.geometry().asPoint() for f in features_v}
-
-        expr_l = QgsExpression('"lote" = \'{}\''.format(lote_filter)) if lote_filter else None
-        features_limite = limite.getFeatures(QgsFeatureRequest(expr_l)) if expr_l else limite.getFeatures()
-        for feat1 in features_limite:
-            id_feat1 = feat1.id()
-            if feat1['tipo'] not in ('LA1', 'LA2', 'LA3', 'LA4', 'LA5', 'LA6', 'LA7', 'LN1', 'LN2', 'LN3', 'LN4', 'LN5', 'LN6'):
-                raise QgsProcessingException(f'Erro na feição limite {id_feat1}: o atributo "tipo" ({feat1["tipo"]}) é inválido! Verifique a lista de tipos permitidos.')
-            if len(str(feat1['confrontan']).strip()) < 3:
-                raise QgsProcessingException(f'Erro na feição limite {id_feat1}: o atributo "confrontan" ("{feat1["confrontan"]}") deve ter ao menos 3 caracteres!')
-            # Topologia
-            linha = feat1.geometry().asPolyline()
-            for pnt in linha:
-                if pnt not in pontos_vertice:
-                    raise QgsProcessingException(f'Erro na feição limite {id_feat1}: Ponto de coordenadas ({pnt.y()}, {pnt.x()}) da camada limite não possui correspondente na camada vértice!')
-
-    def vld_3(self, parcela, vertice):
-        # Otimização: criar um set de pontos de vértice para busca mais rápida, uma única vez
-        pontos_vertice = {f.geometry().asPoint() for f in vertice.getFeatures()}
-        for feat1 in parcela.getFeatures():
-            id_feat1 = feat1.id()
-            geom1 = feat1.geometry()
-            if geom1.isMultipart():
-                pols = geom1.asMultiPolygon()
-            else:
-                pols = [geom1.asPolygon()]
-            for pol in pols:
-                for pnt in pol[0]:
-                    if pnt not in pontos_vertice:
-                        raise QgsProcessingException(f'Erro na feição parcela {id_feat1}: Ponto de coordenadas ({pnt.y()}, {pnt.x()}) da camada parcela não possui correspondente na camada vértice!')
 
     def createSheets(self, mapping, data):
         """
@@ -751,7 +825,7 @@ class GeneratorOds(QgsProcessingAlgorithm):
     def selecionar_por_parcela(self, feedback=None):
         """
         Com base na feição de parcela selecionada no projeto, seleciona automaticamente
-        os vértices e limites correspondentes pelo campo 'lote'.
+        os vértices e limites correspondentes por localização espacial (touches).
         Isso permite que o usuário selecione apenas a parcela e rode o algoritmo
         com 'Apenas feições selecionadas' ativo nas 3 camadas.
         """
@@ -774,14 +848,7 @@ class GeneratorOds(QgsProcessingAlgorithm):
                 feedback.pushInfo('Auto-seleção ignorada: nenhuma feição selecionada na camada parcela.')
             return
 
-        lote_val = selected[0]['lote']
-        if lote_val is None or str(lote_val).strip() in ('', 'NULL'):
-            if feedback:
-                feedback.pushInfo('Auto-seleção ignorada: campo "lote" da parcela selecionada está vazio ou nulo.')
-            return
-
-        lote_str = str(lote_val).strip()
-        expression = QgsExpression('"lote" = \'{}\''.format(lote_str))
+        parcela_geom = selected[0].geometry()
 
         # Usa blockSignals para suprimir sinais Qt (selectionChanged etc.) durante os selectByIds.
         # Isso evita que o QTimer de refresh do canvas seja agendado enquanto os dados ainda
@@ -789,18 +856,22 @@ class GeneratorOds(QgsProcessingAlgorithm):
         vertice_layer.blockSignals(True)
         limite_layer.blockSignals(True)
         try:
-            # Seleciona vértices
-            ids_vertice = [f.id() for f in vertice_layer.getFeatures(QgsFeatureRequest(expression))]
+            # Seleciona vértices por localização espacial
+            request_v = QgsFeatureRequest().setFilterRect(parcela_geom.boundingBox())
+            ids_vertice = [f.id() for f in vertice_layer.getFeatures(request_v)
+                           if f.geometry().touches(parcela_geom)]
             vertice_layer.selectByIds(ids_vertice)
-            msg_v = f'{len(ids_vertice)} vértices selecionados automaticamente para o lote "{lote_str}".'
+            msg_v = f'{len(ids_vertice)} vértices selecionados automaticamente por localização.'
             QgsMessageLog.logMessage(msg_v, 'GeneratorOds', Qgis.Info)
             if feedback:
                 feedback.pushInfo(msg_v)
 
-            # Seleciona limites
-            ids_limite = [f.id() for f in limite_layer.getFeatures(QgsFeatureRequest(expression))]
+            # Seleciona limites por localização espacial
+            request_l = QgsFeatureRequest().setFilterRect(parcela_geom.boundingBox())
+            ids_limite = [f.id() for f in limite_layer.getFeatures(request_l)
+                          if f.geometry().touches(parcela_geom)]
             limite_layer.selectByIds(ids_limite)
-            msg_l = f'{len(ids_limite)} limites selecionados automaticamente para o lote "{lote_str}".'
+            msg_l = f'{len(ids_limite)} limites selecionados automaticamente por localização.'
             QgsMessageLog.logMessage(msg_l, 'GeneratorOds', Qgis.Info)
             if feedback:
                 feedback.pushInfo(msg_l)
@@ -821,55 +892,52 @@ class GeneratorOds(QgsProcessingAlgorithm):
         # Abrir camada parcela
         parcela = QgsProject.instance().mapLayersByName('parcela')[0]
 
-        # Iteração
-        feitos = []
+        # Obter todas as parcelas
+        todas_parcelas = list(parcela.getFeatures())
 
-        # Obter os lotes
-        lotes = [feat for feat in parcela.getFeatures()]
-
-        # Ordenar os lotes pelo campo 'lote'
-        lotes_ordenados = sorted(lotes, key=lambda feat: int(''.join(filter(str.isdigit, str(feat['lote'])))) if ''.join(filter(str.isdigit, str(feat['lote']))) else 0)
-
-        # Identificar a seleção atual
+        # Identificar a parcela selecionada atualmente
         current_selection = parcela.selectedFeatures()
-        current_lote_val = current_selection[0]['lote'] if current_selection else None
-        current_lote = str(current_lote_val) if current_lote_val is not None else None
+        if not current_selection:
+            QgsMessageLog.logMessage("Nenhuma parcela selecionada.", "MeuPlugin", Qgis.Warning)
+            return
 
-        # Encontrar o índice do lote atual
-        if current_lote:
-            current_index = next((i for i, feat in enumerate(lotes_ordenados) if str(feat['lote']) == current_lote), None)
-        else:
-            current_index = -1
+        current_feat = current_selection[0]
+        current_id = current_feat.id()
 
-        # Log do valor de current_lote
-        if current_lote is not None:
-            QgsMessageLog.logMessage(f"Tentando selecionar o próximo lote. Lote atual: {current_lote}", "MeuPlugin", Qgis.Info)
+        # Encontrar o índice da parcela atual
+        current_index = next((i for i, feat in enumerate(todas_parcelas) if feat.id() == current_id), -1)
 
-        # Selecionar o próximo lote
-        if current_index is not None and current_index + 1 < len(lotes_ordenados):
-            next_feat = lotes_ordenados[current_index + 1]
-            lote = next_feat['lote']
-            feitos.append(lote)
+        if current_index == -1:
+            QgsMessageLog.logMessage("Parcela selecionada não encontrada.", "MeuPlugin", Qgis.Warning)
+            return
+
+        # Selecionar a próxima parcela
+        if current_index + 1 < len(todas_parcelas):
+            next_feat = todas_parcelas[current_index + 1]
+            next_id = next_feat.id()
 
             # Selecionar a feição na camada parcela
-            parcela.selectByIds([next_feat.id()])
-            QgsMessageLog.logMessage(f"Lote '{lote}' selecionado na camada parcela.", "MeuPlugin", Qgis.Info)
+            parcela.selectByIds([next_id])
+            QgsMessageLog.logMessage(f"Parcela ID '{next_id}' selecionada.", "MeuPlugin", Qgis.Info)
 
+            # Selecionar feições nas outras camadas por localização espacial
+            next_geom = next_feat.geometry()
 
-            # Criar expressão para selecionar feições nas outras camadas
-            expression = QgsExpression('"lote" = \'{}\''.format(lote))
-            # Selecionar feições na camada vértice
-            ids_selecionados_vertice = [f.id() for f in vertice.getFeatures(QgsFeatureRequest(expression))]
+            # Selecionar feições na camada vértice por localização
+            request_v = QgsFeatureRequest().setFilterRect(next_geom.boundingBox())
+            ids_selecionados_vertice = [f.id() for f in vertice.getFeatures(request_v)
+                                        if f.geometry().touches(next_geom)]
             vertice.selectByIds(ids_selecionados_vertice)
-            QgsMessageLog.logMessage(f"{len(ids_selecionados_vertice)} vértices selecionados para o lote '{lote}'.", "MeuPlugin", Qgis.Info)
+            QgsMessageLog.logMessage(f"{len(ids_selecionados_vertice)} vértices selecionados por localização.", "MeuPlugin", Qgis.Info)
 
-
-            # Selecionar feições na camada limite
-            ids_selecionados_limite = [f.id() for f in limite.getFeatures(QgsFeatureRequest(expression))]
+            # Selecionar feições na camada limite por localização
+            request_l = QgsFeatureRequest().setFilterRect(next_geom.boundingBox())
+            ids_selecionados_limite = [f.id() for f in limite.getFeatures(request_l)
+                                       if f.geometry().touches(next_geom)]
             limite.selectByIds(ids_selecionados_limite)
-            QgsMessageLog.logMessage(f"{len(ids_selecionados_limite)} limites selecionados para o lote '{lote}'.", "MeuPlugin", Qgis.Info)
+            QgsMessageLog.logMessage(f"{len(ids_selecionados_limite)} limites selecionados por localização.", "MeuPlugin", Qgis.Info)
         else:
-            QgsMessageLog.logMessage("Não há mais lotes para selecionar ou a seleção atual é o último lote.", "MeuPlugin", Qgis.Info)
+            QgsMessageLog.logMessage("Não há mais parcelas para selecionar. Você está na última parcela.", "MeuPlugin", Qgis.Info)
 
     def reorder_polygon_points(self, pontos):
         """
