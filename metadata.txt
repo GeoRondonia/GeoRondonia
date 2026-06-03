@@ -6,7 +6,7 @@
 name= GeoRondônia
 qgisMinimumVersion=3.10
 description=Tools for Georeferencing Rural Properties
-version=0.6
+version=0.7
 author= Maik Rodrigues, Valdir Moura e Ranieli dos Anjos.
 email=lab.georondonia@ifro.edu.br
 
@@ -21,6 +21,15 @@ repository=https://github.com/GeoRondonia/GeoRondonia
 hasProcessingProvider=yes
 # Uncomment the following line and add your changelog:
 # changelog=
+		0.7 - GODS: Spatial location-based validation (replaces lote field)
+		- Complete removal of lote field dependency in all validations (vld_1, vld_2, vld_3, vld_z)
+		- All validations now use spatial location selection via touches() geometric predicate
+		- Smart limite filtering: only limites with 2+ point connections included in ODS
+		- Only validated limites exported to ODS (improved data quality and topological correctness)
+		- Enhanced null geometry detection across all validation functions with automatic feature selection
+		- Detailed error messages with feature IDs and problematic coordinates
+		- Validated features list returned from vld_2() for ODS generation integrity
+
 		0.6 - GODS: Multi-platform support (Windows, Linux, macOS)
 		- GODS: New parameter "Verify Z-coordinate fill" (VER_Z)
 		- GODS: Validation vld_0 - checks if layers are not empty before processing

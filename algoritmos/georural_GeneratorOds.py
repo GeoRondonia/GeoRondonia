@@ -380,11 +380,11 @@ class GeneratorOds(QgsProcessingAlgorithm):
             features_v = [f for f in vertice.getFeatures(req_v) if f.geometry() and not f.geometry().isEmpty() and f.geometry().touches(parcela_geom)]
             req_l = QgsFeatureRequest().setFilterRect(parcela_geom.boundingBox())
             all_limite = list(limite.getFeatures(req_l))
-            features_limite = [f for f in all_limite if f.geometry() and not f.geometry().isEmpty() and f.geometry().touches(parcela_geom)]
+            features_limite_temp = [f for f in all_limite if f.geometry() and not f.geometry().isEmpty() and f.geometry().touches(parcela_geom)]
         else:
             features_v = [f for f in vertice.getFeatures() if f.geometry() and not f.geometry().isEmpty()]
             all_limite = list(limite.getFeatures())
-            features_limite = [f for f in all_limite if f.geometry() and not f.geometry().isEmpty()]
+            features_limite_temp = [f for f in all_limite if f.geometry() and not f.geometry().isEmpty()]
 
         # Detectar limites com geometria nula
         if parcela_geom:
@@ -406,6 +406,22 @@ class GeneratorOds(QgsProcessingAlgorithm):
             )
 
         pontos_vertice = {f.geometry().asPoint() for f in features_v}
+
+        # Filtrar limites que têm pelo menos 2 pontos tocando a parcela
+        features_limite = []
+        if parcela_geom:
+            for feat in features_limite_temp:
+                linha = feat.geometry().asPolyline()
+                pontos_tocando = 0
+                for pnt in linha:
+                    pnt_geom = QgsGeometry.fromPointXY(pnt)
+                    if pnt_geom.touches(parcela_geom):
+                        pontos_tocando += 1
+                if pontos_tocando >= 2:
+                    features_limite.append(feat)
+        else:
+            features_limite = features_limite_temp
+
         for feat1 in features_limite:
             id_feat1 = feat1.id()
             if feat1['tipo'] not in ('LA1', 'LA2', 'LA3', 'LA4', 'LA5', 'LA6', 'LA7', 'LN1', 'LN2', 'LN3', 'LN4', 'LN5', 'LN6'):
@@ -413,17 +429,22 @@ class GeneratorOds(QgsProcessingAlgorithm):
             confrontan = feat1['confrontan']
             if not confrontan or len(str(confrontan).strip()) < 3:
                 raise QgsProcessingException(f'Erro na feição limite {id_feat1}: o atributo "confrontan" ("{confrontan}") deve ter ao menos 3 caracteres ou está vazio/nulo!')
+
             linha = feat1.geometry().asPolyline()
-            for pnt in linha:
-                # Ao validar uma parcela específica, valida apenas pontos que tocam a parcela
-                if parcela_geom:
+
+            # Validar apenas os pontos que tocam a parcela
+            if parcela_geom:
+                for pnt in linha:
                     pnt_geom = QgsGeometry.fromPointXY(pnt)
                     if pnt_geom.touches(parcela_geom) and pnt not in pontos_vertice:
                         raise QgsProcessingException(f'Erro na feição limite {id_feat1}: Ponto de coordenadas ({pnt.y()}, {pnt.x()}) da camada limite não possui correspondente na camada vértice!')
-                else:
-                    # Ao validar tudo, valida todos os pontos
+            else:
+                # Ao validar tudo, valida todos os pontos
+                for pnt in linha:
                     if pnt not in pontos_vertice:
                         raise QgsProcessingException(f'Erro na feição limite {id_feat1}: Ponto de coordenadas ({pnt.y()}, {pnt.x()}) da camada limite não possui correspondente na camada vértice!')
+
+        return features_limite
 
     def vld_3(self, parcela, vertice, parcela_geom=None):
         ids_null = []
@@ -588,7 +609,7 @@ class GeneratorOds(QgsProcessingAlgorithm):
         # Validações
         self.vld_0(vertice, limite, parcela)
         self.vld_1(vertice, parcela_geom)
-        self.vld_2(limite, vertice, parcela_geom)
+        features_limite_validados = self.vld_2(limite, vertice, parcela_geom)
         self.vld_3(parcela, vertice, parcela_geom)
         if ver_z:
             self.vld_z(vertice, parcela_geom)
@@ -655,7 +676,7 @@ class GeneratorOds(QgsProcessingAlgorithm):
         sheet_num = 0
         for feat in mapping[0]:
             sheet_num += 1
-            pnt_str = self.generate_table_substitution(feat, vertice, limite, dec_coord, dec_prec)
+            pnt_str = self.generate_table_substitution(feat, vertice, features_limite_validados, dec_coord, dec_prec)
             data = data.replace('#table_{}'.format(sheet_num), pnt_str)
 
         for parcela_idx, features in list(mapping.items())[1:]:
@@ -728,14 +749,14 @@ class GeneratorOds(QgsProcessingAlgorithm):
         data = data.replace('#activate_sheet', act_str)
         return data
 
-    def generate_table_substitution(self, feat, vertice, limite, dec_coord, dec_prec):
+    def generate_table_substitution(self, feat, vertice, features_limite_validados, dec_coord, dec_prec):
         """Gera o bloco de doc.setValue para cada ponto do polígono."""
         pnt_str = []
         for k1, pnt in enumerate(feat[:-1]):
             codigo, longitude, sigma_x, latitude, sigma_y, altitude, sigma_z, metodo_pos = self.vertice(pnt, vertice, dec_coord, dec_prec)
             pnt_seg = feat[k1 + 1]
             try:
-                tipo, confrontan, cns, matricula = self.limite(pnt, pnt_seg, limite)
+                tipo, confrontan, cns, matricula = self.limite(pnt, pnt_seg, features_limite_validados)
             except QgsProcessingException as e:
                 raise QgsProcessingException(f'Erro de topologia ao verificar limites: {str(e)}')
             except Exception as e:
@@ -804,8 +825,8 @@ class GeneratorOds(QgsProcessingAlgorithm):
         raise QgsProcessingException(f'Erro interno: Não foi possível encontrar os dados do vértice para o ponto ({pnt.y()}, {pnt.x()}).')
 
 
-    def limite (self,pnt,pnt_seg,limite):
-        for feat in limite.getFeatures():
+    def limite (self,pnt,pnt_seg,features_limite_validados):
+        for feat in features_limite_validados:
             linha = feat.geometry().asPolyline()
             for k2, vert in enumerate(linha[:-1]):
                 vert_seg = linha[k2 + 1]
@@ -884,60 +905,28 @@ class GeneratorOds(QgsProcessingAlgorithm):
 
     # Seleciona a próxima feição do lote
     def selecionar_proximo(self):
-
-        # Abrir camada vértice
-        vertice = QgsProject.instance().mapLayersByName('vertice')[0]
-        # Abrir camada limite
-        limite = QgsProject.instance().mapLayersByName('limite')[0]
-        # Abrir camada parcela
         parcela = QgsProject.instance().mapLayersByName('parcela')[0]
 
-        # Obter todas as parcelas
         todas_parcelas = list(parcela.getFeatures())
-
-        # Identificar a parcela selecionada atualmente
         current_selection = parcela.selectedFeatures()
+
         if not current_selection:
             QgsMessageLog.logMessage("Nenhuma parcela selecionada.", "MeuPlugin", Qgis.Warning)
             return
 
-        current_feat = current_selection[0]
-        current_id = current_feat.id()
-
-        # Encontrar o índice da parcela atual
+        current_id = current_selection[0].id()
         current_index = next((i for i, feat in enumerate(todas_parcelas) if feat.id() == current_id), -1)
 
         if current_index == -1:
             QgsMessageLog.logMessage("Parcela selecionada não encontrada.", "MeuPlugin", Qgis.Warning)
             return
 
-        # Selecionar a próxima parcela
         if current_index + 1 < len(todas_parcelas):
-            next_feat = todas_parcelas[current_index + 1]
-            next_id = next_feat.id()
-
-            # Selecionar a feição na camada parcela
+            next_id = todas_parcelas[current_index + 1].id()
             parcela.selectByIds([next_id])
             QgsMessageLog.logMessage(f"Parcela ID '{next_id}' selecionada.", "MeuPlugin", Qgis.Info)
-
-            # Selecionar feições nas outras camadas por localização espacial
-            next_geom = next_feat.geometry()
-
-            # Selecionar feições na camada vértice por localização
-            request_v = QgsFeatureRequest().setFilterRect(next_geom.boundingBox())
-            ids_selecionados_vertice = [f.id() for f in vertice.getFeatures(request_v)
-                                        if f.geometry().touches(next_geom)]
-            vertice.selectByIds(ids_selecionados_vertice)
-            QgsMessageLog.logMessage(f"{len(ids_selecionados_vertice)} vértices selecionados por localização.", "MeuPlugin", Qgis.Info)
-
-            # Selecionar feições na camada limite por localização
-            request_l = QgsFeatureRequest().setFilterRect(next_geom.boundingBox())
-            ids_selecionados_limite = [f.id() for f in limite.getFeatures(request_l)
-                                       if f.geometry().touches(next_geom)]
-            limite.selectByIds(ids_selecionados_limite)
-            QgsMessageLog.logMessage(f"{len(ids_selecionados_limite)} limites selecionados por localização.", "MeuPlugin", Qgis.Info)
         else:
-            QgsMessageLog.logMessage("Não há mais parcelas para selecionar. Você está na última parcela.", "MeuPlugin", Qgis.Info)
+            QgsMessageLog.logMessage("Você está na última parcela.", "MeuPlugin", Qgis.Info)
 
     def reorder_polygon_points(self, pontos):
         """
