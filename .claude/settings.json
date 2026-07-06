@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python -m py_compile \"c:\\\\Users\\\\maikr\\\\Documents\\\\GitHub\\\\GeoRondonia\\\\algoritmos\\\\georural_GeneratorOds.py\")"
+      "Bash(python -m py_compile \"c:\\\\Users\\\\maikr\\\\Documents\\\\GitHub\\\\GeoRondonia\\\\algoritmos\\\\georural_GeneratorOds.py\")",
+      "Bash(python -m py_compile algoritmos/georural_GeneratorOds.py)"
     ]
   }
 }

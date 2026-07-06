@@ -106,7 +106,7 @@ Clique no botão "Executar" e aguarde. Os arquivos KML serão gerados automatica
             QgsProcessingParameterVectorLayer(
                 self.INPUT_LAYER,
                 self.tr('Camada de Entrada - Escolha o arquivo com os limites da propriedade'),
-                [QgsProcessing.TypeVectorPolygon]
+                [QgsProcessing.SourceType.TypeVectorPolygon]
             )
         )
         self.addParameter(
@@ -121,7 +121,7 @@ Clique no botão "Executar" e aguarde. Os arquivos KML serão gerados automatica
                 self.NAMING_FIELD,
                 self.tr('Coluna para nomear os arquivos extraidos'),
                 parentLayerParameterName=self.INPUT_LAYER,
-                type=QgsProcessingParameterField.Any
+                type=QgsProcessingParameterField.DataType.Any
             )
         )
 
@@ -130,7 +130,7 @@ Clique no botão "Executar" e aguarde. Os arquivos KML serão gerados automatica
         output_folder = self.parameterAsString(parameters, self.OUTPUT_FOLDER, context)
 
         # Validação de geometria
-        if QgsWkbTypes.flatType(input_layer.wkbType()) not in [QgsWkbTypes.Polygon, QgsWkbTypes.MultiPolygon]:
+        if QgsWkbTypes.flatType(input_layer.wkbType()) not in [QgsWkbTypes.Type.Polygon, QgsWkbTypes.Type.MultiPolygon]:
             raise QgsProcessingException(self.tr('A camada de entrada deve ser do tipo polígono ou multipolígono'))
 
         naming_field = self.parameterAsString(
@@ -212,9 +212,9 @@ Clique no botão "Executar" e aguarde. Os arquivos KML serão gerados automatica
 
                 # Cria uma camada temporária com as feições selecionadas, considerando o tipo de geometria
                 geom_type = overlay.geometryType()
-                if geom_type == QgsWkbTypes.PointGeometry:
+                if geom_type == QgsWkbTypes.GeometryType.PointGeometry:
                     temp_overlay_layer = QgsVectorLayer("Point?crs={}".format(overlay.crs().authid()), "temp_overlay", "memory")
-                elif geom_type == QgsWkbTypes.LineGeometry:
+                elif geom_type == QgsWkbTypes.GeometryType.LineGeometry:
                     temp_overlay_layer = QgsVectorLayer("LineString?crs={}".format(overlay.crs().authid()), "temp_overlay", "memory")
                 else:
                     temp_overlay_layer = QgsVectorLayer("MultiPolygon?crs={}".format(overlay.crs().authid()), "temp_overlay", "memory")
@@ -244,7 +244,7 @@ Clique no botão "Executar" e aguarde. Os arquivos KML serão gerados automatica
                     'KML'
                 )
 
-                if error[0] == QgsVectorFileWriter.NoError:
+                if error[0] == QgsVectorFileWriter.WriterError.NoError:
                     resultados.append(nome_saida)
                     feedback.pushInfo(self.tr(f'Exportado: {nome_saida}'))
                 else:

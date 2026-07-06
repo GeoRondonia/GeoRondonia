@@ -87,7 +87,7 @@ class CheckInvalidGeometry(QgsProcessingAlgorithm):
             QgsProcessingParameterVectorLayer(
                 self.INPUT_LAYER,
                 self.tr('Selecione a camada vetorial'),
-                [QgsProcessing.TypeVectorAnyGeometry],
+                [QgsProcessing.SourceType.TypeVectorAnyGeometry],
                 defaultValue=parcela_layer.source() if parcela_layer else None
             )
         )

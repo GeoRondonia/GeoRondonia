@@ -122,7 +122,7 @@ class GeneratorOds(QgsProcessingAlgorithm):
             QgsProcessingParameterFeatureSource(
                 self.VERTICE,
                 self.tr('Camada Vertice'),
-                [QgsProcessing.TypeVectorPoint], # Espera uma camada de ponto
+                [QgsProcessing.SourceType.TypeVectorPoint], # Espera uma camada de ponto
                 defaultValue=vertice_default_id # Define o valor padrão aqui!
             )
         )
@@ -133,7 +133,7 @@ class GeneratorOds(QgsProcessingAlgorithm):
             QgsProcessingParameterFeatureSource(
                 self.LIMITE,
                 self.tr('Camada Limite'),
-                [QgsProcessing.TypeVectorLine], # Espera uma camada de linha
+                [QgsProcessing.SourceType.TypeVectorLine], # Espera uma camada de linha
                 defaultValue=limite_default_id # Define o valor padrão aqui!
             )
         )
@@ -144,7 +144,7 @@ class GeneratorOds(QgsProcessingAlgorithm):
             QgsProcessingParameterFeatureSource(
                 self.PARCELA,
                 self.tr('Camada Parcela'),
-                [QgsProcessing.TypeVectorPolygon], # Espera uma camada de polígono
+                [QgsProcessing.SourceType.TypeVectorPolygon], # Espera uma camada de polígono
                 defaultValue=parcela_default_id # Define o valor padrão aqui!
             )
         )
@@ -519,7 +519,7 @@ class GeneratorOds(QgsProcessingAlgorithm):
         if limite is None:
             raise QgsProcessingException(self.invalidSourceError(parameters, self.LIMITE))
 
-        context.setInvalidGeometryCheck(QgsFeatureRequest.GeometryNoCheck)
+        context.setInvalidGeometryCheck(QgsFeatureRequest.InvalidGeometryCheck.GeometryNoCheck)
         parcela = self.parameterAsSource(
             parameters,
             self.PARCELA,
@@ -810,14 +810,14 @@ class GeneratorOds(QgsProcessingAlgorithm):
                 z_value = feat['Z']
                 if z_value is None or z_value == '' or str(z_value).strip() == 'NULL':
                     altitude = '0,00'
-                    QgsMessageLog.logMessage(f'Advertência: Ponto de código {codigo} (ID: {feat.id()}) está com altitude igual a 0 (zero). Verifique!', 'GeneratorOds', Qgis.Warning)
+                    QgsMessageLog.logMessage(f'Advertência: Ponto de código {codigo} (ID: {feat.id()}) está com altitude igual a 0 (zero). Verifique!', 'GeneratorOds', Qgis.MessageLevel.Warning)
                 else:
                     try:
                         z = float(z_value)
                         altitude = ('{:.'+ dec_prec + 'f}').format(z).replace('.',',')
                     except (ValueError, TypeError):
                         altitude = '0,00'
-                        QgsMessageLog.logMessage(f'Advertência: Ponto de código {codigo} (ID: {feat.id()}) tem altitude inválida. Verifique!', 'GeneratorOds', Qgis.Warning)
+                        QgsMessageLog.logMessage(f'Advertência: Ponto de código {codigo} (ID: {feat.id()}) tem altitude inválida. Verifique!', 'GeneratorOds', Qgis.MessageLevel.Warning)
                 sigma_z = ('{:.'+ dec_prec + 'f}').format(feat['sigma_z']).replace('.',',')
                 metodo_pos = feat['metodo_pos']
                 return codigo,longitude,sigma_x,latitude,sigma_y,altitude, sigma_z,metodo_pos
@@ -883,7 +883,7 @@ class GeneratorOds(QgsProcessingAlgorithm):
                            if f.geometry().touches(parcela_geom)]
             vertice_layer.selectByIds(ids_vertice)
             msg_v = f'{len(ids_vertice)} vértices selecionados automaticamente por localização.'
-            QgsMessageLog.logMessage(msg_v, 'GeneratorOds', Qgis.Info)
+            QgsMessageLog.logMessage(msg_v, 'GeneratorOds', Qgis.MessageLevel.Info)
             if feedback:
                 feedback.pushInfo(msg_v)
 
@@ -893,7 +893,7 @@ class GeneratorOds(QgsProcessingAlgorithm):
                           if f.geometry().touches(parcela_geom)]
             limite_layer.selectByIds(ids_limite)
             msg_l = f'{len(ids_limite)} limites selecionados automaticamente por localização.'
-            QgsMessageLog.logMessage(msg_l, 'GeneratorOds', Qgis.Info)
+            QgsMessageLog.logMessage(msg_l, 'GeneratorOds', Qgis.MessageLevel.Info)
             if feedback:
                 feedback.pushInfo(msg_l)
         finally:
@@ -911,22 +911,22 @@ class GeneratorOds(QgsProcessingAlgorithm):
         current_selection = parcela.selectedFeatures()
 
         if not current_selection:
-            QgsMessageLog.logMessage("Nenhuma parcela selecionada.", "MeuPlugin", Qgis.Warning)
+            QgsMessageLog.logMessage("Nenhuma parcela selecionada.", "MeuPlugin", Qgis.MessageLevel.Warning)
             return
 
         current_id = current_selection[0].id()
         current_index = next((i for i, feat in enumerate(todas_parcelas) if feat.id() == current_id), -1)
 
         if current_index == -1:
-            QgsMessageLog.logMessage("Parcela selecionada não encontrada.", "MeuPlugin", Qgis.Warning)
+            QgsMessageLog.logMessage("Parcela selecionada não encontrada.", "MeuPlugin", Qgis.MessageLevel.Warning)
             return
 
         if current_index + 1 < len(todas_parcelas):
             next_id = todas_parcelas[current_index + 1].id()
             parcela.selectByIds([next_id])
-            QgsMessageLog.logMessage(f"Parcela ID '{next_id}' selecionada.", "MeuPlugin", Qgis.Info)
+            QgsMessageLog.logMessage(f"Parcela ID '{next_id}' selecionada.", "MeuPlugin", Qgis.MessageLevel.Info)
         else:
-            QgsMessageLog.logMessage("Você está na última parcela.", "MeuPlugin", Qgis.Info)
+            QgsMessageLog.logMessage("Você está na última parcela.", "MeuPlugin", Qgis.MessageLevel.Info)
 
     def reorder_polygon_points(self, pontos):
         """
