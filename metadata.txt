@@ -7,7 +7,7 @@ name= GeoRondônia
 qgisMinimumVersion=3.10
 qgisMaximumVersion=4.99
 description=Tools for Georeferencing Rural Properties
-version=0.7
+version=0.7.1
 author= Maik Rodrigues, Valdir Moura e Ranieli dos Anjos.
 email=lab.georondonia@ifro.edu.br
 
@@ -22,6 +22,9 @@ repository=https://github.com/GeoRondonia/GeoRondonia
 hasProcessingProvider=yes
 # Uncomment the following line and add your changelog:
 # changelog=
+		0.7.1 - add Qt5/Qt6 compatibility for QGIS 4, bump version to 0.7.1
+		- Migrate enums to namespaced form (e.g. Qt.UserRole -> Qt.ItemDataRole.UserRole)
+		- Update metadata.txt: qgisMaximumVersion=4.99
 		0.7 - GODS: Spatial location-based validation (replaces lote field)
 		- Complete removal of lote field dependency in all validations (vld_1, vld_2, vld_3, vld_z)
 		- All validations now use spatial location selection via touches() geometric predicate
