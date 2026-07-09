@@ -11,7 +11,12 @@ version=0.7.1
 author= Maik Rodrigues, Valdir Moura e Ranieli dos Anjos.
 email=lab.georondonia@ifro.edu.br
 
-about=Tools for the georeferencing of rural properties in Settlement Projects or Land Projects, based on the updated Technical Manual for Georeferencing of Rural Properties from the National Institute of Colonization and Agrarian Reform (INCRA), and for the Rural Environmental Registry (CAR).
+about=
+EN:
+Tools for the georeferencing of rural properties in Settlement Projects or Land Projects, based on the updated Technical Manual for Georeferencing of Rural Properties from the National Institute of Colonization and Agrarian Reform (INCRA), and for the Rural Environmental Registry (CAR).
+
+PT:
+Ferramentas para o georreferenciamento de propriedades rurais em Projetos de Assentamento ou Projetos Fundiários, com base no Manual Técnico atualizado para Georreferenciamento de Propriedades Rurais do Instituto Nacional de Colonização e Reforma Agrária (INCRA) e para o Cadastro Ambiental Rural (CAR).
 
 tracker= https://github.com/GeoRondonia/GeoRondonia/issues
 repository=https://github.com/GeoRondonia/GeoRondonia
